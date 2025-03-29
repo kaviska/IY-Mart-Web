@@ -25,7 +25,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 } */
 body{
-  overflow-x: hidden;
+  
 }
 .hero{
   background-image: url('../../public/hero-banner.svg');
@@ -45,4 +45,14 @@ body{
 }
 .bg-secondary{
   background-color: #2F80ED;
+}
+
+/* login page */
+.login-background{
+  background-image: url('../../public/LoginImage.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  border-radius: 10px;
 }

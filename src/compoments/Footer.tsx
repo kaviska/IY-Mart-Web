@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div className=" md:py-14 md:pt-0 pt-10 py-5 bg-primary mt-8">
+    <div className=" md:py-14 md:pt-8 pt-10 py-5 bg-primary mt-8">
       <div className="flex container mx-auto max-w-6xl flex-col md:flex-row md:justify-between md:items-start items-center md:gap-0 gap-5 ">
        
         <div className=" md:hidden flex flex-col justify-center items-center">
