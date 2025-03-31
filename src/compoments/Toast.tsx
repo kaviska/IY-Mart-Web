@@ -51,7 +51,8 @@ export default function Toast({
         variant="filled"
         sx={{ width: "100%" }}
       >
-        {message}
+        <span className='text-white'> {message}</span>
+       
       </Alert>
     </Snackbar>
   );

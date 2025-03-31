@@ -12,13 +12,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
 
   // Define routes where the Nav and footer should be hidden
-  const noLayoutRoutes = ["/login","/register"]; // Add more routes if needed
+  const noLayoutRoutes = ["/login","/register",'/otp']; // Add more routes if needed
 
   const shouldShowLayout = !noLayoutRoutes.includes(pathname);
 
   return (
     <html lang="en">
       <body>
+      <meta name="apple-mobile-web-app-title" content="IYMart" />
         {shouldShowLayout && <Nav />}
         <ThemeProvider theme={theme}>
        {children}

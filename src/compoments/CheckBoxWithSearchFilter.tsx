@@ -52,18 +52,18 @@ export default function CheckBoxWithSearchFilter({
   React.useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     if (type === "brands") {
-      params.set("brand", selectedItems.join(","));
+      params.set("brand", selectedItems.join(",")); // Update the "brand" query parameter
     } else if (type === "categories") {
-      params.set("category", selectedItems.join(","));
+      params.set("category", selectedItems.join(",")); // Update the "category" query parameter
     }
-    router.push(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`); // Use `replace` to avoid adding to history
   }, [selectedItems, type, router, searchParams]);
 
-  const handleCheckboxChange = (name: string) => {
+  const handleCheckboxChange = (id: string) => {
     setSelectedItems((prev) =>
-      prev.includes(name)
-        ? prev.filter((item) => item !== name) // Remove if already selected
-        : [...prev, name] // Add if not selected
+      prev.includes(id)
+        ? prev.filter((item) => item !== id) // Remove if already selected
+        : [...prev, id] // Add if not selected
     );
   };
 
@@ -85,8 +85,8 @@ export default function CheckBoxWithSearchFilter({
               <Checkbox
                 color="success"
                 size="small"
-                checked={selectedItems.includes(cat.name)}
-                onChange={() => handleCheckboxChange(cat.name)}
+                checked={selectedItems.includes(cat.id)}
+                onChange={() => handleCheckboxChange(cat.id)}
               />
             }
             label={<span style={{ fontSize: "14px" }}>{cat.name}</span>}

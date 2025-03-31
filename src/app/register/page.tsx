@@ -1,8 +1,11 @@
-"use client";
+"use client"
 import React, { useState } from "react";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+
 import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { validator } from "@lib/validator"; // Adjust the import path as necessary
 import { fetchDataJson } from "@lib/fetch"; // Adjust the import path as necessary
 import Toast from "@/compoments/Toast";
@@ -35,6 +38,9 @@ export default function Register() {
     type: "success", // 'success', 'error', 'info', 'warning'
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -48,6 +54,8 @@ export default function Register() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
+    
+    
     e.preventDefault();
     // Check for any remaining errors
     const newErrors = {
@@ -165,7 +173,7 @@ export default function Register() {
                   inputLabel: { sx: { fontSize: "15px" } }, // Adjust label font size
                 }}
               />
-              {/* input for mobile */}
+
               <TextField
                 label="Mobile Number"
                 name="mobile"
@@ -190,7 +198,7 @@ export default function Register() {
               <TextField
                 label="Password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={formData.password}
                 onChange={handleChange}
                 error={!!errors.password}
@@ -204,6 +212,18 @@ export default function Register() {
                     height: "50px",
                   },
                 }} // Custom border radius
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 slotProps={{
                   inputLabel: { sx: { fontSize: "15px" } }, // Adjust label font size
                 }}
@@ -212,7 +232,7 @@ export default function Register() {
               <TextField
                 label="Confirm Password"
                 name="password_confirmation"
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 value={formData.password_confirmation}
                 onChange={handleChange}
                 error={!!errors.password_confirmation}
@@ -226,46 +246,42 @@ export default function Register() {
                     height: "50px",
                   },
                 }} // Custom border radius
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        edge="end"
+                      >
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 slotProps={{
                   inputLabel: { sx: { fontSize: "15px" } }, // Adjust label font size
                 }}
               />
             </div>
 
-            <div className="flex justify-between mt-5">
-              <div>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      defaultChecked
-                      sx={{ "& .MuiSvgIcon-root": { fontSize: 14 } }}
-                      color="success"
-                    />
-                  }
-                  label={
-                    <span style={{ fontSize: "12px", color: "#4F4F4F" }}>
-                      Label
-                    </span>
-                  }
-                />
-              </div>
-              <div>
-                <span className="text-[12px] text-[#4F4F4F]">
-                  Forgot Password
-                </span>
-              </div>
-            </div>
+          
 
             <div className="mt-5">
               <button
                 type="submit"
-                className="w-full rounded-[5px] bg-primary text-white py-2"
+                className="w-full rounded-[5px] bg-primary text-white py-2 cursor-pointer"
               >
                 Register
               </button>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 mb-4">
               <p className="text-[16px] text-[#4F4F4F]">
                 Don&apos;t have an account?{" "}
                 <span className="secondary">Create an account</span>
@@ -282,6 +298,7 @@ export default function Register() {
         type={toast.type}
         onClose={() => setToast({ ...toast, open: false })}
       />
+     
     </div>
   );
 }
