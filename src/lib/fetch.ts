@@ -1,24 +1,33 @@
 export async function fetchDataJson<T>(url: string, options: RequestInit = {}): Promise<T> {
   try {
-    const newUrl= 'https://iymart.jp/api/' + url; // Prepend the base URL to the endpoint
+    const newUrl = 'https://iymart.jp/api/' + url;
+    const token = localStorage.getItem('user-token');
+    console.log("Sending Token:", token);
+
     const response = await fetch(newUrl, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...options.headers,
       },
     });
 
-    const result = await response.json();
-    
-    console.log("Response:", result);
+    if (response.headers.get('content-type')?.includes('application/json')) {
+      const result = await response.json();
+      console.log("Response:", result);
 
-    if (!response.ok) {
-      throw new Error(result.errors || 'Network response was not ok');
+      if (!response.ok) {
+        throw new Error(result.errors || 'Network response was not ok');
+      }
+
+      return result;
+    } else {
+      // Log the raw response text for debugging
+      const rawText = await response.text();
+      console.error("Unexpected response format (not JSON):", rawText);
+      throw new Error('Unexpected response format (not JSON)');
     }
-
-   // const data = await response.json();
-    return result;
   } catch (error) {
     console.error('Fetch error:', error);
     throw error;

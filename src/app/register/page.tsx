@@ -9,6 +9,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { validator } from "@lib/validator"; // Adjust the import path as necessary
 import { fetchDataJson } from "@lib/fetch"; // Adjust the import path as necessary
 import Toast from "@/compoments/Toast";
+import Link from "next/link";
+import LocalStorageHandler from "@/lib/localStorage";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -55,7 +57,7 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent) => {
     
-    
+   
     e.preventDefault();
     // Check for any remaining errors
     const newErrors = {
@@ -77,15 +79,26 @@ export default function Register() {
     }
     console.log("Form data is valid:", formData);
 
+    setToast({
+      open: true,
+      message: "Registration Processing",
+      type: "info",
+    });
+
     // Proceed with form submission
     const registerUser = async () => {
       try {
         console.log("Registration Processing");
+       
+
         const response = await fetchDataJson("register", {
           method: "POST",
           body: JSON.stringify(formData),
         });
         console.log("Registration successful:", response);
+        // Store user data in local storage
+        LocalStorageHandler.setItem("user-token", response.data.token);
+        LocalStorageHandler.setItem("user", response.data.user);
 
         // Show success toast
         setToast({
@@ -93,6 +106,9 @@ export default function Register() {
           message: "User Registration successful Please View Email For OTP!",
           type: "success",
         });
+        //rerect user to otp page
+       
+        window.location.assign("/otp");
       } catch (error) {
         console.error("Registration failed:", error);
 
@@ -283,8 +299,11 @@ export default function Register() {
 
             <div className="mt-8 mb-4">
               <p className="text-[16px] text-[#4F4F4F]">
-                Don&apos;t have an account?{" "}
+                <Link href={"/login"}>
+
+               Already have an account?{" "}
                 <span className="secondary">Create an account</span>
+                </Link>
               </p>
             </div>
           </form>

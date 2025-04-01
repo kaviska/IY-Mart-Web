@@ -1,10 +1,19 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation"; // For navigation
+import Toast from "@/compoments/Toast";
+import { fetchDataJson } from "@/lib/fetch"; // Import the fetch function
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    type: "success" as "success" | "error",
+  });
   const inputsRef = useRef<HTMLInputElement[]>([]);
+  const router = useRouter();
 
   const handleInputChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) return; // Allow only digits
@@ -18,7 +27,10 @@ export default function OTPVerification() {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
     if (e.key === "Backspace" || e.key === "Delete") {
       const newOtp = [...otp];
       newOtp[index] = "";
@@ -34,6 +46,7 @@ export default function OTPVerification() {
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const text = e.clipboardData.getData("text");
+
     if (!/^\d{4}$/.test(text)) return; // Ensure the pasted text is exactly 4 digits
 
     const newOtp = text.split("");
@@ -43,10 +56,33 @@ export default function OTPVerification() {
     inputsRef.current[otp.length - 1]?.focus();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("OTP Submitted:", otp.join(""));
-    // Add your verification logic here
+    const otpCode = otp.join("");
+    console.log("user-token "+ localStorage.getItem("user-token"));
+
+    try {
+      const response = fetchDataJson("verify-otp", {
+        method: "POST",
+        body: JSON.stringify({ otp: otpCode }),
+      });
+      if (response.ok) {
+        setToast({
+          open: true,
+          message: "OTP verified successfully!",
+          type: "success",
+        });
+        setTimeout(() => {
+          router.push("/shop"); // Redirect to the shop page
+        }, 2000); // Delay to show the toast
+      }
+    } catch (error) {
+      setToast({
+        open: true,
+        message: "An error occurred. Please try again.",
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -77,7 +113,7 @@ export default function OTPVerification() {
           <div className="max-w-[260px] mx-auto mt-4">
             <button
               type="submit"
-              className="w-full inline-flex justify-center whitespace-nowrap rounded-lg bg-primary px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150"
+              className="w-full cursor-pointer inline-flex justify-center whitespace-nowrap rounded-lg bg-primary px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150"
             >
               Verify Account
             </button>
@@ -90,6 +126,12 @@ export default function OTPVerification() {
           </a>
         </div>
       </div>
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, open: false })}
+      />
     </div>
   );
 }

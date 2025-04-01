@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
     return (
         <div className="hero">
@@ -7,9 +9,11 @@ export default function Hero() {
                         <span>Your Spice Heaven</span> <br />
                         <span className="md:text-[48px] text-[22px] font-normal">Sri Lankan In Japan</span>
                     </h1>
+                      <Link href="/shop" passHref>
                     <button className="md:mt-7 mt-4 border border-white text-[16px] px-12 py-3 text-white">
                         Shop Now
                     </button>
+                    </Link>
                 </div>
             </div>
         </div>

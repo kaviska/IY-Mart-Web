@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@public/logo-1.svg';
@@ -5,13 +6,38 @@ import CartIcon from '@mui/icons-material/ShoppingCartOutlined';
 import ProfileIcon from '@mui/icons-material/PersonOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from 'react';
+import { fetchDataJson } from '@/lib/fetch';
 
 export default function Nav() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
+
+    useEffect(() => {
+        if (searchQuery.trim() === '') {
+            setSearchResults([]);
+            return;
+        }
+
+        const fetchSearchResults = async () => {
+            setIsSearching(true);
+            try {
+                const results = await fetchDataJson(`products?search=${searchQuery}`);
+                setSearchResults(results.data || []);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            } finally {
+                setIsSearching(false);
+            }
+        };
+
+        const debounceTimeout = setTimeout(fetchSearchResults, 300); // Debounce for smoother UX
+        return () => clearTimeout(debounceTimeout);
+    }, [searchQuery]);
 
     return (
-        <nav className="container mx-auto max-w-7xl md:max-h-[80px]  flex justify-between items-center gap-5 md:py-0 py-5 px-4">
+        <nav className="container mx-auto max-w-7xl md:max-h-[80px] flex justify-between items-center gap-5 md:py-0 py-5 px-4">
             <Link href="/" passHref>
                 <div className="flex-shrink-0">
                     <Image src={Logo} alt="logo" width={120} height={120} className="sm:w-[100px] sm:h-[100px]" />
@@ -19,13 +45,43 @@ export default function Nav() {
             </Link>
 
             {/* Search Bar */}
-            <div className="hidden lg:flex flex-grow items-center bg-[#F5F5F5] rounded-[8px] px-4 py-2">
+            <div className="relative hidden lg:flex flex-grow items-center bg-[#F5F5F5] rounded-[8px] px-4 py-2">
                 <SearchIcon className="text-[#A4A4A4] mr-2" />
                 <input
                     type="text"
                     className="w-full bg-transparent outline-none"
                     placeholder="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
+                {searchQuery && (
+                    <div className="absolute top-full left-0 w-full bg-white shadow-lg rounded-md mt-2 z-50">
+                        {isSearching ? (
+                            <div className="p-4 text-center text-gray-500">Searching...</div>
+                        ) : searchResults.length > 0 ? (
+                            <ul className="divide-y divide-gray-200">
+                                {searchResults.slice(0, 5).map((result) => (
+                                    <li key={result.id} className="p-4 hover:bg-gray-100 cursor-pointer">
+                                        <Link href={`/shop/${result.slug}`} passHref>
+                                            <div className="flex items-center gap-4">
+                                                <Image
+                                                    src={'./sauce.svg'}
+                                                    alt={result.name}
+                                                    width={40}
+                                                    height={40}
+                                                    className="rounded-md"
+                                                />
+                                                <span className="text-black">{result.name}</span>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <div className="p-4 text-center text-gray-500">No results found</div>
+                        )}
+                    </div>
+                )}
             </div>
 
             {/* Menu Items */}
