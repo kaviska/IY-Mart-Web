@@ -57,6 +57,7 @@ export default function App({ ProductArray, sliderPerView }: AppProps) {
       >
         {ProductArray.map((product: ProductType, index: number) => (
           <SwiperSlide key={index}>
+            <a href={product.slug}>
             <ProductCard
               key={product.id}
               product={{
@@ -67,6 +68,8 @@ export default function App({ ProductArray, sliderPerView }: AppProps) {
                 imageUrl: "/sauce.svg",
               }}
             />
+            </a>
+            
           </SwiperSlide>
         ))}
       </Swiper>

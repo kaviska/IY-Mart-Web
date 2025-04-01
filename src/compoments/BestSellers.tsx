@@ -27,7 +27,7 @@ export default function BestSellers() {
             
                 <div className="flex flex-wrap">
                    
-                    {bestSellers.map((product, index) => {
+                    {bestSellers.slice(0, 4).map((product, index) => {
                         return (
                             <BestSellersCard
                                 key={product.id || index}

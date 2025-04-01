@@ -7,8 +7,11 @@ export async function fetchDataJson<T>(url: string, options: RequestInit = {}): 
     const response = await fetch(newUrl, {
       ...options,
       headers: {
+        // ...(token ? { Authorization: `Bearer ${token}` } : {}),
+
         'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        'Accept': 'application/json',
+        'Authorization': '12|sHzF77bBqtOHccUbs5XsIbEQQaq0gJ58AubeAtELc573df0d', // Include token if available
         ...options.headers,
       },
     });

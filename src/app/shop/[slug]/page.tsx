@@ -6,21 +6,92 @@ import DownArrowImage from "@public/DownArrow.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { fetchDataJson } from "@/lib/fetch";
+import calculatePrice from "@/lib/priceCalcuator";
+import discountCalcuator from "@/lib/discountCalcuator";
 import type { ProductType } from "@/types/type";
 import Slider from "@/compoments/SliderProduct";
+import Toast from "@/compoments/Toast";
 
 export default function SingleProductPage() {
   const [product, setProduct] = useState<ProductType | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<ProductType[]>([]);
   const [quantity, setQuantity] = useState<number>(1); // State for quantity
-  const [showFullDescription, setShowFullDescription] = useState<boolean>(false); // State for toggling description
+  const [showFullDescription, setShowFullDescription] =
+    useState<boolean>(false); // State for toggling description
+  const [selectedVariation, setSelectedVariation] = useState<
+    ProductType["stocks"][0] | null
+  >(null); // State for selected variation
+  const [toast, setToast] = useState<{
+    open: boolean;
+    message: string;
+    type: "success" | "error" | "info" | "warning";
+  }>({
+    open: false,
+    message: "",
+    type: "success", // 'success', 'error', 'info', 'warning'
+  });
+
+  const updateGuestCart = (action: string, productId: number, quantity: number, stockId: number) => {
+    const cart = JSON.parse(localStorage.getItem("guest_cart") || '{"guest_cart": []}');
+    const existingItemIndex = cart.guest_cart.findIndex(
+      (item: any) => item.id === productId && item.stock_id === stockId
+    );
+
+
+  
+    if (existingItemIndex !== -1) {
+      // Update quantity if the item already exists
+      cart.guest_cart[existingItemIndex].quantity = quantity;
+    } else {
+      // Add new item to the cart
+      cart.guest_cart.push({ action, id: productId, quantity, stock_id: stockId });
+    }
+  
+    localStorage.setItem("guest_cart", JSON.stringify(cart));
+   
+    console.log("Updated Cart:", cart);
+  };
+  const handleAddToCart = () => {
+    if (!product || !selectedVariation) return;
+  
+    updateGuestCart("add", product.id, quantity, selectedVariation.id);
+    setToast({
+      open: true,
+      message: "Product added to cart",
+      type: "success",
+    });
+  };
+  
+  
+
+
+  const handleVariationChange = (variation: ProductType["stocks"][0]) => {
+    setSelectedVariation(variation); // Update selected variation
+    if (product) {
+        updateGuestCart("add", product.id, quantity, variation.id);
+      }
+  };
+  const calculateFinalPrice = (
+    variation: ProductType["stocks"][0] | null,
+    quantity: number
+  ) => {
+    if (!variation) return null;
+    const discountedPrice = variation.web_price - (variation.web_discount || 0);
+    return {
+      pricePerUnit: discountedPrice,
+      totalPrice: discountedPrice * quantity,
+    };
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const slug = window.location.pathname.split("/").pop();
         console.log(slug);
-        const productResult = await fetchDataJson<{ data: ProductType[] }>(`products?slug=${slug}`, { method: "GET" });
+        const productResult = await fetchDataJson<{ data: ProductType[] }>(
+          `products?slug=${slug}`,
+          { method: "GET" }
+        );
         console.log("Product List", productResult);
         setProduct(productResult.data[0]);
       } catch (error) {
@@ -32,11 +103,19 @@ export default function SingleProductPage() {
   }, []); // Runs only once when the component mounts
 
   useEffect(() => {
+    if (product && product.stocks.length > 0) {
+      setSelectedVariation(product.stocks[0]); // Automatically select the first variation
+    }
+  }, [product]); // Runs whenever `product` changes
+
+  useEffect(() => {
     const fetchRelatedProducts = async () => {
       if (!product) return; // Ensure product is loaded before fetching related products
 
       try {
-        const relatedProductsResult = await fetchDataJson<{ data: ProductType[] }>(`products`, { method: "GET" });
+        const relatedProductsResult = await fetchDataJson<{
+          data: ProductType[];
+        }>(`products`, { method: "GET" });
         console.log("Related Products List", relatedProductsResult);
         setRelatedProducts(relatedProductsResult.data);
       } catch (error) {
@@ -57,6 +136,9 @@ export default function SingleProductPage() {
     if (!isNaN(value) && value > 0) {
       setQuantity(value);
     }
+    if (product && selectedVariation) {
+        updateGuestCart("add", product.id, value, selectedVariation.id);
+      }
   };
 
   const toggleDescription = () => {
@@ -64,20 +146,54 @@ export default function SingleProductPage() {
   };
 
   return (
-    <div className="">
+    <div className="my-5">
       <div className="flex md:flex-row flex-col container mx-auto md:px-0 px-3">
         <div className="md:w-[50%] flex md:flex-row flex-col gap-10 cursor-pointer">
-          <Image src={CanImage} alt="can" width={100} height={100} className="md:self-start md:order-1 order-2 self-center"></Image>
-          <Image src={CanImage} alt="can" width={400} height={400} className="md:order-2 order-1"></Image>
+          <Image
+            src={CanImage}
+            alt="can"
+            width={100}
+            height={100}
+            className="md:self-start md:order-1 order-2 self-center"
+          ></Image>
+          <Image
+            src={CanImage}
+            alt="can"
+            width={400}
+            height={400}
+            className="md:order-2 order-1"
+          ></Image>
         </div>
         <div className="md:w-[50%]">
-          <h1 className="md:text-[40px] text-[34px] font-bold order-1">{product?.name || "Loading..."}</h1>
-          <span className="md:text-[32px] text-[28px] mt-5">Rs.124.00</span>
+          <h1 className="md:text-[40px] text-[34px] font-bold order-1">
+            {product?.name || "Loading..."}
+          </h1>
+          <div className="flex flex-col gap-3 mt-0">
+            {discountCalcuator(product?.stocks || []) ? (
+              <div className="flex items-center gap-3">
+                <span className="text-[16px] text-[#A4A4A4] line-through">
+                  Rs {calculatePrice(product?.stocks || [])}
+                </span>
+                <span className="md:text-[32px] text-[28px] text-[#27AE60] font-bold">
+                  Rs {discountCalcuator(product?.stocks || [])}
+                </span>
+              </div>
+            ) : (
+              <span className="md:text-[32px] text-[28px] mt-5">
+                Rs {calculatePrice(product?.stocks || [])}
+              </span>
+            )}
+          </div>
 
           <div className="flex gap-8 mt-10">
             <div className="flex gap-3">
               <div className="bg-primary px-2 py-3 rounded-[11px]">
-                <Image src={TruckImage} alt="truck" width={20} height={20}></Image>
+                <Image
+                  src={TruckImage}
+                  alt="truck"
+                  width={20}
+                  height={20}
+                ></Image>
               </div>
               <div className="text-[14px] flex flex-col gap-0">
                 <span className="text-[#A4A4A4]">Free Delivery</span>
@@ -87,7 +203,12 @@ export default function SingleProductPage() {
 
             <div className="flex gap-3">
               <div className="bg-primary px-2 py-3 rounded-[11px]">
-                <Image src={ShopImage} alt="shop" width={20} height={20}></Image>
+                <Image
+                  src={ShopImage}
+                  alt="shop"
+                  width={20}
+                  height={20}
+                ></Image>
               </div>
               <div className="text-[14px] flex flex-col gap-0">
                 <span className="text-[#A4A4A4]">Free Delivery</span>
@@ -96,39 +217,101 @@ export default function SingleProductPage() {
             </div>
           </div>
 
-          <div className="mt-7 bg-[#D9D9D9] md:w-[30%] w-full px-2 py-1 flex justify-between items-center shadow-md">
-            <button
-              className="w-10 cursor-pointer h-10 flex justify-center items-center text-[16px] primary hover:bg-gray-400 active:bg-gray-500 rounded-full transition duration-200"
-              onClick={() => handleQuantityChange(quantity - 1)}
+          <div className="mt-5">
+            <label
+              htmlFor="variation"
+              className="block text-[16px] font-medium mb-3"
             >
-              -
-            </button>
-            <input
-              type="number"
-              className="w-12 text-center border-none bg-transparent outline-none text-[16px] font-medium"
-              value={quantity}
-              onChange={handleInputChange}
-            />
-            <button
-              className="w-10 cursor-pointer h-10 flex justify-center items-center text-[16px] primary hover:bg-gray-400 active:bg-gray-500 rounded-full transition duration-200"
-              onClick={() => handleQuantityChange(quantity + 1)}
-            >
-              +
-            </button>
+              Select Variation:
+            </label>
+            <div className="flex flex-wrap gap-3">
+              {product?.stocks.map((stock) => (
+                <button
+                  key={stock.id}
+                  className={`px-4 py-2 border cursor-pointer border-gray-300 rounded-full text-[14px] transition duration-200 ${
+                    selectedVariation?.id === stock.id
+                      ? "bg-primary text-white"
+                      : "hover:bg-primary hover:text-blue-500"
+                  }`}
+                  onClick={() => handleVariationChange(stock)}
+                >
+                  {stock.variation_stocks[0]?.variation_option.name ||
+                    "Default"}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-5 mt-7 items-stretch">
+            {/* Price Section */}
+            <div className="RealPriceSection flex-2 bg-white px-6 py-1 rounded-lg shadow-lg border border-gray-200">
+              {selectedVariation ? (
+                <>
+                  <div className="text-[20px] font-bold text-[#27AE60]">
+                    LKR{" "}
+                    {calculateFinalPrice(
+                      selectedVariation,
+                      quantity
+                    )?.pricePerUnit.toFixed(2)}
+                  </div>
+                  {selectedVariation.web_discount > 0 && (
+                    <div className="text-[12px] text-gray-500 line-through mt-1">
+                      LKR {selectedVariation.web_price.toFixed(2)}
+                    </div>
+                  )}
+                  <div className="text-[16px] font-medium mt-2">
+                    Total:{" "}
+                    <span className="text-[16px] font-bold text-[#27AE60]">
+                      LKR{" "}
+                      {calculateFinalPrice(
+                        selectedVariation,
+                        quantity
+                      )?.totalPrice.toFixed(2)}
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <div className="text-[16px] text-gray-500">
+                  Please select a variation
+                </div>
+              )}
+            </div>
+
+            {/* Quantity Selector */}
+            <div className="flex flex-1 items-center justify-between bg-white md:w-[30%] w-full px-4 py-3 rounded-lg shadow-lg border border-gray-200">
+              <button
+                className="w-10 h-10 flex justify-center items-center text-[20px] font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 rounded-full transition duration-200"
+                onClick={() => handleQuantityChange(quantity - 1)}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                className="w-16 text-center border border-gray-300 rounded-md text-[18px] font-medium outline-none focus:ring-2 focus:ring-primary"
+                value={quantity}
+                onChange={handleInputChange}
+              />
+              <button
+                className="w-10 h-10 flex justify-center items-center text-[20px] font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 rounded-full transition duration-200"
+                onClick={() => handleQuantityChange(quantity + 1)}
+              >
+                +
+              </button>
+            </div>
           </div>
 
           <div className="flex md:flex-row flex-col mt-7 md:gap-12 gap-5">
-            <button className="border cursor-pointer border-[#27AE60] primary text-[16px] px-16 py-2">
+            <button onClick={handleAddToCart} className="border cursor-pointer hover:text-white hover:bg-[#2F80ED] border-[#27AE60] text-[#27AE60] text-[16px] px-16 py-2">
               Add to Cart
             </button>
-            <button className="bg-secondary cursor-pointer text-white text-[16px] px-16 py-2">
+            <button className="bg-[#2F80ED] cursor-pointer hover:bg-[#27AE60] text-white text-[16px] px-16 py-2">
               Buy Now
             </button>
           </div>
         </div>
       </div>
-      <div className="bg-[#FAFAFA] px-20 py-0 mt-10">
-        <div className="bg-white p-10">
+      <div className="bg-[#FAFAFA] md:px-20 px-3 py-0 mt-10">
+        <div className="bg-white md:p-10">
           <h3 className="text-[24px]">Details</h3>
           <p className="text-[#9D9D9D] text-[14px] mt-5">
             {product?.description
@@ -137,25 +320,45 @@ export default function SingleProductPage() {
                 : product.description.split(" ").slice(0, 60).join(" ") + "..."
               : "Loading..."}
           </p>
-          {product?.description && product.description.split(" ").length > 60 && (
-            <div className="flex justify-center mt-10">
-              <button
-                className="text-[16px] px-16 py-2 border border-black flex justify-center gap-3"
-                onClick={toggleDescription}
-              >
-                {showFullDescription ? "View Less" : "View More"}
-                <Image src={DownArrowImage} width={15} height={15} alt="arrow"></Image>
-              </button>
-            </div>
-          )}
+          {product?.description &&
+            product.description.split(" ").length > 60 && (
+              <div className="flex justify-center mt-10">
+                <button
+                  className="text-[16px] px-16 py-2 border border-black flex justify-center gap-3"
+                  onClick={toggleDescription}
+                >
+                  {showFullDescription ? "View Less" : "View More"}
+                  <Image
+                    src={DownArrowImage}
+                    width={15}
+                    height={15}
+                    alt="arrow"
+                  ></Image>
+                </button>
+              </div>
+            )}
         </div>
       </div>
-      <div className="mt-10 container mx-auto">
+      <div className="mt-10 container mx-auto md:px-0 px-3">
         <h3 className="text-[24px]">Related Products</h3>
         <div className="flex justify-between flex-wrap mt-5">
           <Slider ProductArray={relatedProducts} sliderPerView={4} />
         </div>
       </div>
+
+
+
+
+
+ {/* Toast Component */}
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, open: false })}
+      />
+
+
     </div>
   );
 }
