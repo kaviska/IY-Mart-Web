@@ -150,8 +150,11 @@ export default function Cart() {
         {/* Cart Items Section */}
         <div className="md:w-[50%] flex flex-col gap-4">
           <h1 className="font-medium text-[24px] text-black">Shopping Cart</h1>
-          {cartData.map((item) => (
-            <CartCard
+            {cartData.length === 0 ? (
+            <p className="text-center text-gray-500">Your cart is empty.</p>
+            ) : (
+            cartData.map((item) => (
+              <CartCard
               key={item.stock_id}
               product={item.stock.product}
               quantity={item.quantity}
@@ -160,8 +163,9 @@ export default function Cart() {
               discount={item.stock.web_discount}
               onQuantityChange={handleQuantityChange}
               onRemove={removeHandler}
-            />
-          ))}
+              />
+            ))
+            )}
         </div>
 
         {/* Order Summary Section */}

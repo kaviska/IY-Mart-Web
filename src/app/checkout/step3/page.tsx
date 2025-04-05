@@ -1,10 +1,10 @@
+"use client";
 import StepperNav from "@/compoments/StepperNav";
-import CheckOutForm from "@/compoments/CheckOutForm";
 export default function CheckoutStep3() {
   return (
     <div>
       <div className="mt-5">
-        <StepperNav />
+        <StepperNav activeStep={3} />
       </div>
       <div className='container mx-auto max-w-5xl px-10 mt-8'>
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-b ">
@@ -33,10 +33,10 @@ export default function CheckoutStep3() {
        
 
         <div className="mt-12">
-            <a href="http://127.0.0.1:8000"
-                className="inline-block text-[16px] px-4 py-4 w-full text-lg font-semibold text-white transition-colors duration-200 bg-green-600 rounded-lg hover:bg-green-700">
-                Return to Dashboard
-            </a>
+            <button onClick={() => (window.location.href = "/profile")}
+                className="mt-6 w-full bg-green-500 cursor-pointer text-white py-2 px-4 rounded hover:bg-green-600 transition">
+               View My Order
+            </button>
         </div>
     </div>
 </div>

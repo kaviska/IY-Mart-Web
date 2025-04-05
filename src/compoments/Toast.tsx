@@ -41,7 +41,6 @@ export default function Toast({
     <Snackbar
       open={isOpen}
       autoHideDuration={duration}
-
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "right" }} // Optional: Position of the toast
     >
@@ -49,10 +48,17 @@ export default function Toast({
         onClose={handleClose}
         severity={type}
         variant="filled"
-        sx={{ width: "100%" }}
+        sx={{
+          width: "100%",
+          "& .MuiAlert-icon": {
+            color: "white", // Change the icon color to white
+          },
+          "& .MuiAlert-action button": {
+            color: "white", // Change the close icon color to white
+          },
+        }}
       >
-        <span className='text-white'> {message}</span>
-       
+        <span className="text-white">{message}</span>
       </Alert>
     </Snackbar>
   );

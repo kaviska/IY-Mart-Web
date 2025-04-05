@@ -4,24 +4,27 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
+interface StepperNavProps {
+  activeStep: number;
+}
+
 const steps = [
   '',
-  'Create an ad group',
-  'Create an ad',
+  '',
+  '',
 ];
 
-export default function HorizontalLinearAlternativeLabelStepper() {
+export default function HorizontalLinearAlternativeLabelStepper({ activeStep }: StepperNavProps) {
   return (
     <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={1} alternativeLabel color="success">
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>
-                
-            </StepLabel>
+      <Stepper activeStep={activeStep} alternativeLabel>
+        {steps.map((label, index) => (
+          <Step key={index} active={activeStep === index} completed={activeStep > index} disabled={activeStep < index}>
+            <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
+     
     </Box>
   );
 }

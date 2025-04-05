@@ -76,6 +76,48 @@ export default function CheckOutForm() {
     type: "success", // 'success', 'error', 'info', 'warning'
   });
 
+  useEffect(() => {
+    loadRegions();
+  }, []);
+  useEffect(() => {
+      if (localStorage.getItem('user')) {
+        console.log('user Avalilable', localStorage.getItem('user'));
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const address = JSON.parse(localStorage.getItem('address') || '{}');
+        setFormData((prevData) => ({
+          ...prevData,
+          user_id: user.id,
+          email: user.email,
+          mobile: user.mobile,
+          name: user.name,
+          city: address.city,
+          // prefecture_id: address.prefecture.id,
+          // region_id: address.region.id,
+          postal_code: address.postal_code,
+          address_line_1: address.address_line_1,
+          address_line_2: address.address_line_2,
+
+        }));
+      }
+  }, []);
+
+  useEffect(() => {
+     //is guest cart is empty show tost messgae and rdirect to the shop page
+    const localCart = JSON.parse(
+      localStorage.getItem("guest_cart") || '{"guest_cart": []}'
+    );
+    if (localCart.guest_cart.length === 0) {
+      setToast({
+        open: true,
+        message: "Your cart is empty. Please add items to your cart.",
+        type: "error",
+      });
+      setTimeout(() => {
+        window.location.href = "/shop"; // Redirect to the shop page
+      }, 3000); // Redirect after 3 seconds
+    }
+  }, []);
+
   const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
   const { name, value } = event.target;
 
@@ -130,9 +172,7 @@ export default function CheckOutForm() {
     }
   };
 
-  useEffect(() => {
-    loadRegions();
-  }, []);
+
 
   const handleRegionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const regionId = event.target.value;
@@ -164,15 +204,6 @@ export default function CheckOutForm() {
     setFormErrors(errors);
     console.log(errors)
 
-    // // If there are errors, do not proceed
-    // if (
-    //   Object.entries(errors).some(
-    //     ([key, error]) => error && key !== "postal_code" && key !== "user_id"
-    //   )
-    // ) {
-    //   return;
-    // }
-
     const localCart = JSON.parse(
       localStorage.getItem("guest_cart") || '{"guest_cart": []}'
     );
@@ -194,13 +225,15 @@ export default function CheckOutForm() {
     console.log("Order Data:", orderData);
 
     try {
+      const token = localStorage.getItem("user-token") || null;
       const response = await fetch("https://iymart.jp/api/place-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }), // Include token if available
         },
-        body: JSON.stringify(orderData),
+       body: JSON.stringify(orderData),
       });
 
       const result = await response.json();
@@ -217,19 +250,31 @@ export default function CheckOutForm() {
         console.log("Payment Intent:", result.data?.payment.paymentIntent);
         console.log('user', result.data?.user);
         console.log('user-token', result.data?.user.token);
+
         
 
         
 
         localStorage.setItem("user-token", result.data?.user?.token || "");
+        localStorage.setItem("user", JSON.stringify(result.data?.user) || "");
+        localStorage.setItem('address',JSON.stringify(result.data?.address) || "");
+        localStorage.setItem('orderId', result.data?.payment.order_details?.id ?? "");
+        localStorage.setItem('payment',JSON.stringify(result.data?.payment) || "");
+        //set payment method in local stoage
+        console.log("Payment Method:", paymentMethod);
+        localStorage.setItem('paymentMethod', paymentMethod);
         // localStorage.setItem("user", result.data?.user || "");
         console.log("User Token:", localStorage.getItem("user-token"));
+       
+        localStorage.removeItem("guest_cart");
+
+
 
         // console.log("User Data:", localStorage.getItem("user"));
 
         
        // Redirect to the step2
-        //window.location.href = "/checkout/step2";
+        window.location.href = "/checkout/step2";
         return;
       } else if (result.status === "error" && result.errors) {
         const firstErrorKey = Object.keys(result.errors)[0];
@@ -265,10 +310,11 @@ export default function CheckOutForm() {
             variant="outlined"
             sx={textFieldSx}
             slotProps={textFieldSlotProps}
-            value={selectedRegion}
+            value={selectedRegion} // Set selectedRegion value from formData
             onChange={handleRegionChange} // Handle region selection
             error={!!formErrors.region_id}
             helperText={formErrors.region_id}
+          
           >
             {regions.map((region) => (
               <MenuItem key={region.id} value={region.id}>
@@ -290,6 +336,7 @@ export default function CheckOutForm() {
             disabled={!selectedRegion} // Disable if no region is selected
             error={!!formErrors.prefecture_id}
             helperText={formErrors.prefecture_id}
+           
           >
             {prefectures.map((prefecture) => (
               <MenuItem key={prefecture.id} value={prefecture.id}>
@@ -310,6 +357,7 @@ export default function CheckOutForm() {
             slotProps={textFieldSlotProps}
             error={!!formErrors.city}
             helperText={formErrors.city}
+            value={formData.city} // Set city value from formData
           />
           <TextField
             label="Postal Code"
@@ -320,6 +368,7 @@ export default function CheckOutForm() {
             onChange={handleInputChange}
             sx={textFieldSx}
             slotProps={textFieldSlotProps}
+            value={formData.postal_code} // Set postal_code value from formData
           
           />
         </div>
@@ -335,6 +384,7 @@ export default function CheckOutForm() {
             slotProps={textFieldSlotProps}
             error={!!formErrors.address_line_1}
             helperText={formErrors.address_line_1}
+            value={formData.address_line_1} // Set address_line_1 value from formData
           />
           <TextField
             label="Address Line 2"
@@ -347,6 +397,7 @@ export default function CheckOutForm() {
             slotProps={textFieldSlotProps}
             error={!!formErrors.address_line_2}
             helperText={formErrors.address_line_2}
+            value={formData.address_line_2} // Set address_line_2 value from formData
           />
         </div>
         <div className="flex gap-3">
@@ -361,6 +412,7 @@ export default function CheckOutForm() {
             slotProps={textFieldSlotProps}
             error={!!formErrors.name}
             helperText={formErrors.name}
+            value={formData.name} // Set name value from formData
           />
           <TextField
             label="Email"
@@ -373,6 +425,7 @@ export default function CheckOutForm() {
             slotProps={textFieldSlotProps}
             error={!!formErrors.email}
             helperText={formErrors.email}
+            value={formData.email} // Set email value from formData
           />
         </div>
         <div className="flex gap-3">
@@ -387,6 +440,7 @@ export default function CheckOutForm() {
             slotProps={textFieldSlotProps}
             error={!!formErrors.mobile}
             helperText={formErrors.mobile}
+            value={formData.mobile} // Set mobile value from formData
           />
         </div>
         <div className='mt-5'>

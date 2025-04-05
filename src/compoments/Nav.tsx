@@ -8,13 +8,33 @@ import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { fetchDataJson } from "@/lib/fetch";
+import { Badge } from "@mui/material";
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("user")); // Assuming you have a way to check if the user is logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("user"));
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem("guest_cart") || '{"guest_cart": []}');
+      const totalItems = cart.guest_cart.reduce((sum, item) => sum + item.quantity, 0);
+      setCartCount(totalItems);
+      console.log('Cart Items',totalItems)
+    };
+
+    updateCartCount();
+
+    // Optionally, listen for changes in localStorage to update the cart count dynamically
+    window.addEventListener("storage", updateCartCount);
+
+    return () => {
+      window.removeEventListener("storage", updateCartCount);
+    };
+  }, []);
 
   useEffect(() => {
     if (searchQuery.trim() === "") {
@@ -111,29 +131,31 @@ export default function Nav() {
         <Link href="/login" passHref>
           <span className="text-[#A4A4A4] cursor-pointer">Login</span>
         </Link>
-        <Link href="/register" passHref>
         {!isLoggedIn ? (
           <Link href="/register" passHref>
-           
             <span className="text-[#A4A4A4] cursor-pointer">Register</span>
-           
           </Link>
         ) : (
           <button className="cursor-pointer" onClick={logOut}>
             <LogoutIcon className="text-[#A4A4A4]" />
           </button>
         )}
-        </Link>
         <Link href="/cart" passHref>
           <span className="text-[#A4A4A4] cursor-pointer">
-            <CartIcon className="text-[#A4A4A4]" />
+            {cartCount > 0 ? (
+              <Badge badgeContent={cartCount} color="success">
+                <CartIcon className="text-[#A4A4A4]" />
+              </Badge>
+            ) : (
+              <CartIcon className="text-[#A4A4A4]" />
+            )}
           </span>
         </Link>
         <Link href="/profile" passHref>
-            <span className="text-[#A4A4A4] cursor-pointer">
-              <ProfileIcon className="text-[#A4A4A4]" />
-            </span>
-          </Link>
+          <span className="text-[#A4A4A4] cursor-pointer">
+            <ProfileIcon className="text-[#A4A4A4]" />
+          </span>
+        </Link>
       </div>
 
       {/* Hamburger Menu for Mobile */}

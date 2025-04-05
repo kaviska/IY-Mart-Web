@@ -61,6 +61,20 @@ export default function SingleProductPage() {
       type: "success",
     });
   };
+  const handlleBuyNow = () => {
+    if (!product || !selectedVariation) return;
+  
+    updateGuestCart("add", product.id, quantity, selectedVariation.id);
+    setToast({
+      open: true,
+      message: "Processing Checkout",
+      type: "success",
+    });
+    // Redirect to checkout page
+    window.location.href = "/checkout/step1"; // Replace with your actual checkout URL
+  };
+  
+
   
   
 
@@ -304,7 +318,7 @@ export default function SingleProductPage() {
             <button onClick={handleAddToCart} className="border cursor-pointer hover:text-white hover:bg-[#2F80ED] border-[#27AE60] text-[#27AE60] text-[16px] px-16 py-2">
               Add to Cart
             </button>
-            <button className="bg-[#2F80ED] cursor-pointer hover:bg-[#27AE60] text-white text-[16px] px-16 py-2">
+            <button onClick={handlleBuyNow} className="bg-[#2F80ED] cursor-pointer hover:bg-[#27AE60] text-white text-[16px] px-16 py-2">
               Buy Now
             </button>
           </div>
