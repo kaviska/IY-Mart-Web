@@ -45,42 +45,51 @@ export default function Home() {
     <div>
       <Hero></Hero>
 
-      <div className="md:flex hidden gap-40 bg-primary justify-center h-[90px] items-center">
-        <div className="flex gap-3">
-          <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
-          <span className="text-white text-[16px]">
-            Deliver Within 78 Hours
-          </span>
-        </div>
+      <div className="md:flex hidden gap-40 bg-primary h-[90px] items-center justify-center">
+        <div className="flex justify-center items-center gap-16">
+          <div className="flex gap-3">
+        <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
+        <span className="text-white text-[14px]">
+          Deliver Within 78 Hours
+        </span>
+          </div>
 
-        <div className="flex gap-3">
-          <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
-          <span className="text-white text-[16px]">
-            Deliver Within 78 Hours
-          </span>
-        </div>
+          <div className="flex gap-3">
+        <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
+        <span className="text-white text-[14px]">
+          Deliver Within 78 Hours
+        </span>
+          </div>
 
-        <div className="flex gap-3">
-          <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
-          <span className="text-white text-[16px]">
-            Deliver Within 78 Hours
-          </span>
-        </div>
+          <div className="flex gap-3">
+        <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
+        <span className="text-white text-[14px]">
+          Deliver Within 78 Hours
+        </span>
+          </div>
 
-        <div className="flex gap-3">
-          <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
-          <span className="text-white text-[16px]">
-            Deliver Within 78 Hours
-          </span>
+          <div className="flex gap-3">
+        <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
+        <span className="text-white text-[14px]">
+          Deliver Within 78 Hours
+        </span>
+          </div>
+
+          <div className="flex gap-3">
+        <Image src={scheduleImage} width={20} height={20} alt="icon"></Image>
+        <span className="text-white text-[14px]">
+          Deliver Within 78 Hours
+        </span>
+          </div>
         </div>
       </div>
 
       <BestSellers></BestSellers>
 
-      <div className="mt-20  px-20">
+      <div className="mt-20  md:px-20 px-6">
   <div className="flex flex-col ">
     {/* Topic Section */}
-    <div className="flex gap-5 mb-8 text-[18px] topic w-fit">
+    <div className="flex gap-5 mb-8 text-[14px] md:text-[18px] topic md:w-fit ">
       <h2
       className={`cursor-pointer ${
         activeTab === "newArrival" ? "primary underline" : "text-[#8B8B8B]"

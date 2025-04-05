@@ -11,6 +11,8 @@ import { fetchDataJson } from "@lib/fetch"; // Adjust the import path as necessa
 import Toast from "@/compoments/Toast";
 import Link from "next/link";
 import LocalStorageHandler from "@/lib/localStorage";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -91,18 +93,18 @@ export default function Login() {
         });
         console.log("Login successful:", response);
         // Store user data in local storage
-        LocalStorageHandler.setItem("user-token", response.data.token);
-        LocalStorageHandler.setItem("user", response.data.user);
+        localStorage.setItem("user-token", response.data.token);
+        localStorage.setItem("user", response.data.user);
 
         // Show success toast
         setToast({
           open: true,
-          message: "User Login successful Please View Email For OTP!",
+          message: "User Login successful ",
           type: "success",
         });
         //rerect user to otp page
        
-        window.location.assign("/otp");
+        
       } catch (error) {
         console.error("Login failed:", error);
 
@@ -202,6 +204,25 @@ export default function Login() {
             
             </div>
 
+            <div className='mt-5 flex justify-between text-[16px]'>
+              <FormControlLabel
+              control={
+                <Checkbox
+                defaultChecked
+                color="success"
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 17 } }}
+
+                />
+              }
+              label={
+                <span style={{ fontSize: "16px" }}>Label</span>
+              }
+              />
+                <Link href="/forgot-password">
+                <span className="cursor-pointer text-gray-400 mt-2">Forgot Password</span>
+                </Link>
+            </div>
+
           
 
             <div className="mt-5">
@@ -215,7 +236,7 @@ export default function Login() {
 
             <div className="mt-8 mb-4">
               <p className="text-[16px] text-[#4F4F4F]">
-                <Link href={"/login"}>
+                <Link href={"/register"}>
 
                Already have an account?{" "}
                 <span className="secondary">Create an account</span>

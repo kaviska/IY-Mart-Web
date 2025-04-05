@@ -97,8 +97,8 @@ export default function Register() {
         });
         console.log("Registration successful:", response);
         // Store user data in local storage
-        LocalStorageHandler.setItem("user-token", response.data.token);
-        LocalStorageHandler.setItem("user", response.data.user);
+        localStorage.setItem("user-token", response.data.token);
+        localStorage.setItem("user", response.data.user);
 
         // Show success toast
         setToast({
@@ -302,7 +302,7 @@ export default function Register() {
                 <Link href={"/login"}>
 
                Already have an account?{" "}
-                <span className="secondary">Create an account</span>
+                <span className="secondary">Log In to Your Account</span>
                 </Link>
               </p>
             </div>

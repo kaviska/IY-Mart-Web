@@ -56,6 +56,34 @@ export default function OTPVerification() {
     inputsRef.current[otp.length - 1]?.focus();
   };
 
+  const resend =async()=>{
+    try{
+      console.log('function running')
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+      const response = fetchDataJson('/resend-otp',{
+        method:'PUT',
+        body: JSON.stringify({ email: user?.email || '' })
+      })
+
+      
+      setToast({
+        open: true,
+        message: "OTP Send To Your Email !",
+        type: "success",
+      });
+
+    }
+    catch{
+      setToast({
+        open: true,
+        message: "OTP Send Failed",
+        type: "error",
+      });
+
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const otpCode = otp.join("");
@@ -66,7 +94,9 @@ export default function OTPVerification() {
         method: "POST",
         body: JSON.stringify({ otp: otpCode }),
       });
-      if (response.ok) {
+
+      const result=await response
+      if(result.status!='error'){
         setToast({
           open: true,
           message: "OTP verified successfully!",
@@ -75,7 +105,21 @@ export default function OTPVerification() {
         setTimeout(() => {
           router.push("/shop"); // Redirect to the shop page
         }, 2000); // Delay to show the toast
+
       }
+
+    
+
+      // if (response.ok) {
+      //   setToast({
+      //     open: true,
+      //     message: "OTP verified successfully!",
+      //     type: "success",
+      //   });
+      //   setTimeout(() => {
+      //     router.push("/shop"); // Redirect to the shop page
+      //   }, 2000); // Delay to show the toast
+      //}
     } catch (error) {
       setToast({
         open: true,
@@ -121,9 +165,9 @@ export default function OTPVerification() {
         </form>
         <div className="text-sm text-slate-500 mt-4">
           Didn&lsquo;t receive code?{" "}
-          <a className="font-medium primary hover:text-indigo-600" href="#0">
+          <button className="font-medium primary hover:text-indigo-600" onClick={resend}>
             Resend
-          </a>
+          </button>
         </div>
       </div>
       <Toast

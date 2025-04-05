@@ -40,7 +40,7 @@ export default function ProductCard({product}:ProductCardProps) {
         ) : (
           <p className="text-[16px] text-black">Rs. {product.price}</p>
         )}
-        <button className="flex text-[14px] justify-center mt-3 px-6 py-2 rounded-[10px] bg-primary text-white">
+        <button className="flex text-[14px] cursor-pointer justify-center mt-3 px-6 py-2 rounded-[10px] bg-primary text-white">
           Buy Now
         </button>
       </div>
