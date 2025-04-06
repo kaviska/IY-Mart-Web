@@ -76,16 +76,18 @@ export default function ShopAllProduct() {
     <div>
       <div className="flex flex-wrap gap-y-3 gap-x-3 justify-center">
         {currentProducts.map((product, index) => (
-          <a href={`shop/${product.slug}`} key={product.id || index}>
+      
             <ProductCard
               product={{
                 id: product.id,
                 name: product.name || `Product ${index + 1}`,
-                price: calculatePrice(product.stocks) || 0,
+                price: calculatePrice(product.stocks) || '0',
                 imageUrl: product.imageUrl || "/sauce.svg",
               }}
+              slug={product.slug}
+              key={product.id} // Use product ID as the key
             />
-          </a>
+         
         ))}
       </div>
 

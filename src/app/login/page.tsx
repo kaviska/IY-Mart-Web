@@ -94,7 +94,9 @@ export default function Login() {
         console.log("Login successful:", response);
         // Store user data in local storage
         localStorage.setItem("user-token", response.data.token);
-        localStorage.setItem("user", response.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        console.log('user token',localStorage.getItem('user-token'));
+
 
         // Show success toast
         setToast({

@@ -66,6 +66,7 @@ export default function App({ ProductArray, sliderPerView }: AppProps) {
                 price: calculatePrice(product.stocks) || '0',
                 imageUrl: "/sauce.svg",
               }}
+              slug={product.slug}
             />
           </SwiperSlide>
         ))}

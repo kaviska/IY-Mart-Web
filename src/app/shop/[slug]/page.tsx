@@ -258,7 +258,7 @@ export default function SingleProductPage() {
 
           <div className="flex flex-col md:flex-row gap-5 mt-7 items-stretch">
             {/* Price Section */}
-            <div className="RealPriceSection flex-2 bg-white px-6 py-1 rounded-lg shadow-lg border border-gray-200">
+            <div className="RealPriceSection flex-2 bg-white px-6 py-3 rounded-lg shadow-lg border border-gray-200">
               {selectedVariation ? (
                 <>
                   <div className="text-[20px] font-bold text-[#27AE60]">

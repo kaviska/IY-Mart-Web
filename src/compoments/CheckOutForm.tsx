@@ -29,6 +29,7 @@ export default function CheckOutForm() {
   const [prefectures, setPrefectures] = useState([]);
   const [regions, setRegions] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState("");
+
   const [paymentMethod, setPaymentMethod] = useState("card"); // Default payment method
   const userId = (() => {
     try {
@@ -84,6 +85,17 @@ export default function CheckOutForm() {
         console.log('user Avalilable', localStorage.getItem('user'));
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         const address = JSON.parse(localStorage.getItem('address') || '{}');
+        setSelectedRegion(address.region.id);
+        setFormData((prevData) => ({
+          ...prevData,
+          region_id: address.region.id, // Update region_id in formData
+          prefecture_id: "", // Reset prefecture_id when region changes
+        }));
+        setPrefectures([]); // Clear prefectures when region changes
+        if (address.region.id) {
+          loadPerfectures(address.region.id); // Load prefectures for the selected region
+        }
+        
         setFormData((prevData) => ({
           ...prevData,
           user_id: user.id,
@@ -91,8 +103,8 @@ export default function CheckOutForm() {
           mobile: user.mobile,
           name: user.name,
           city: address.city,
-          // prefecture_id: address.prefecture.id,
-          // region_id: address.region.id,
+           prefecture_id: address.prefecture.id,
+            region_id: address.region.id,
           postal_code: address.postal_code,
           address_line_1: address.address_line_1,
           address_line_2: address.address_line_2,
@@ -226,6 +238,7 @@ export default function CheckOutForm() {
 
     try {
       const token = localStorage.getItem("user-token") || null;
+      console.log('user token when sending the request',token);
       const response = await fetch("https://iymart.jp/api/place-order", {
         method: "POST",
         headers: {
@@ -255,7 +268,9 @@ export default function CheckOutForm() {
 
         
 
-        localStorage.setItem("user-token", result.data?.user?.token || "");
+        if (result.data?.user?.token) {
+          localStorage.setItem("user-token", result.data.user.token);
+        }
         localStorage.setItem("user", JSON.stringify(result.data?.user) || "");
         localStorage.setItem('address',JSON.stringify(result.data?.address) || "");
         localStorage.setItem('orderId', result.data?.payment.order_details?.id ?? "");
@@ -266,6 +281,7 @@ export default function CheckOutForm() {
         // localStorage.setItem("user", result.data?.user || "");
         console.log("User Token:", localStorage.getItem("user-token"));
        
+        console.log('token',localStorage.getItem('user-token'));
         localStorage.removeItem("guest_cart");
 
 
@@ -300,7 +316,7 @@ export default function CheckOutForm() {
   return (
     <div>
       <div className="flex flex-col gap-1">
-        <div className="flex gap-3">
+        <div className="flex md:flex-row flex-col gap-3">
           <TextField
             select
             label="Region"
@@ -336,6 +352,7 @@ export default function CheckOutForm() {
             disabled={!selectedRegion} // Disable if no region is selected
             error={!!formErrors.prefecture_id}
             helperText={formErrors.prefecture_id}
+            value={formData.prefecture_id} // Set prefecture_id value from formData
            
           >
             {prefectures.map((prefecture) => (
@@ -345,7 +362,7 @@ export default function CheckOutForm() {
             ))}
           </TextField>
         </div>
-        <div className="flex gap-3">
+        <div className="flex md:flex-row flex-col gap-3">
           <TextField
             label="City"
             name="city"
@@ -372,7 +389,7 @@ export default function CheckOutForm() {
           
           />
         </div>
-        <div className="flex gap-3">
+        <div className="flex md:flex-row flex-col gap-3">
           <TextField
             label="Address Line 1"
             name="address_line_1"
@@ -400,7 +417,7 @@ export default function CheckOutForm() {
             value={formData.address_line_2} // Set address_line_2 value from formData
           />
         </div>
-        <div className="flex gap-3">
+        <div className="flex md:flex-row flex-col gap-3">
           <TextField
             label="Name"
             name="name"
@@ -428,7 +445,7 @@ export default function CheckOutForm() {
             value={formData.email} // Set email value from formData
           />
         </div>
-        <div className="flex gap-3">
+        <div className="flex md:flex-row flex-col gap-3">
           <TextField
             label="Mobile"
             name="mobile"
@@ -453,7 +470,7 @@ export default function CheckOutForm() {
               name="paymentMethod"
               value={paymentMethod}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              sx={{ gap: 4 }} // Increase the gap between radio items
+              sx={{ gap: { xs: 2, md: 4 } }} // Reduce gap on smaller screens
             >
               <FormControlLabel
               value="card"

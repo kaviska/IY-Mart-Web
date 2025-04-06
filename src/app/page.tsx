@@ -116,9 +116,11 @@ export default function Home() {
     >
       {activeTab === "newArrival" &&
       newlyArriveProducts.slice(0, 12).map((product) => (
-        <a href={`/shop/${product.slug}`} key={product.id}>
+      
+      
         <ProductCard
         key={product.id}
+        slug={product.slug}
         product={{
           id: product.id,
           discount: product.stocks?.[0]?.web_discount || 0, // Fallback to 0 if undefined
@@ -127,7 +129,7 @@ export default function Home() {
           imageUrl: "./sauce.svg", // Assuming you have a default image for now
         }}
         />
-      </a>
+      
 
       ))}
     </div>

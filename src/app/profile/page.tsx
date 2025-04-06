@@ -9,6 +9,7 @@ export default function Profile() {
     const userId=JSON.parse(localStorage.getItem('user') || '{}').id;
 
     const fetchOrders = async () => {
+        console.log('token',localStorage.getItem('user-token'));
         try {
             const response = await fetch(`https://iymart.jp/api/v1/orders?userId=${userId}`, {
                 headers: {
