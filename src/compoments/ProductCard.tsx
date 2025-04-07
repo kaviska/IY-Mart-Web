@@ -9,7 +9,7 @@ interface ProductCardProps {
     id: number;
     name: string;
     price: string;
-    discount?: number;
+    discount?: number | string | null | undefined | boolean;
     imageUrl: string;
   };
   slug ?: string;
@@ -49,7 +49,7 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
         </div>
 
         <Image
-          src={product.imageUrl}
+          src={'https://iymart.jp/'+product.imageUrl}
           alt="product-image"
           width={180}
           height={180}
@@ -60,9 +60,15 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
 
         {product.discount ? (
           <div className="flex flex-row items-center gap-3">
-            <p className="text-[16px] line-through text-gray-500 ">
+            <div  className='flex gap-3'>
+            <p className="text-[16px] line-through text-gray-400 ">
               Rs. {product.price}
             </p>
+            <p className="text-red-500">
+              {product.discount}
+            </p>
+            </div>
+           
           </div>
         ) : (
           <p className="text-[16px] text-black">Rs. {product.price}</p>

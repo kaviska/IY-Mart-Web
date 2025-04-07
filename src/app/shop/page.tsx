@@ -3,7 +3,7 @@ import ShopAllProduct from "@/compoments/ShopAllProduct";
 
 export default function Shop() {
   return (
-   <div className="container mx-auto">
+   <div className="container mx-auto mt-5">
 
 
     <div className="md:flex">

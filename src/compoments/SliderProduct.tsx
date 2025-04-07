@@ -14,6 +14,7 @@ import { Navigation, Autoplay } from 'swiper/modules';
 import ProductCard from './ProductCard';
 import { ProductType } from '@/types/type';
 import calculatePrice from '@/lib/priceCalcuator';
+import discountCalcuator from '@/lib/discountCalcuator';
 
 interface AppProps {
   ProductArray: ProductType[];
@@ -62,10 +63,11 @@ export default function App({ ProductArray, sliderPerView }: AppProps) {
               key={product.id}
               product={{
                 id: product.id,
-                discount: product.stocks?.[0]?.web_discount || 0,
+                        discount: discountCalcuator(product.stocks) || null, 
+              
                 name: product.name,
                 price: calculatePrice(product.stocks) || '0',
-                imageUrl: "/sauce.svg",
+                imageUrl: product.primary_image,
               }}
               slug={product.slug}
             />

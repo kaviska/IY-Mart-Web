@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import { fetchDataJson } from "@/lib/fetch";
 import { ProductType } from "@/types/type";
 import calculatePrice from "@/lib/priceCalcuator";
+import discountCalcuator from "@/lib/discountCalcuator";
 
 
 
@@ -123,10 +124,10 @@ export default function Home() {
         slug={product.slug}
         product={{
           id: product.id,
-          discount: product.stocks?.[0]?.web_discount || 0, // Fallback to 0 if undefined
+          discount: discountCalcuator(product.stocks) || null, 
           name: product.name,
           price: calculatePrice(product.stocks) || '0', // Fallback to 0 if undefined
-          imageUrl: "./sauce.svg", // Assuming you have a default image for now
+          imageUrl: product.primary_image, // Assuming you have a default image for now
         }}
         />
       

@@ -5,7 +5,22 @@ import { fetchDataJson } from "@/lib/fetch";
 import Toast from "@/compoments/Toast";
 
 export default function Cart() {
-  const [cartData, setCartData] = useState<any[]>([]); // State to store cart items
+  interface CartItem {
+    stock_id: number;
+    quantity: number;
+    stock: {
+      id: number;
+      product: {
+        id: number;
+        name: string;
+        primary_image: string;
+      };
+      web_price: number;
+      web_discount: number;
+    };
+  }
+
+  const [cartData, setCartData] = useState<CartItem[]>([]); // State to store cart items
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalWithDiscounts, setTotalWithDiscounts] = useState(0);
   
@@ -42,7 +57,7 @@ export default function Cart() {
 
       // Convert the actual guest cart to a query string
       const queryParams = new URLSearchParams();
-      localCart.guest_cart.forEach((item: any, index: number) => {
+      localCart.guest_cart.forEach((item: { action: string; id: number; quantity: number; stock_id: number }, index: number) => {
         queryParams.append(`guest_cart[${index}][action]`, item.action);
         queryParams.append(`guest_cart[${index}][id]`, item.id.toString());
         queryParams.append(
@@ -56,7 +71,7 @@ export default function Cart() {
       });
 
       // Send the request to the server
-      const result = await fetchDataJson<{ status: string; data: { cart_items: any[]; total_amount: string; total_with_discounts: string; tax_amount: string; total_amount_with_tax: string } }>(`guest_carts?${queryParams}`);
+      const result = await fetchDataJson<{ status: string; data: { cart_items: CartItem[]; total_amount: string; total_with_discounts: string; tax_amount: string; total_amount_with_tax: string } }>(`guest_carts?${queryParams}`);
       console.log("Fetched Cart Data:", result);
 
       if (result.status === "success") {
@@ -79,7 +94,7 @@ export default function Cart() {
       localStorage.getItem("guest_cart") || '{"guest_cart": []}'
     );
     const existingItemIndex = localCart.guest_cart.findIndex(
-      (item: any) => item.stock_id === stockId
+      (item: { action: string; id: number; quantity: number; stock_id: number }) => item.stock_id === stockId
     );
 
     if (existingItemIndex !== -1) {
@@ -114,7 +129,7 @@ export default function Cart() {
       localStorage.getItem("guest_cart") || '{"guest_cart": []}'
     );
     const updatedCart = localCart.guest_cart.filter(
-      (item: any) => item.stock_id !== stockId
+      (item: { action: string; id: number; quantity: number; stock_id: number }) => item.stock_id !== stockId
     );
     localCart.guest_cart = updatedCart;
     localStorage.setItem("guest_cart", JSON.stringify(localCart));
@@ -156,7 +171,11 @@ export default function Cart() {
             cartData.map((item) => (
               <CartCard
               key={item.stock_id}
-              product={item.stock.product}
+              product={{
+                name: item.stock.product?.name || "Unknown Product",
+                id: item.stock.product?.id || 0,
+                primary_image: item.stock.product?.primary_image || "",
+              }}
               quantity={item.quantity}
               price={item.stock.web_price}
               stockId={item.stock.id}

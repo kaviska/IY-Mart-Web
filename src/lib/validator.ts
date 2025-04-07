@@ -12,8 +12,6 @@ export function validator(
       return validatePhone(value);
     case "name":
         return validateName(value);
-    case 'postal_code':
-        return validatePostalCode(value);
     default:
       return '';
   }
@@ -47,16 +45,16 @@ function validateName(name: string): boolean | string {
     return '';
 }
 
-async function validatePostalCode(postalCode: string): Promise<boolean | string> {
-    try {
-        const result = await fetchDataJson<{ status: string; data: { data: any[] } }>(`postal-data?postal_code=${postalCode}`);
-        console.log(result.data.data)
-        if (result.status === "success" && result.data.data.length > 0) {
-            console.log('postal code valid');
-            return '';
-        }
-        return "Invalid postal code";
-    } catch (error) {
-        return "Error validating postal code";
-    }
-}
+// async function validatePostalCode(postalCode: string): Promise<boolean | string> {
+//     try {
+//         const result = await fetchDataJson<{ status: string; data: { data: any[] } }>(`postal-data?postal_code=${postalCode}`);
+//         console.log(result.data.data)
+//         if (result.status === "success" && result.data.data.length > 0) {
+//             console.log('postal code valid');
+//             return '';
+//         }
+//         return "Invalid postal code";
+//     } catch (error) {
+//         return "Error validating postal code";
+//     }
+// }

@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
+import Autocomplete from '@mui/material/Autocomplete';
 
 
 // Common styles for TextField
@@ -29,6 +30,7 @@ export default function CheckOutForm() {
   const [prefectures, setPrefectures] = useState([]);
   const [regions, setRegions] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState("");
+  
 
   const [paymentMethod, setPaymentMethod] = useState("card"); // Default payment method
   const userId = (() => {
@@ -59,7 +61,6 @@ export default function CheckOutForm() {
     city: "",
     prefecture_id: "",
     region_id: "",
-    
     address_line_1: "",
     address_line_2: "",
     name: "",
@@ -167,6 +168,74 @@ export default function CheckOutForm() {
       console.error("Error loading prefectures:", error);
     }
   };
+
+  const [postalCodes, setPostalCodes] = useState<string[]>([]); // Store fetched postal codes
+
+const handlePrefectureChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const prefectureId = event.target.value;
+  const selectedPrefecture = prefectures.find((p) => p.id === prefectureId);
+
+  setFormData((prevData) => ({
+    ...prevData,
+    prefecture_id: prefectureId, // Update prefecture_id in formData
+    postal_code: "", // Reset postal_code when prefecture changes
+  }));
+
+  setFormErrors((prevErrors) => ({
+    ...prevErrors,
+    postal_code: "", // Clear postal_code errors
+  }));
+
+  if (selectedPrefecture) {
+    try {
+      const postalData = await fetchDataJson<{ status: string; data: { data: { postal_code: string }[] } }>(
+        `postal-data?prefecture_name=${selectedPrefecture.prefecture_name}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (postalData.status === "success") {
+        // Extract postal codes from the response
+        const postalCodesList = postalData.data.data.map((item) => item.postal_code);
+        setPostalCodes(postalCodesList); // Load postal codes for the selected prefecture
+      } else {
+        setPostalCodes([]); // Clear postal codes if the request fails
+      }
+    } catch (error) {
+      console.error("Error loading postal codes:", error);
+      setPostalCodes([]); // Clear postal codes on error
+    }
+  } else {
+    setPostalCodes([]); // Clear postal codes if no prefecture is selected
+  }
+};
+const handlePostalCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { value } = event.target;
+
+  // Allow only valid postal codes from the fetched list
+  if (postalCodes.includes(value) || value === "") {
+    setFormData((prevData) => ({
+      ...prevData,
+      postal_code: value,
+    }));
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      postal_code: "", // Clear postal_code errors
+    }));
+  } else {
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      postal_code: "Invalid postal code. Please select from the suggestions.",
+    }));
+  }
+};
+
+
 
   const loadRegions = async () => {
     try {
@@ -340,21 +409,20 @@ export default function CheckOutForm() {
           </TextField>
 
           <TextField
-            select
-            label="Prefecture"
-            name="prefecture_id"
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            onChange={handleInputChange} // Handle prefecture selection
-            sx={textFieldSx}
-            slotProps={textFieldSlotProps}
-            disabled={!selectedRegion} // Disable if no region is selected
-            error={!!formErrors.prefecture_id}
-            helperText={formErrors.prefecture_id}
-            value={formData.prefecture_id} // Set prefecture_id value from formData
-           
-          >
+  select
+  label="Prefecture"
+  name="prefecture_id"
+  fullWidth
+  margin="normal"
+  variant="outlined"
+  onChange={handlePrefectureChange} // Handle prefecture selection
+  sx={textFieldSx}
+  slotProps={textFieldSlotProps}
+  disabled={!selectedRegion} // Disable if no region is selected
+  error={!!formErrors.prefecture_id}
+  helperText={formErrors.prefecture_id}
+  value={formData.prefecture_id} // Set prefecture_id value from formData
+>
             {prefectures.map((prefecture) => (
               <MenuItem key={prefecture.id} value={prefecture.id}>
                 {prefecture.prefecture_name}
@@ -376,18 +444,41 @@ export default function CheckOutForm() {
             helperText={formErrors.city}
             value={formData.city} // Set city value from formData
           />
-          <TextField
-            label="Postal Code"
-            name="postal_code"
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            onChange={handleInputChange}
-            sx={textFieldSx}
-            slotProps={textFieldSlotProps}
-            value={formData.postal_code} // Set postal_code value from formData
+                <Autocomplete
+          disablePortal
+          options={postalCodes} // Use the postalCodes state as options
           
-          />
+          value={formData.postal_code} // Set the selected postal code from formData
+
+          getOptionLabel={(option) => option} // Display the postal code as the label
+          sx={{ width: "100%",marginTop: "16px" }} // Adjust width and margin as needed
+        
+          disabled={!formData.prefecture_id} // Disable if no prefecture is selected
+          onChange={(event, value) => {
+            // Update formData when a postal code is selected
+            setFormData((prevData) => ({
+              ...prevData,
+              postal_code: value || "", // Set the selected postal code or empty if cleared
+            }));
+        
+            setFormErrors((prevErrors) => ({
+              ...prevErrors,
+              postal_code: "", // Clear postal_code errors
+            }));
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Postal Code"
+              variant="outlined"
+              error={!!formErrors.postal_code}
+              helperText={formErrors.postal_code}
+              value={formData.postal_code} // Set postal_code value from formData
+            sx={textFieldSx}
+
+            />
+          )}
+        />
         </div>
         <div className="flex md:flex-row flex-col gap-3">
           <TextField

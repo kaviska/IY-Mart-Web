@@ -5,6 +5,7 @@ import { fetchDataJson } from "@lib/fetch";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import calculatePrice from "@/lib/priceCalcuator";
+import discountCalcuator from "@/lib/discountCalcuator";
 
 
 export default function ShopAllProduct() {
@@ -80,9 +81,11 @@ export default function ShopAllProduct() {
             <ProductCard
               product={{
                 id: product.id,
+                discount: discountCalcuator(product.stocks) || null, 
+                
                 name: product.name || `Product ${index + 1}`,
                 price: calculatePrice(product.stocks) || '0',
-                imageUrl: product.imageUrl || "/sauce.svg",
+                imageUrl: product.primary_image || "/sauce.svg",
               }}
               slug={product.slug}
               key={product.id} // Use product ID as the key
