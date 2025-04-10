@@ -15,7 +15,7 @@ interface BaseSelectPropsType {
 
 export default function BestSellersCard({BestSellerProduct}:BaseSelectPropsType) {
     return (
-        <div className="md:w-1/4 w-full flex flex-col md:justify-start justify-center md:gap-2 gap-1 md:shadow-none shadow-lg  md:h-[520px]">
+        <div className="md:w-1/4 w-full flex flex-col md:justify-start justify-center md:gap-2 gap-1 md:shadow-none shadow-lg  sm:min-h-[550px]">
             <Image src={kottuImage} alt='kottu-image' className='md:w-full w-[100%]'/>
             <h3 className='primary md:text-start text-center mx-5 md:text-[24px] text-[24px]'>{BestSellerProduct.name}</h3>
             <p className='mt-1 mx-5 md:text-start text-center text-[#909090] flex-grow text-[16px]'> 

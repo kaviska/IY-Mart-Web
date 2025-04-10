@@ -5,28 +5,47 @@ import Search from "./Search";
 import * as React from "react";
 import { fetchDataJson } from "@lib/fetch"; // Adjust the import path as necessary
 import { useSearchParams, useRouter } from "next/navigation"; // For URL manipulation
+import { CategoryBrandType } from "@/types/type"; // Adjust the import path as necessary
 
 interface TypePropsInterface {
   type: string;
   searchAvailable: boolean;
 }
 
+interface ResponseError {
+  status: "error";
+  message: string | null;
+  errors: string;
+}
+
+interface ResponseSuccess {
+  status: "success";
+  message: string;
+  data: CategoryBrandType[];
+}
+
+type Response = ResponseError | ResponseSuccess;
+
 export default function CheckBoxWithSearchFilter({
   type,
   searchAvailable,
 }: TypePropsInterface) {
-  const [category, setCategory] = React.useState<any[]>([]);
-  const [filteredCategory, setFilteredCategory] = React.useState<any[]>([]);
+  const [category, setCategory] = React.useState<CategoryBrandType[]>([]);
+  const [filteredCategory, setFilteredCategory] = React.useState<CategoryBrandType[]>([]);
   const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
 
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Fetch categories or brands based on the type
   React.useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const result = await fetchDataJson(type, { method: "GET" });
+        const result: Response = await fetchDataJson(type, { method: "GET" });
+        if (result.status === "error") {
+          throw new Error(result.message || "Error fetching categories");
+        }
         setCategory(result.data);
         setFilteredCategory(result.data); // Initialize filteredCategory with all categories
       } catch (error) {
@@ -38,13 +57,14 @@ export default function CheckBoxWithSearchFilter({
 
   // Filter categories based on the search query
   React.useEffect(() => {
+    console.log("Filtering categories with query:", searchQuery);
     if (searchQuery.trim() === "") {
       setFilteredCategory(category); // Show all categories if search query is empty
     } else {
       const filtered = category.filter((cat) =>
         cat.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredCategory(filtered);
+      setFilteredCategory(filtered); // Update filteredCategory with the search result
     }
   }, [searchQuery, category]);
 
@@ -59,11 +79,12 @@ export default function CheckBoxWithSearchFilter({
     router.replace(`?${params.toString()}`); // Use `replace` to avoid adding to history
   }, [selectedItems, type, router, searchParams]);
 
+  // Handle checkbox selection
   const handleCheckboxChange = (id: string) => {
     setSelectedItems((prev) =>
       prev.includes(id)
         ? prev.filter((item) => item !== id) // Remove if already selected
-        : [...prev, id] // Add if not selected
+        : [...prev, id.toString()] // Add if not selected
     );
   };
 
@@ -85,8 +106,8 @@ export default function CheckBoxWithSearchFilter({
               <Checkbox
                 color="success"
                 size="small"
-                checked={selectedItems.includes(cat.id)}
-                onChange={() => handleCheckboxChange(cat.id)}
+                checked={selectedItems.includes(cat.id.toString())}
+                onChange={() => handleCheckboxChange(cat.id.toString())}
               />
             }
             label={<span style={{ fontSize: "14px" }}>{cat.name}</span>}

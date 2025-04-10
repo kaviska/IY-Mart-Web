@@ -79,3 +79,25 @@ export interface StockPriceType {
         };
     }>;
 }
+
+
+export interface UserData {
+  id: number;
+  name: string;
+  email: string;
+  mobile: string;
+  user_type: string;
+  email_verified_at: string;
+  created_at: string;
+  updated_at: string;
+  stripe_id: string | null;
+  pm_type: string | null;
+  pm_last_four: string | null;
+  trial_ends_at: string | null;
+}
+
+export interface CategoryBrandType {
+    id: number;
+    name: string;
+   
+}

@@ -5,6 +5,7 @@ import Instagram from "@public/Instagram.svg";
 import Twitter from "@public/Twitter.svg";
 import Tiktok from "@public/Tiktok.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -76,32 +77,108 @@ export default function Footer() {
           </div>
         </div>
         <div className="">
-          <h3 className="text-[16px] font-bold text-white">Useful Links</h3>
-          <ul className="bullet-none text-[14px] md:mt-5 mt-3 text-[#CFCFCF] space-y-1 md:text-start text-center ">
-            <li>Home</li>
-            <li>Shop</li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-[16px] font-bold text-white">Useful Links</h3>
-          <ul className="bullet-none text-[14px] md:mt-5 mt-3 text-[#CFCFCF] space-y-1 md:text-start text-center">
-            <li>Home</li>
-            <li>Shop</li>
-            <li>Blog</li>
-            <li>Contact</li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-[16px] font-bold text-white">Useful Links</h3>
-          <ul className="bullet-none text-[14px] md:mt-5 mt-3 text-[#CFCFCF] space-y-1 md:text-start text-center">
-            <li>Home</li>
-            <li>Shop</li>
-            <li>Blog</li>
-            <li>Contact</li>
-            <li>Blog</li>
-            <li>Contact</li>
-          </ul>
-        </div>
+          <h3 className="text-[16px] font-bold text-white">Main Links</h3>
+            <ul className="bullet-none text-[14px] md:mt-5 mt-3 text-[#CFCFCF] space-y-1 md:text-start text-center">
+            <li>
+              <Link
+              href="/"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Home
+              </Link>
+            </li>
+            <li>
+              <Link
+              href="/shop"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Shop
+              </Link>
+            </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-[16px] font-bold text-white">Terms & Condition</h3>
+            <ul className="bullet-none text-[14px] md:mt-5 mt-3 text-[#CFCFCF] space-y-1 md:text-start text-center">
+            <li>
+              <Link
+              href="/privacy-policy"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link
+              href="/return-policy"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Return Policy
+              </Link>
+            </li>
+            <li>
+              <Link
+              href="/terms-and-conditions"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Terms & Conditions
+              </Link>
+            </li>
+            <li>
+              <Link
+              href="/contact"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Contact
+              </Link>
+            </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-[16px] font-bold text-white">Useful Links</h3>
+            <ul className="bullet-none text-[14px] md:mt-5 mt-3 text-[#CFCFCF] space-y-1 md:text-start text-center">
+            <li>
+              <Link
+              href="/about-us"
+              className="hover:text-white transition-colors duration-200"
+              >
+              About Us
+              </Link>
+            </li>
+            <li>
+              <Link
+              href="/contact-us"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link
+              href="/blog"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Blog
+              </Link>
+            </li>
+            <li>
+              <Link
+              href="/login"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Login
+              </Link>
+            </li>
+            <li>
+              <Link
+              href="/register"
+              className="hover:text-white transition-colors duration-200"
+              >
+              Register
+              </Link>
+            </li>
+            </ul>
+          </div>
       </div>
     </div>
   );

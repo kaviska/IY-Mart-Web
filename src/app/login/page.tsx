@@ -10,9 +10,27 @@ import { validator } from "@lib/validator"; // Adjust the import path as necessa
 import { fetchDataJson } from "@lib/fetch"; // Adjust the import path as necessary
 import Toast from "@/compoments/Toast";
 import Link from "next/link";
-import LocalStorageHandler from "@/lib/localStorage";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import {UserData} from "@/types/type"; // Adjust the import path as necessary
+
+interface ResponseError {
+  status: "error";
+  message: string | null;
+  errors: string;
+}
+
+
+interface ResponseSuccess {
+  status: "success";
+  message: string;
+  data: {
+    user: UserData;
+    token: string;
+  };
+}
+
+type Response = ResponseError | ResponseSuccess;
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -87,14 +105,20 @@ export default function Login() {
         console.log("Login Processing");
        
 
-        const response = await fetchDataJson("login", {
+        const response: Response = await fetchDataJson("login", {
           method: "POST",
           body: JSON.stringify(formData),
         });
         console.log("Login successful:", response);
         // Store user data in local storage
-        localStorage.setItem("user-token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        if (response.status === "success") {
+          localStorage.setItem("user-token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          //naviage to the shop page
+          window.location.href = "/shop";
+        } else {
+          throw new Error(response.message || "An error occurred during login.");
+        }
         console.log('user token',localStorage.getItem('user-token'));
 
 
@@ -240,7 +264,7 @@ export default function Login() {
               <p className="text-[16px] text-[#4F4F4F]">
                 <Link href={"/register"}>
 
-               Already have an account?{" "}
+              Are You New User?{" "}
                 <span className="secondary">Create an account</span>
                 </Link>
               </p>

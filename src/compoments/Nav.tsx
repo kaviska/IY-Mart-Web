@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+"use client"
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@public/logo-1.svg";
@@ -9,26 +10,34 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { fetchDataJson } from "@/lib/fetch";
 import { Badge } from "@mui/material";
+import { ProductType } from "@/types/type";
+
+
+
+interface SearchResult {
+  status: string;
+  message: string;
+  data: ProductType[];
+}
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<ProductType[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("user"));
   const [cartCount, setCartCount] = useState(0);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateCartCount = () => {
       const cart = JSON.parse(localStorage.getItem("guest_cart") || '{"guest_cart": []}');
-      const totalItems = cart.guest_cart.reduce((sum, item) => sum + item.quantity, 0);
+      const totalItems = cart.guest_cart.reduce((sum: number, item: { quantity: number }) => sum + item.quantity, 0);
       setCartCount(totalItems);
-      console.log('Cart Items',totalItems)
     };
 
     updateCartCount();
 
-    // Optionally, listen for changes in localStorage to update the cart count dynamically
     window.addEventListener("storage", updateCartCount);
 
     return () => {
@@ -45,7 +54,7 @@ export default function Nav() {
     const fetchSearchResults = async () => {
       setIsSearching(true);
       try {
-        const results = await fetchDataJson(`products?search=${searchQuery}`);
+        const results: SearchResult = await fetchDataJson(`products?search=${searchQuery}`);
         setSearchResults(results.data || []);
       } catch (error) {
         console.error("Error fetching search results:", error);
@@ -54,7 +63,7 @@ export default function Nav() {
       }
     };
 
-    const debounceTimeout = setTimeout(fetchSearchResults, 300); // Debounce for smoother UX
+    const debounceTimeout = setTimeout(fetchSearchResults, 300);
     return () => clearTimeout(debounceTimeout);
   }, [searchQuery]);
 
@@ -63,6 +72,24 @@ export default function Nav() {
     localStorage.removeItem("user-token");
     setIsLoggedIn(false);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   return (
     <nav className="container mx-auto max-w-7xl md:max-h-[80px] flex justify-between items-center gap-5 md:py-0 py-5 px-4">
@@ -168,16 +195,26 @@ export default function Nav() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="absolute z-50 top-16 left-0 w-full bg-white shadow-lg flex flex-col items-center gap-4 py-4 lg:hidden">
+        <div
+          ref={menuRef}
+          className="absolute z-50 top-16 left-0 w-full bg-white shadow-lg flex flex-col items-center gap-4 py-4 lg:hidden"
+        >
           <Link href="/" passHref>
             <span className="text-black cursor-pointer">Home</span>
           </Link>
           <Link href="/login" passHref>
             <span className="text-[#A4A4A4] cursor-pointer">Login</span>
           </Link>
+        {isLoggedIn ? (
+          <button className="cursor-pointer" onClick={logOut}>
+            <span className="text-[#A4A4A4] cursor-pointer">Logout</span>
+          </button>
+        ) : (
           <Link href="/register" passHref>
             <span className="text-[#A4A4A4] cursor-pointer">Register</span>
           </Link>
+        )}
+         
           <Link href="/cart" passHref>
             <span className="text-[#A4A4A4] cursor-pointer">Cart</span>
           </Link>

@@ -18,9 +18,9 @@ interface ProductCardProps {
 export default function ProductCard({ product, slug }: ProductCardProps) {
   const [isFavorited, setIsFavorited] = useState(false);
 
-  const toggleFavorite = () => {
-    setIsFavorited(!isFavorited);
-  };
+  // const toggleFavorite = () => {
+  //   setIsFavorited(!isFavorited);
+  // };
 
   const router = useRouter();
 
