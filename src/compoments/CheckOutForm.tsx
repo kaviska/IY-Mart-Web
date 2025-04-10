@@ -152,7 +152,7 @@ export default function CheckOutForm() {
 
   const loadPerfectures = async (regionId: string) => {
     try {
-      const prefecture = await fetchDataJson<{ result: string; data: any[] }>(
+      const prefecture = await fetchDataJson<{ result: string; data: any[]; status: string }>(
         `prefectures?region_id=${regionId}`,
         {
           method: "GET",
