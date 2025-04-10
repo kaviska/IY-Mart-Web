@@ -21,14 +21,23 @@ const textFieldSx = {
   },
 };
 
+interface Prefecture {
+  id: string;
+  prefecture_name: string;
+}
+interface Region {
+  id: string;
+  name: string;
+}
+
 // Common slotProps for TextField
 const textFieldSlotProps = {
   inputLabel: { sx: { fontSize: "15px" } }, // Adjust label font size
 };
 
 export default function CheckOutForm() {
-  const [prefectures, setPrefectures] = useState([]);
-  const [regions, setRegions] = useState([]);
+  const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
+  const [regions, setRegions] = useState<Region[]>([]);
   const [selectedRegion, setSelectedRegion] = useState("");
   
 
@@ -66,6 +75,7 @@ export default function CheckOutForm() {
     name: "",
     email: "",
     mobile: "",
+    postal_code: "",
   });
 
   const [toast, setToast] = useState<{
@@ -239,7 +249,7 @@ const handlePostalCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
   const loadRegions = async () => {
     try {
-      const region = await fetchDataJson<{ result: string; data: any[] }>(
+      const region = await fetchDataJson<{ result: string; data: any[]; status:string }>(
         "regions",
         {
           method: "GET",
@@ -274,13 +284,13 @@ const handlePostalCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     const errors = Object.keys(formData).reduce((acc, key) => {
       if (!formData[key as keyof typeof formData]) {
-        acc[key] = "This field is required";
+        acc[key as keyof typeof formErrors] = "This field is required";
       } else {
         const validationError = validator(formData[key as keyof typeof formData], key);
-        if (validationError) acc[key] = validationError;
+        if (typeof validationError === "string") acc[key as keyof typeof formErrors] = validationError;
       }
       return acc;
-    }, {} as Record<string, string>);
+    }, { ...formErrors });
 
     setFormErrors(errors);
     console.log(errors)
