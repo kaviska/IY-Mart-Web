@@ -44,7 +44,11 @@ export default function CheckOutForm() {
   const [paymentMethod, setPaymentMethod] = useState("card"); // Default payment method
   const userId = (() => {
     try {
-      const user = localStorage.getItem("user");
+      let user
+      if(typeof window !== 'undefined'){
+         user = localStorage.getItem("user");
+      }
+  
       return user ? JSON.parse(user).id : null;
     } catch (error) {
       console.error("Error parsing user data from localStorage:", error);
@@ -294,10 +298,15 @@ const handlePostalCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     setFormErrors(errors);
     console.log(errors)
+    let localCart
 
-    const localCart = JSON.parse(
-      localStorage.getItem("guest_cart") || '{"guest_cart": []}'
-    );
+    if(typeof window !== 'undefined'){
+       localCart = JSON.parse(
+        localStorage.getItem("guest_cart") || '{"guest_cart": []}'
+      );
+    }
+
+    
     const cartItems = localCart.guest_cart.map((item: any) => ({
       stock_id: item.stock_id,
       quantity: item.quantity,
@@ -316,7 +325,11 @@ const handlePostalCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log("Order Data:", orderData);
 
     try {
-      const token = localStorage.getItem("user-token") || null;
+      let token;
+      if(typeof window !== 'undefined'){
+        token=localStorage.getItem("user-token") || null;
+      }
+      
       console.log('user token when sending the request',token);
       const response = await fetch("https://iymart.jp/api/place-order", {
         method: "POST",
@@ -338,7 +351,8 @@ const handlePostalCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           message: "Order placed successfully!",
           type: "success",
         });
-        localStorage.setItem('payment_intent', result.data?.payment.paymentIntent || "");
+        if(typeof window !== 'undefined'){
+          localStorage.setItem('payment_intent', result.data?.payment.paymentIntent || "");
         console.log("Payment Intent:", result.data?.payment.paymentIntent);
         console.log('user', result.data?.user);
         console.log('user-token', result.data?.user.token);
@@ -362,6 +376,8 @@ const handlePostalCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
        
         console.log('token',localStorage.getItem('user-token'));
         localStorage.removeItem("guest_cart");
+        }
+        
 
 
 
