@@ -334,7 +334,7 @@ return(
       {/* Toast Component */}
       <Toast
         open={toast.open}
-        message={toast.message}
+        message={toast.message || ""}
         type={toast.type}
         onClose={() => setToast({ ...toast, open: false })}
       />
