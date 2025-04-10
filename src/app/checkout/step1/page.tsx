@@ -1,3 +1,4 @@
+"use client"
 import StepperNav from "@/compoments/StepperNav";
 import CheckOutForm from "@/compoments/CheckOutForm";
 
