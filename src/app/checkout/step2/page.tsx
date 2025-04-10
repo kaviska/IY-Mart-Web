@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, Stripe,StripeElements } from "@stripe/stripe-js";
 import StepperNav from "@/compoments/StepperNav";
 import Toast from "@/compoments/Toast";
 
@@ -8,13 +8,31 @@ const stripePromise = loadStripe(
   "pk_test_51R5LWNQwRy5Q2zLn7NTHVCJMc9McLjzpuAIn5mfLuyueQHPNq62lszwRED0yXhEmUILcgxxg3voCO0fgSs8Zvrh600ylwumbte"
 );
 
+interface PaymentType {
+  order_details: {
+    subtotal: number;
+    shipping_cost: number;
+    tax: number;
+    total_discount: number;
+    total: number;
+    order_number?: string;
+    payment_method?: string;
+    user_address_line1?: string;
+    user_address_line2?: string;
+    user_city?: string;
+    user_prefecture?: string;
+    user_country?: string;
+    user_postal_code?: string;
+  };
+}
+
 export default function CheckoutStep2() {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [elements, setElements] = useState(null);
-  const [stripe, setStripe] = useState(null);
+  const [elements, setElements] = useState<StripeElements | null>(null);
+  const [stripe, setStripe] = useState<Stripe | null>(null);
   const [toast, setToast] = useState<{
     open: boolean;
-    message: string;
+    message: string|undefined;
     type: "success" | "error" | "info" | "warning";
   }>({
     open: false,
@@ -22,7 +40,7 @@ export default function CheckoutStep2() {
     type: "success", // 'success', 'error', 'info', 'warning'
   });
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
-  const [payment,setPayment] = useState(null);
+  const [payment, setPayment] = useState<PaymentType | null>(null);
 
   useEffect(() => {
     const initializeStripe = async () => {
@@ -33,7 +51,7 @@ export default function CheckoutStep2() {
       // const mobile=user.mobile
       // const name=user.name;
 
-      const payment=JSON.parse(localStorage.getItem('payment') || '{}');
+      const payment = JSON.parse(localStorage.getItem('payment') || '{}') as PaymentType;
       setPayment(payment);
       console.log('payment',payment)
 
@@ -57,7 +75,7 @@ export default function CheckoutStep2() {
       }
 
       const appearance = {
-        theme: "stripe",
+        theme: "stripe" as const,
 
         colorBackground: "#ffffff",
         colorText: "#30313d",
@@ -94,7 +112,7 @@ export default function CheckoutStep2() {
     }
   }, []);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!stripe || !elements) {
       alert("Stripe has not been initialized.");
