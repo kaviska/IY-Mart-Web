@@ -34,7 +34,7 @@ export default function SingleProductPage() {
   const updateGuestCart = (action: string, productId: number, quantity: number, stockId: number) => {
     const cart = JSON.parse(localStorage.getItem("guest_cart") || '{"guest_cart": []}');
     const existingItemIndex = cart.guest_cart.findIndex(
-      (item: any) => item.id === productId && item.stock_id === stockId
+      (item: { id: number; stock_id: number }) => item.id === productId && item.stock_id === stockId
     );
 
 
@@ -161,17 +161,17 @@ export default function SingleProductPage() {
 
   return (
     <div className="my-5">
-      <div className="flex md:flex-row flex-col container mx-auto md:px-0 px-3">
+      <div className="flex md:flex-row flex-col container mx-auto md:px-0 px-10">
         <div className="md:w-[50%] flex md:flex-row flex-col gap-10 cursor-pointer">
           <Image
-            src={CanImage}
+            src={product?.primary_image ? "https://iymart.jp/" + product.primary_image : CanImage}
             alt="can"
             width={100}
             height={100}
             className="md:self-start md:order-1 order-2 self-center"
           ></Image>
           <Image
-            src={CanImage}
+            src={product?.primary_image ? "https://iymart.jp/" + product.primary_image : CanImage}
             alt="can"
             width={400}
             height={400}
@@ -210,8 +210,8 @@ export default function SingleProductPage() {
                 ></Image>
               </div>
               <div className="text-[14px] flex flex-col gap-0">
-                <span className="text-[#A4A4A4]">Free Delivery</span>
-                <span>1-2 Day</span>
+                <span className="text-[#A4A4A4]">Fast Delivery</span>
+                <span>1-7 Day</span>
               </div>
             </div>
 
@@ -225,8 +225,8 @@ export default function SingleProductPage() {
                 ></Image>
               </div>
               <div className="text-[14px] flex flex-col gap-0">
-                <span className="text-[#A4A4A4]">Free Delivery</span>
-                <span>1-2 Day</span>
+                <span className="text-[#A4A4A4]">Cash on Delivery</span>
+                <span>1-7 Day</span>
               </div>
             </div>
           </div>
@@ -324,7 +324,7 @@ export default function SingleProductPage() {
           </div>
         </div>
       </div>
-      <div className="bg-[#FAFAFA] md:px-20 px-3 py-0 mt-10">
+      <div className="bg-[#FAFAFA] md:px-20 px-10 py-0 mt-10">
         <div className="bg-white md:p-10">
           <h3 className="text-[24px]">Details</h3>
           <p className="text-[#9D9D9D] text-[14px] mt-5">
@@ -353,7 +353,7 @@ export default function SingleProductPage() {
             )}
         </div>
       </div>
-      <div className="mt-10 container mx-auto md:px-0 px-3">
+      <div className="mt-10 container mx-auto md:px-0 px-10">
         <h3 className="text-[24px]">Related Products</h3>
         <div className="flex justify-between flex-wrap mt-5">
           <Slider ProductArray={relatedProducts} sliderPerView={4} />

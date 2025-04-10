@@ -65,6 +65,8 @@ export default function OTPVerification() {
         method:'PUT',
         body: JSON.stringify({ email: user?.email || '' })
       })
+      const result=await response
+      console.log(result)
 
       
       setToast({
@@ -95,8 +97,8 @@ export default function OTPVerification() {
         body: JSON.stringify({ otp: otpCode }),
       });
 
-      const result=await response
-      if(result.status!='error'){
+      const result = await response as { status: string }; // Type assertion
+      if (result.status !== 'error') {
         setToast({
           open: true,
           message: "OTP verified successfully!",
@@ -121,6 +123,7 @@ export default function OTPVerification() {
       //   }, 2000); // Delay to show the toast
       //}
     } catch (error) {
+      console.log(error)
       setToast({
         open: true,
         message: "An error occurred. Please try again.",
@@ -150,7 +153,9 @@ export default function OTPVerification() {
                 onChange={(e) => handleInputChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 onPaste={handlePaste}
-                ref={(el) => (inputsRef.current[index] = el!)}
+                ref={(el) => {
+                  inputsRef.current[index] = el!;
+                }}
               />
             ))}
           </div>

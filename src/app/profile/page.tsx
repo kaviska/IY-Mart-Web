@@ -34,33 +34,7 @@ export default function Profile() {
 
 
 
-    // Sample data for testing OrderTracking
-    const sampleOrders = [
-        {
-            id: 1,
-            order_number: "IY-123456",
-            order_status: "pending",
-            total: 5000,
-            currency: "JPY",
-            payment_status: "initiated",
-            order_items: [
-                { product_name: "Product A", unit_quantity: 2, line_total: 2000 },
-                { product_name: "Product B", unit_quantity: 1, line_total: 3000 },
-            ],
-        },
-        {
-            id: 2,
-            order_number: "IY-654321",
-            order_status: "completed",
-            total: 7500,
-            currency: "JPY",
-            payment_status: "paid",
-            order_items: [
-                { product_name: "Product C", unit_quantity: 3, line_total: 4500 },
-                { product_name: "Product D", unit_quantity: 1, line_total: 3000 },
-            ],
-        },
-    ];
+    
 
     return (
         <div className="container mx-auto max-w-6xl p-6 rounded-[8px] ">
