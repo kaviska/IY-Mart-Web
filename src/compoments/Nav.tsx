@@ -25,9 +25,15 @@ export default function Nav() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<ProductType[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("user"));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsLoggedIn(!!localStorage.getItem("user"));
+    }
+  }, []);
 
   useEffect(() => {
     const updateCartCount = () => {
