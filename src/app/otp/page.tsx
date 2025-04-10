@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation"; // For navigation
 import Toast from "@/compoments/Toast";
 import { fetchDataJson } from "@/lib/fetch"; // Import the fetch function
 
+type ToastState = {
+  open: boolean;
+  message: string;
+  type: "success" | "error" | "info" | "warning";
+};
+
+
 export default function OTPVerification() {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
-   const [toast, setToast] = useState<{
-     open: boolean;
-     message: string;
-     type: "success" | "error" | "info" | "warning";
-   }>({
+   const [toast, setToast] = useState<ToastState>({
      open: false,
      message: "",
      type: "success", // 'success', 'error', 'info', 'warning'
