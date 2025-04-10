@@ -20,7 +20,7 @@ export default function ProductRange() {
   };
 
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ) => {
     const newValue = [...value];
