@@ -7,11 +7,15 @@ import { fetchDataJson } from "@/lib/fetch"; // Import the fetch function
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
-  const [toast, setToast] = useState({
-    open: false,
-    message: "",
-    type: "success" as "success" | "error",
-  });
+   const [toast, setToast] = useState<{
+     open: boolean;
+     message: string;
+     type: "success" | "error" | "info" | "warning";
+   }>({
+     open: false,
+     message: "",
+     type: "success", // 'success', 'error', 'info', 'warning'
+   });
   const inputsRef = useRef<HTMLInputElement[]>([]);
   const router = useRouter();
 
