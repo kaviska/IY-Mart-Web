@@ -22,8 +22,10 @@ export default function BestSellersCard({BestSellerProduct}:BaseSelectPropsType)
                 {BestSellerProduct.description.split(' ').slice(0, 10).join(' ')} 
             </p>
             <div className="flex-grow"></div> {/* Spacer to push the button to the bottom */}
-            <a href={`shop/${BestSellerProduct.slug}`} className='align-bottom mb-2 md:mt-0 mt-1  md:text-start text-center'>
-                <button className='px-6 py-3 mx-5 border border-black'>Shop Now</button>
+            <a href={`shop/${BestSellerProduct.slug}`} className='align-bottom mb-2 md:mt-0 mt-1 md:text-start text-center'>
+                <button className='px-6 cursor-pointer py-3 mx-5 border border-black transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:scale-105'>
+                    Shop Now
+                </button>
             </a>
         </div>
     );

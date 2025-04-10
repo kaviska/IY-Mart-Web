@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
