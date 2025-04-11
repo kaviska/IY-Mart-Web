@@ -1,8 +1,11 @@
 import Filter from "@/compoments/Filter";
 import ShopAllProduct from "@/compoments/ShopAllProduct";
+import React, { Suspense } from "react";
 
 export default function Shop() {
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
    <div className="container mx-auto mt-5">
 
 
@@ -20,5 +23,6 @@ export default function Shop() {
     </div>
 
    </div>
+    </Suspense>
   );
 }
