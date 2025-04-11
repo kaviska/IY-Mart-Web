@@ -12,6 +12,12 @@ export default function Profile() {
         userId = JSON.parse(localStorage.getItem('user') || '{}').id;
         token = localStorage.getItem('user-token') || '';
     }
+
+    useEffect(() => {
+        if (localStorage.getItem('user-token') === null) {
+            window.location.href='/login'
+        }
+    },[])
     
 
     const fetchOrders = async () => {
@@ -60,7 +66,7 @@ export default function Profile() {
                 >
                     Basic Details
                 </h2>
-                <h2
+                {/* <h2
                     className={`cursor-pointer text-lg font-medium px-4 py-2 rounded-[8px] ${
                         activeTab === 'shippingDetails'
                             ? 'bg-blue-500 text-white shadow-md'
@@ -69,7 +75,7 @@ export default function Profile() {
                     onClick={() => setActiveTab('shippingDetails')}
                 >
                     Shipping Details
-                </h2>
+                </h2> */}
                 <h2
                     className={`cursor-pointer text-lg font-medium px-4 py-2 rounded-[8px] ${
                         activeTab === 'trackOrder'
