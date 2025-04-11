@@ -3,6 +3,7 @@ import Slider from "@mui/material/Slider";
 import Input from "@mui/material/Input";
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react"; // For lazy loading
 
 function valuetext(value: number) {
   return `${value}`;
@@ -47,6 +48,7 @@ export default function ProductRange() {
   }, [value, router, searchParams]);
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div>
       <div className="flex justify-between">
         <div className="flex flex-col gap-1">
@@ -99,5 +101,6 @@ export default function ProductRange() {
         />
       </div>
     </div>
+    </Suspense>
   );
 }

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import calculatePrice from "@/lib/priceCalcuator";
 import discountCalcuator from "@/lib/discountCalcuator";
+import { Suspense } from "react"; // For lazy loading
 
 
 export default function ShopAllProduct() {
@@ -74,6 +75,7 @@ export default function ShopAllProduct() {
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div>
       <div className="flex flex-wrap gap-y-3 gap-x-3 justify-center">
         {currentProducts.map((product, index) => (
@@ -105,5 +107,6 @@ export default function ShopAllProduct() {
         />
       </div>
     </div>
+    </Suspense>
   );
 }

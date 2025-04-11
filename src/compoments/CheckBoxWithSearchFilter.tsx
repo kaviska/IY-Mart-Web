@@ -6,6 +6,7 @@ import * as React from "react";
 import { fetchDataJson } from "@lib/fetch"; // Adjust the import path as necessary
 import { useSearchParams, useRouter } from "next/navigation"; // For URL manipulation
 import { CategoryBrandType } from "@/types/type"; // Adjust the import path as necessary
+import { Suspense } from "react"; // For lazy loading
 
 interface TypePropsInterface {
   type: string;
@@ -89,6 +90,7 @@ export default function CheckBoxWithSearchFilter({
   };
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="flex flex-col mt-4">
       <div className="mb-3">
         {searchAvailable && (
@@ -115,5 +117,6 @@ export default function CheckBoxWithSearchFilter({
         ))}
       </div>
     </div>
+    </Suspense>
   );
 }
