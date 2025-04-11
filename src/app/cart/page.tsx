@@ -39,9 +39,13 @@ export default function Cart() {
   const fetchGuestCart = async () => {
     try {
       // Retrieve the actual guest cart from localStorage
-      const localCart = JSON.parse(
-        localStorage.getItem("guest_cart") || '{"guest_cart": []}'
-      );
+      let localCart
+      if(typeof window !== 'undefined'){
+         localCart = JSON.parse(
+          localStorage.getItem("guest_cart") || '{"guest_cart": []}'
+        );
+      }
+      
 
       if (localCart.guest_cart.length === 0) {
         console.log("Guest cart is empty.");
@@ -89,32 +93,35 @@ export default function Cart() {
   };
   // Update guest cart in localStorage and send a request to the server
   const updateGuestCart = async (stockId: number, quantity: number) => {
-    console.log("Updating Guest Cart:", stockId, quantity);
-    const localCart = JSON.parse(
-      localStorage.getItem("guest_cart") || '{"guest_cart": []}'
-    );
-    const existingItemIndex = localCart.guest_cart.findIndex(
-      (item: { action: string; id: number; quantity: number; stock_id: number }) => item.stock_id === stockId
-    );
-
-    if (existingItemIndex !== -1) {
-      // Update quantity if the item exists
-      localCart.guest_cart[existingItemIndex].quantity = quantity;
-    } else {
-      // Add new item to the cart
-      localCart.guest_cart.push({
-        action: "add",
-        id: 0,
-        quantity,
-        stock_id: stockId,
-      });
+    if(typeof window !== 'undefined'){
+      console.log("Updating Guest Cart:", stockId, quantity);
+      const localCart = JSON.parse(
+        localStorage.getItem("guest_cart") || '{"guest_cart": []}'
+      );
+      const existingItemIndex = localCart.guest_cart.findIndex(
+        (item: { action: string; id: number; quantity: number; stock_id: number }) => item.stock_id === stockId
+      );
+  
+      if (existingItemIndex !== -1) {
+        // Update quantity if the item exists
+        localCart.guest_cart[existingItemIndex].quantity = quantity;
+      } else {
+        // Add new item to the cart
+        localCart.guest_cart.push({
+          action: "add",
+          id: 0,
+          quantity,
+          stock_id: stockId,
+        });
+      }
+  
+      localStorage.setItem("guest_cart", JSON.stringify(localCart));
+      console.log("Updated Local Cart:", localCart);
+  
+      // Send updated cart to the server
+      await fetchGuestCart();
     }
-
-    localStorage.setItem("guest_cart", JSON.stringify(localCart));
-    console.log("Updated Local Cart:", localCart);
-
-    // Send updated cart to the server
-    await fetchGuestCart();
+   
   };
 
   // Handle quantity change
@@ -125,32 +132,39 @@ export default function Cart() {
 
   const removeHandler = (stockId: number) => {
     console.log("Removing Item from Cart:", stockId);
-    const localCart = JSON.parse(
-      localStorage.getItem("guest_cart") || '{"guest_cart": []}'
-    );
-    const updatedCart = localCart.guest_cart.filter(
-      (item: { action: string; id: number; quantity: number; stock_id: number }) => item.stock_id !== stockId
-    );
-    localCart.guest_cart = updatedCart;
-    localStorage.setItem("guest_cart", JSON.stringify(localCart));
-    fetchGuestCart(); // Refresh cart data after removal
+    if(typeof window !== 'undefined'){
+      const localCart = JSON.parse(
+        localStorage.getItem("guest_cart") || '{"guest_cart": []}'
+      );
+      const updatedCart = localCart.guest_cart.filter(
+        (item: { action: string; id: number; quantity: number; stock_id: number }) => item.stock_id !== stockId
+      );
+      localCart.guest_cart = updatedCart;
+      localStorage.setItem("guest_cart", JSON.stringify(localCart));
+      fetchGuestCart(); // Refresh cart data after removal
+    }
+   
   };
 
   const checkoutHandler = () => {
     console.log("Proceeding to Checkout");
       //check guest cart empty if empty show toast message
-    const localCart = JSON.parse(
-      localStorage.getItem("guest_cart") || '{"guest_cart": []}'
-    );
-    if (localCart.guest_cart.length === 0) {
-      console.log("Guest cart is empty. Cannot proceed to checkout.");
-      setToast({
-        open: true,
-        message: "Your cart is empty. Please add items to proceed.",
-        type: "warning",
-      });
-      return;
-    }
+      let localCart
+      if(typeof window !== 'undefined'){
+         localCart = JSON.parse(
+          localStorage.getItem("guest_cart") || '{"guest_cart": []}'
+        );
+        if (localCart.guest_cart.length === 0) {
+          console.log("Guest cart is empty. Cannot proceed to checkout.");
+          setToast({
+            open: true,
+            message: "Your cart is empty. Please add items to proceed.",
+            type: "warning",
+          });
+          return;
+        }
+      }
+  
     // Redirect to checkout page
     window.location.href = "/checkout/step1";
   };

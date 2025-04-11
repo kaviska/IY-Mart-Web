@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { loadStripe, Stripe,StripeElements } from "@stripe/stripe-js";
+import { loadStripe, Stripe, StripeElements } from "@stripe/stripe-js";
 import StepperNav from "@/compoments/StepperNav";
 import Toast from "@/compoments/Toast";
 
@@ -32,7 +32,7 @@ export default function CheckoutStep2() {
   const [stripe, setStripe] = useState<Stripe | null>(null);
   const [toast, setToast] = useState<{
     open: boolean;
-    message: string|undefined;
+    message: string | undefined;
     type: "success" | "error" | "info" | "warning";
   }>({
     open: false,
@@ -50,10 +50,15 @@ export default function CheckoutStep2() {
       // const email = user.email;
       // const mobile=user.mobile
       // const name=user.name;
+      let payment: PaymentType | null = null;
+      if (typeof window !== "undefined") {
+         payment = JSON.parse(
+          localStorage.getItem("payment") || "{}"
+        ) as PaymentType;
+      }
 
-      const payment = JSON.parse(localStorage.getItem('payment') || '{}') as PaymentType;
       setPayment(payment);
-      console.log('payment',payment)
+      console.log("payment", payment);
 
       if (!stripeInstance) {
         console.error("Stripe failed to load.");
@@ -61,10 +66,16 @@ export default function CheckoutStep2() {
       }
 
       setStripe(stripeInstance);
+      let clientSecret ;
+
+      if(typeof window !== 'undefined'){
+        clientSecret = localStorage.getItem("payment_intent");
+
+     }
+ 
 
       // Fetch client secret from your backend
       //const response = await fetch('/api/payment-intent'); // Replace with your actual API endpoint
-      const clientSecret = localStorage.getItem("payment_intent");
       // Replace with your actual client secret from the backend
       console.log("Client Secret:", clientSecret);
 
@@ -95,9 +106,9 @@ export default function CheckoutStep2() {
 
       const paymentElement = elementsInstance.create("payment", {
         layout: "accordion",
-        business:{
-          name:"IY Mart"
-        }
+        business: {
+          name: "IY Mart",
+        },
       });
       paymentElement.mount("#payment-element");
     };
@@ -159,16 +170,22 @@ export default function CheckoutStep2() {
     //   message: "Please wait while we are processing your payment",
     //   type: "info",
     // });
+    let token
+    let orderId
+    if(typeof window !== 'undefined'){
+      token = localStorage.getItem("token"); // Replace with your actual token
+      orderId = localStorage.getItem("orderId"); // Replace with your actual order ID
+    }
 
     const response = await fetch("https://iymart.jp/api/update/order-status", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // Replace with your actual token
+        Authorization: `Bearer ${token}`, // Replace with your actual token
       },
       body: JSON.stringify({
-        order_id: localStorage.getItem("orderId"), // Replace with your actual order ID
+        order_id: orderId, // Replace with your actual order ID
         status: "completed",
         isCreateInvoice: true,
         isSendInvoice: true,
@@ -186,21 +203,27 @@ export default function CheckoutStep2() {
       console.log("Order status updated successfully!");
     }
   };
-  const renderUserInterface=()=>{
+  const renderUserInterface = () => {
     if (paymentMethod === "cash_on_delivery") {
       return (
         <div className="mt-5 p-6 bg-gray-100 rounded-lg shadow-md">
           <h2 className="text-xl font-bold text-gray-800">Cash on Delivery</h2>
           <p className="mt-4 text-gray-700">
-            Please ensure you have the <span className="font-semibold">exact amount</span> ready at the time of delivery. 
-            Our delivery personnel will <span className="font-semibold">not carry change</span>.
+            Please ensure you have the{" "}
+            <span className="font-semibold">exact amount</span> ready at the
+            time of delivery. Our delivery personnel will{" "}
+            <span className="font-semibold">not carry change</span>.
           </p>
           <p className="mt-4 text-gray-700">
-            By choosing this option, you agree to pay the <span className="font-semibold">full amount</span> upon delivery.
+            By choosing this option, you agree to pay the{" "}
+            <span className="font-semibold">full amount</span> upon delivery.
           </p>
           <div className="mt-6 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded">
             <p className="font-medium">Important:</p>
-            <p>Ensure someone is available to receive the delivery and make the payment.</p>
+            <p>
+              Ensure someone is available to receive the delivery and make the
+              payment.
+            </p>
           </div>
           <button
             onClick={() => (window.location.href = "/checkout/step3")}
@@ -210,29 +233,27 @@ export default function CheckoutStep2() {
           </button>
         </div>
       );
-    }
-    else if( paymentMethod === "card") {
-return(
-  <>
-    <div id="payment-element" style={{ marginTop: "20px" }}></div>
-    <div className="flex justify-center">
-      <button
-        id="submit"
-        className="text-white cursor-pointer bg-primary px-4 py-2 mt-5 rounded-[6px] w-full"
-        onClick={handleSubmit}
-        disabled={isProcessing}
-      >
-        <span id="button-text">
-          {isProcessing ? "Processing..." : "Pay Now"}
-        </span>
-      </button>
-    </div>
+    } else if (paymentMethod === "card") {
+      return (
+        <>
+          <div id="payment-element" style={{ marginTop: "20px" }}></div>
+          <div className="flex justify-center">
+            <button
+              id="submit"
+              className="text-white cursor-pointer bg-primary px-4 py-2 mt-5 rounded-[6px] w-full"
+              onClick={handleSubmit}
+              disabled={isProcessing}
+            >
+              <span id="button-text">
+                {isProcessing ? "Processing..." : "Pay Now"}
+              </span>
+            </button>
+          </div>
 
-    <div id="payment-message" className="mt-4"></div>
-  </>
-)
-    }
-    else if (paymentMethod === "bank_transfer") {
+          <div id="payment-message" className="mt-4"></div>
+        </>
+      );
+    } else if (paymentMethod === "bank_transfer") {
       return (
         <div className="mt-5 p-6 bg-gray-100 rounded-lg shadow-md">
           <h2 className="text-xl font-bold text-gray-800">Bank Transfer</h2>
@@ -254,15 +275,21 @@ return(
             </li>
           </ul>
           <p className="mt-4 text-gray-700">
-            Once the transfer is complete, please email the receipt to 
-            <a href="mailto:support@iymart.jp" className="text-blue-600 underline ml-1">
+            Once the transfer is complete, please email the receipt to
+            <a
+              href="mailto:support@iymart.jp"
+              className="text-blue-600 underline ml-1"
+            >
               support@iymart.jp
-            </a> 
+            </a>
             for verification.
           </p>
           <div className="mt-6 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded">
             <p className="font-medium">Note:</p>
-            <p>Ensure you include your order ID in the transfer details for faster processing.</p>
+            <p>
+              Ensure you include your order ID in the transfer details for
+              faster processing.
+            </p>
           </div>
           <button
             onClick={() => (window.location.href = "/checkout/step3")}
@@ -275,7 +302,7 @@ return(
     } else {
       return <p className="mt-5 text-gray-700">Loading payment method...</p>;
     }
-  }
+  };
 
   return (
     <div>
@@ -283,27 +310,39 @@ return(
         <StepperNav activeStep={2} />
       </div>
       <div className="container mx-auto max-w-5xl px-10 mt-8">
-               <div className="payment-details bg-gray-100 p-6 rounded-lg shadow-md mt-5">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+        <div className="payment-details bg-gray-100 p-6 rounded-lg shadow-md mt-5">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">
+            Order Summary
+          </h2>
           <div className="flex justify-between items-center border-b pb-2">
             <span className="text-gray-700">Subtotal:</span>
-            <span className="font-semibold text-gray-800">¥{payment?.order_details?.subtotal.toLocaleString()}</span>
+            <span className="font-semibold text-gray-800">
+              ¥{payment?.order_details?.subtotal.toLocaleString()}
+            </span>
           </div>
           <div className="flex justify-between items-center border-b py-2">
             <span className="text-gray-700">Shipping Fee:</span>
-            <span className="font-semibold text-gray-800">¥{payment?.order_details?.shipping_cost.toLocaleString()}</span>
+            <span className="font-semibold text-gray-800">
+              ¥{payment?.order_details?.shipping_cost.toLocaleString()}
+            </span>
           </div>
           <div className="flex justify-between items-center border-b py-2">
             <span className="text-gray-700">Tax:</span>
-            <span className="font-semibold text-gray-800">¥{payment?.order_details?.tax.toLocaleString()}</span>
+            <span className="font-semibold text-gray-800">
+              ¥{payment?.order_details?.tax.toLocaleString()}
+            </span>
           </div>
           <div className="flex justify-between items-center border-b py-2">
             <span className="text-gray-700">Discount:</span>
-            <span className="font-semibold text-gray-800">¥{payment?.order_details?.total_discount.toLocaleString()}</span>
+            <span className="font-semibold text-gray-800">
+              ¥{payment?.order_details?.total_discount.toLocaleString()}
+            </span>
           </div>
           <div className="flex justify-between items-center mt-4">
             <span className="text-lg font-bold text-gray-800">Total:</span>
-            <span className="text-lg font-bold text-green-600">¥{payment?.order_details?.total.toLocaleString()}</span>
+            <span className="text-lg font-bold text-green-600">
+              ¥{payment?.order_details?.total.toLocaleString()}
+            </span>
           </div>
           {/* <div className="mt-4 text-gray-700">
             <p><span className="font-semibold">Order Number:</span> {payment?.order_details?.order_number}</p>

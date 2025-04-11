@@ -6,16 +6,22 @@ import OrderTracking from '@/compoments/OrderTracking';
 export default function Profile() {
     const [activeTab, setActiveTab] = useState('basicDetails');
     const [orders, setOrders] = useState([]);
-    const userId=JSON.parse(localStorage.getItem('user') || '{}').id;
+    let userId=0;
+    let token='';
+    if (typeof window !== 'undefined') {
+        userId = JSON.parse(localStorage.getItem('user') || '{}').id;
+        token = localStorage.getItem('user-token') || '';
+    }
+    
 
     const fetchOrders = async () => {
-        console.log('token',localStorage.getItem('user-token'));
+        //console.log('token',localStorage.getItem('user-token'));
         try {
             const response = await fetch(`https://iymart.jp/api/v1/orders?userId=${userId}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('user-token')
+                    'Authorization': 'Bearer ' +token,
                 }
             }); // Adjust the API endpoint as needed
             if (!response.ok) {

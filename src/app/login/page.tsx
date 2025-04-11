@@ -112,14 +112,18 @@ export default function Login() {
         console.log("Login successful:", response);
         // Store user data in local storage
         if (response.status === "success") {
-          localStorage.setItem("user-token", response.data.token);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+          if(typeof window !== 'undefined'){
+            localStorage.setItem("user-token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+         }
+     
+          
           //naviage to the shop page
           window.location.href = "/shop";
         } else {
           throw new Error(response.message || "An error occurred during login.");
         }
-        console.log('user token',localStorage.getItem('user-token'));
+        //console.log('user token',localStorage.getItem('user-token'));
 
 
         // Show success toast

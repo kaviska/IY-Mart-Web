@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 
 import TextField from "@mui/material/TextField";
@@ -10,14 +10,13 @@ import { validator } from "@lib/validator"; // Adjust the import path as necessa
 import { fetchDataJson } from "@lib/fetch"; // Adjust the import path as necessary
 import Toast from "@/compoments/Toast";
 import Link from "next/link";
-import {UserData} from "@/types/type"; // Adjust the import path as necessary
+import { UserData } from "@/types/type"; // Adjust the import path as necessary
 
 interface ResponseError {
   status: "error";
   message: string | null;
   errors: string;
 }
-
 
 interface ResponseSuccess {
   status: "success";
@@ -74,8 +73,6 @@ export default function Register() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    
-   
     e.preventDefault();
     // Check for any remaining errors
     const newErrors = {
@@ -107,21 +104,25 @@ export default function Register() {
     const registerUser = async () => {
       try {
         console.log("Registration Processing");
-       
 
-        const response:Response = await fetchDataJson("register", {
+        const response: Response = await fetchDataJson("register", {
           method: "POST",
           body: JSON.stringify(formData),
         });
         console.log("Registration successful:", response);
         // Store user data in local storage
         if (response.status === "success") {
-          localStorage.setItem("user-token", response.data.token);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+          if (typeof window !== "undefined") {
+            localStorage.setItem("user-token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+          }
+
           //naviage to the shop page
           window.location.href = "/shop";
         } else {
-          throw new Error(response.message || "An error occurred during login.");
+          throw new Error(
+            response.message || "An error occurred during login."
+          );
         }
 
         // Show success toast
@@ -131,7 +132,7 @@ export default function Register() {
           type: "success",
         });
         //rerect user to otp page
-       
+
         window.location.assign("/otp");
       } catch (error) {
         console.error("Registration failed:", error);
@@ -310,8 +311,6 @@ export default function Register() {
               />
             </div>
 
-          
-
             <div className="mt-5">
               <button
                 type="submit"
@@ -324,9 +323,8 @@ export default function Register() {
             <div className="mt-8 mb-4">
               <p className="text-[16px] text-[#4F4F4F]">
                 <Link href={"/login"}>
-
-               Already have an account?{" "}
-                <span className="secondary">Log In to Your Account</span>
+                  Already have an account?{" "}
+                  <span className="secondary">Log In to Your Account</span>
                 </Link>
               </p>
             </div>
@@ -341,7 +339,6 @@ export default function Register() {
         type={toast.type}
         onClose={() => setToast({ ...toast, open: false })}
       />
-     
     </div>
   );
 }

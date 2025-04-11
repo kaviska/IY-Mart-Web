@@ -31,29 +31,45 @@ export default function SingleProductPage() {
     type: "success", // 'success', 'error', 'info', 'warning'
   });
 
-  const updateGuestCart = (action: string, productId: number, quantity: number, stockId: number) => {
-    const cart = JSON.parse(localStorage.getItem("guest_cart") || '{"guest_cart": []}');
+  const updateGuestCart = (
+    action: string,
+    productId: number,
+    quantity: number,
+    stockId: number
+  ) => {
+    let cart;
+    if (typeof window !== "undefined") {
+      cart = JSON.parse(
+        localStorage.getItem("guest_cart") || '{"guest_cart": []}'
+      );
+    }
+
     const existingItemIndex = cart.guest_cart.findIndex(
-      (item: { id: number; stock_id: number }) => item.id === productId && item.stock_id === stockId
+      (item: { id: number; stock_id: number }) =>
+        item.id === productId && item.stock_id === stockId
     );
 
-
-  
     if (existingItemIndex !== -1) {
       // Update quantity if the item already exists
       cart.guest_cart[existingItemIndex].quantity = quantity;
     } else {
       // Add new item to the cart
-      cart.guest_cart.push({ action, id: productId, quantity, stock_id: stockId });
+      cart.guest_cart.push({
+        action,
+        id: productId,
+        quantity,
+        stock_id: stockId,
+      });
     }
-  
-    localStorage.setItem("guest_cart", JSON.stringify(cart));
-   
+    if (typeof window !== "undefined") {
+      localStorage.setItem("guest_cart", JSON.stringify(cart));
+    }
+
     console.log("Updated Cart:", cart);
   };
   const handleAddToCart = () => {
     if (!product || !selectedVariation) return;
-  
+
     updateGuestCart("add", product.id, quantity, selectedVariation.id);
     setToast({
       open: true,
@@ -63,7 +79,7 @@ export default function SingleProductPage() {
   };
   const handlleBuyNow = () => {
     if (!product || !selectedVariation) return;
-  
+
     updateGuestCart("add", product.id, quantity, selectedVariation.id);
     setToast({
       open: true,
@@ -73,17 +89,12 @@ export default function SingleProductPage() {
     // Redirect to checkout page
     window.location.href = "/checkout/step1"; // Replace with your actual checkout URL
   };
-  
-
-  
-  
-
 
   const handleVariationChange = (variation: ProductType["stocks"][0]) => {
     setSelectedVariation(variation); // Update selected variation
     if (product) {
-        updateGuestCart("add", product.id, quantity, variation.id);
-      }
+      updateGuestCart("add", product.id, quantity, variation.id);
+    }
   };
   const calculateFinalPrice = (
     variation: ProductType["stocks"][0] | null,
@@ -151,8 +162,8 @@ export default function SingleProductPage() {
       setQuantity(value);
     }
     if (product && selectedVariation) {
-        updateGuestCart("add", product.id, value, selectedVariation.id);
-      }
+      updateGuestCart("add", product.id, value, selectedVariation.id);
+    }
   };
 
   const toggleDescription = () => {
@@ -164,14 +175,22 @@ export default function SingleProductPage() {
       <div className="flex md:flex-row flex-col container mx-auto md:px-0 px-10">
         <div className="md:w-[50%] flex md:flex-row flex-col gap-10 cursor-pointer">
           <Image
-            src={product?.primary_image ? "https://iymart.jp/" + product.primary_image : CanImage}
+            src={
+              product?.primary_image
+                ? "https://iymart.jp/" + product.primary_image
+                : CanImage
+            }
             alt="can"
             width={100}
             height={100}
             className="md:self-start md:order-1 order-2 self-center"
           ></Image>
           <Image
-            src={product?.primary_image ? "https://iymart.jp/" + product.primary_image : CanImage}
+            src={
+              product?.primary_image
+                ? "https://iymart.jp/" + product.primary_image
+                : CanImage
+            }
             alt="can"
             width={400}
             height={400}
@@ -315,10 +334,16 @@ export default function SingleProductPage() {
           </div>
 
           <div className="flex md:flex-row flex-col mt-7 md:gap-12 gap-5">
-            <button onClick={handleAddToCart} className="border cursor-pointer hover:text-white hover:bg-[#2F80ED] border-[#27AE60] text-[#27AE60] text-[16px] px-16 py-2">
+            <button
+              onClick={handleAddToCart}
+              className="border cursor-pointer hover:text-white hover:bg-[#2F80ED] border-[#27AE60] text-[#27AE60] text-[16px] px-16 py-2"
+            >
               Add to Cart
             </button>
-            <button onClick={handlleBuyNow} className="bg-[#2F80ED] cursor-pointer hover:bg-[#27AE60] text-white text-[16px] px-16 py-2">
+            <button
+              onClick={handlleBuyNow}
+              className="bg-[#2F80ED] cursor-pointer hover:bg-[#27AE60] text-white text-[16px] px-16 py-2"
+            >
               Buy Now
             </button>
           </div>
@@ -360,19 +385,13 @@ export default function SingleProductPage() {
         </div>
       </div>
 
-
-
-
-
- {/* Toast Component */}
+      {/* Toast Component */}
       <Toast
         open={toast.open}
         message={toast.message}
         type={toast.type}
         onClose={() => setToast({ ...toast, open: false })}
       />
-
-
     </div>
   );
 }

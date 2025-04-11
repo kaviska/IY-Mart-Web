@@ -66,7 +66,12 @@ export default function OTPVerification() {
   const resend =async()=>{
     try{
       console.log('function running')
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      let user
+      if(typeof window !== 'undefined'){
+        user = JSON.parse(localStorage.getItem('user') || '{}');
+ 
+      
+      }
 
       const response = fetchDataJson('/resend-otp',{
         method:'PUT',
@@ -96,7 +101,7 @@ export default function OTPVerification() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const otpCode = otp.join("");
-    console.log("user-token "+ localStorage.getItem("user-token"));
+    //console.log("user-token "+ localStorage.getItem("user-token"));
 
     try {
       const response = fetchDataJson("verify-otp", {
