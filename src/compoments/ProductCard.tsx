@@ -50,7 +50,7 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
         </div>
 
         <Image
-          src={'https://api.iymart.jp/'+product.imageUrl}
+          src={'https://apivtwo.iymart.jp/'+product.imageUrl}
           alt="product-image"
           width={180}
           height={180}
