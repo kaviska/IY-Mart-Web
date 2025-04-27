@@ -177,7 +177,7 @@ export default function SingleProductPage() {
           <Image
             src={
               product?.primary_image
-                ? "https://iymart.jp/" + product.primary_image
+                ? "https://api.iymart.jp/" + product.primary_image
                 : CanImage
             }
             alt="can"
@@ -188,7 +188,7 @@ export default function SingleProductPage() {
           <Image
             src={
               product?.primary_image
-                ? "https://iymart.jp/" + product.primary_image
+                ? "https://api.iymart.jp/" + product.primary_image
                 : CanImage
             }
             alt="can"

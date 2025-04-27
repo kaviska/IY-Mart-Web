@@ -331,7 +331,7 @@ const handlePostalCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       }
       
       console.log('user token when sending the request',token);
-      const response = await fetch("https://iymart.jp/api/place-order", {
+      const response = await fetch("https://api.iymart.jp/api/place-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

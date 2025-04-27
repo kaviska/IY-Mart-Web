@@ -23,7 +23,7 @@ export default function Profile() {
     const fetchOrders = async () => {
         //console.log('token',localStorage.getItem('user-token'));
         try {
-            const response = await fetch(`https://iymart.jp/api/v1/orders?userId=${userId}`, {
+            const response = await fetch(`https://api.iymart.jp/api/v1/orders?userId=${userId}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',

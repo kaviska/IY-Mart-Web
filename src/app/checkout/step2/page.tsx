@@ -177,7 +177,7 @@ export default function CheckoutStep2() {
       orderId = localStorage.getItem("orderId"); // Replace with your actual order ID
     }
 
-    const response = await fetch("https://iymart.jp/api/update/order-status", {
+    const response = await fetch("https://api.iymart.jp/api/update/order-status", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
