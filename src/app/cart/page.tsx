@@ -217,23 +217,23 @@ export default function Cart() {
           <div className="flex flex-col mt-5">
             <div className="mt-3 flex justify-between">
               <span className="text-[14px]">Subtotal</span>
-              <span className="text-[14px]">Rs. {totalAmount.toFixed(2)}</span>
+              <span className="text-[14px]">¥ {totalAmount.toFixed(2)}</span>
             </div>
             <div className="mt-3 flex justify-between">
               <span className="text-[14px]">Total with Discounts</span>
               <span className="text-[14px]">
-                Rs. {totalWithDiscounts.toFixed(2)}
+              ¥ {totalWithDiscounts.toFixed(2)}
               </span>
             </div>
           
             <div className="mt-3 flex justify-between">
               <span className="text-[14px]">Tax Amount</span>
-              <span className="text-[14px]">Rs. {taxAmount.toFixed(2)}</span>
+              <span className="text-[14px]">¥ {taxAmount.toFixed(2)}</span>
             </div>
             <div className="mt-3 flex justify-between">
               <span className="text-[14px]">Total Amount with Tax</span>
               <span className="text-[14px]">
-                Rs. {totalAmountWithTax.toFixed(2)}
+              ¥ {totalAmountWithTax.toFixed(2)}
               </span>
             </div>
           </div>

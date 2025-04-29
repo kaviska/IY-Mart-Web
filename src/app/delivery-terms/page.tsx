@@ -44,6 +44,20 @@ export default function PrivacyPolicy() {
         <img src="/deliver=terms.jpg"></img>
     </div>
     </section> 
+    <div className="mt-10">
+          <h2 className="text-lg font-semibold text-black mb-4">Our Location</h2>
+          <div className="w-full h-64">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5353644.198202348!2d135.502165!3d36.204824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34674e5b5e6a8f8f%3A0x7c8e2e0b0b0b0b0b!2sJapan!5e0!3m2!1sen!2sus!4v1680000000000!5m2!1sen!2sus"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
       </div>
     );
   }

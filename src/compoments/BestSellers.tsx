@@ -48,9 +48,9 @@ export default function BestSellers() {
     return (
         <div>
             <div className="mt-8">
-                <h2 className="font-medium text-[40px] md:mx-8 text-center md:text-start mb-8">Best Sellers</h2>
+                <h2 className="font-medium text-[30px] md:mx-8 text-center md:text-start mb-8">Best Sellers</h2>
             
-                <div className="flex  md:flex-row md:gap-0 gap-6 flex-col flex-wrap md:px-0 px-10">
+                <div className="flex  md:flex-row md:gap-0 gap-6 flex-col flex-wrap md:px-8 px-4">
                     {isMobileView ? (
                         <Swiper
                             cssMode={true}

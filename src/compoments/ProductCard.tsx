@@ -62,7 +62,7 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
           <div className="flex flex-row items-center gap-3">
             <div  className='flex gap-3'>
             <p className="text-[16px] line-through text-gray-400 ">
-              Rs. {product.price}
+              ¥ {product.price}
             </p>
             <p className="text-red-500">
               {product.discount}
@@ -71,7 +71,7 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
            
           </div>
         ) : (
-          <p className="text-[16px] text-black">Rs. {product.price}</p>
+          <p className="text-[16px] text-black">¥ {product.price}</p>
         )}
 
         <button

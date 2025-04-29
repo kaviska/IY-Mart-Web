@@ -205,15 +205,15 @@ export default function SingleProductPage() {
             {discountCalcuator(product?.stocks || []) ? (
               <div className="flex items-center gap-3">
                 <span className="text-[16px] text-[#A4A4A4] line-through">
-                  Rs {calculatePrice(product?.stocks || [])}
+                ¥ {calculatePrice(product?.stocks || [])}
                 </span>
                 <span className="md:text-[32px] text-[28px] text-[#27AE60] font-bold">
-                  Rs {discountCalcuator(product?.stocks || [])}
+                ¥ {discountCalcuator(product?.stocks || [])}
                 </span>
               </div>
             ) : (
               <span className="md:text-[32px] text-[28px] mt-5">
-                Rs {calculatePrice(product?.stocks || [])}
+                ¥ {calculatePrice(product?.stocks || [])}
               </span>
             )}
           </div>
@@ -281,7 +281,7 @@ export default function SingleProductPage() {
               {selectedVariation ? (
                 <>
                   <div className="text-[20px] font-bold text-[#27AE60]">
-                    LKR{" "}
+                  ¥{" "}
                     {calculateFinalPrice(
                       selectedVariation,
                       quantity
@@ -289,7 +289,7 @@ export default function SingleProductPage() {
                   </div>
                   {selectedVariation.web_discount > 0 && (
                     <div className="text-[12px] text-gray-500 line-through mt-1">
-                      LKR {selectedVariation.web_price.toFixed(2)}
+                      ¥ {selectedVariation.web_price.toFixed(2)}
                     </div>
                   )}
                   <div className="text-[16px] font-medium mt-2">

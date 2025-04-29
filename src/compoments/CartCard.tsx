@@ -55,11 +55,11 @@ export default function CartCard({
       <div className="flex-1 min-w-[150px]">
         <h1 className="font-medium text-[16px] sm:text-[18px]">{product.name}</h1>
         <span className="font-medium text-[16px] sm:text-[18px]">
-          RS {discountedPrice.toFixed(2)}
+        ¥ {discountedPrice.toFixed(2)}
         </span>
         {discount > 0 && (
           <span className="text-[14px] sm:text-[16px] text-gray-500 line-through ml-2">
-            RS {price.toFixed(2)}
+            ¥ {price.toFixed(2)}
           </span>
         )}
       </div>
