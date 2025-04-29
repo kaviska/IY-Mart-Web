@@ -1,9 +1,8 @@
 "use client";
-import TruckImage from "@public/Truck.svg";
-import ShopImage from "@public/Shop.svg";
+
 import CanImage from "@public/Can.svg";
 import DownArrowImage from "@public/DownArrow.svg";
-import Image from "next/image";
+
 import { useEffect, useState } from "react";
 import { fetchDataJson } from "@/lib/fetch";
 import calculatePrice from "@/lib/priceCalcuator";
@@ -199,7 +198,7 @@ export default function SingleProductPage() {
         </div>
         <div className="md:w-[50%]">
           <h1 className="md:text-[40px] text-[34px] font-bold order-1">
-            {product?.name || "Loading..."}
+            {product?.name || ""}
           </h1>
           <div className="flex flex-col gap-3 mt-0">
             {discountCalcuator(product?.stocks || []) ? (

@@ -15,14 +15,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   const shouldShowLayout = !noLayoutRoutes.includes(pathname);
 
+  // Define custom meta tags for specific routes
+  const metaTags: Record<string, { title: string; description: string }> = {
+    "/shop": {
+      title: "Shop Online - Fresh Groceries & Essentials | IYMart",
+      description:
+        "Discover a wide range of fresh groceries, organic produce, and household essentials at IYMart. Shop online and enjoy fast delivery and great prices.",
+    },
+    default: {
+      title: "IYMart - Your Trusted Online Grocery Store",
+      description:
+        "Shop fresh groceries, organic produce, and household essentials at IYMart. Enjoy fast delivery, great prices, and a seamless shopping experience.",
+    },
+  };
+
+  const currentMeta = metaTags[pathname] ?? metaTags.default;
+
   return (
     <html lang="en">
       <head>
-        <title>IYMart - Your Trusted Online Grocery Store</title>
-        <meta
-          name="description"
-          content="Shop fresh groceries, organic produce, and household essentials at IYMart. Enjoy fast delivery, great prices, and a seamless shopping experience."
-        />
+        <title>{currentMeta.title}</title>
+        <meta name="description" content={currentMeta.description} />
         <meta name="apple-mobile-web-app-title" content="IYMart" />
       </head>
       <body>
