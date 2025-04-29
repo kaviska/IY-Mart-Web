@@ -50,7 +50,7 @@ export default function BestSellers() {
             <div className="mt-8">
                 <h2 className="font-medium text-[40px] md:mx-8 text-center md:text-start mb-8">Best Sellers</h2>
             
-                <div className="flex md:flex-row md:gap-0 gap-6 flex-col flex-wrap md:px-0 px-10">
+                <div className="flex  md:flex-row md:gap-0 gap-6 flex-col flex-wrap md:px-0 px-10">
                     {isMobileView ? (
                         <Swiper
                             cssMode={true}
@@ -85,7 +85,7 @@ export default function BestSellers() {
                                             name: product.name || `Product ${index + 1}`,
                                             description: product.description || "No description available",
                                             price: product.stocks ? calculatePrice(product.stocks) : '0',
-                                            imageUrl: "./kottu.svg",
+                                            imageUrl: product.primary_image,
                                         }}
                                     />
                                 </SwiperSlide>
@@ -101,7 +101,7 @@ export default function BestSellers() {
                                     name: product.name || `Product ${index + 1}`,
                                     description: product.description || "No description available",
                                     price: product.stocks ? calculatePrice(product.stocks) : '0',
-                                    imageUrl: "./kottu.svg",
+                                    imageUrl: product.primary_image,
                                 }}
                             />
                         ))

@@ -35,6 +35,7 @@ export default function CheckBoxWithSearchFilter({
   const [filteredCategory, setFilteredCategory] = React.useState<CategoryBrandType[]>([]);
   const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+  const [showAll, setShowAll] = React.useState<boolean>(false); // State to toggle showing all items
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -91,32 +92,46 @@ export default function CheckBoxWithSearchFilter({
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-    <div className="flex flex-col mt-4">
-      <div className="mb-3">
-        {searchAvailable && (
-          <Search
-            data={category}
-            onSearch={(query) => setSearchQuery(query)} // Pass search query to state
-          />
-        )}
+      <div className="flex flex-col mt-4">
+        <div className="mb-3">
+          {searchAvailable && (
+            <Search
+              data={category}
+              onSearch={(query) => setSearchQuery(query)} // Pass search query to state
+            />
+          )}
+        </div>
+        <div className="px-3 flex flex-col gap-0 category-section">
+          {filteredCategory.length > 0 ? (
+            filteredCategory
+              .slice(0, showAll ? filteredCategory.length : 10) // Show only 10 items if `showAll` is false
+              .map((cat, index) => (
+                <FormControlLabel
+                  key={index}
+                  control={
+                    <Checkbox
+                      color="success"
+                      size="small"
+                      checked={selectedItems.includes(cat.id.toString())}
+                      onChange={() => handleCheckboxChange(cat.id.toString())}
+                    />
+                  }
+                  label={<span style={{ fontSize: "14px" }}>{cat.name}</span>}
+                />
+              ))
+          ) : (
+            <div className="text-gray-500 text-sm">No results found</div> // Show message if no results match
+          )}
+          {filteredCategory.length > 10 && (
+            <button
+              className="text-blue-500 mt-2 text-sm"
+              onClick={() => setShowAll((prev) => !prev)}
+            >
+              {showAll ? "Show Less" : `+ Show More (${filteredCategory.length - 10})`}
+            </button>
+          )}
+        </div>
       </div>
-      <div className="px-3 flex flex-col gap-0 category-section">
-        {filteredCategory.map((cat, index) => (
-          <FormControlLabel
-            key={index}
-            control={
-              <Checkbox
-                color="success"
-                size="small"
-                checked={selectedItems.includes(cat.id.toString())}
-                onChange={() => handleCheckboxChange(cat.id.toString())}
-              />
-            }
-            label={<span style={{ fontSize: "14px" }}>{cat.name}</span>}
-          />
-        ))}
-      </div>
-    </div>
     </Suspense>
   );
 }

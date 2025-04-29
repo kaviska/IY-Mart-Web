@@ -174,7 +174,7 @@ export default function SingleProductPage() {
     <div className="my-5">
       <div className="flex md:flex-row flex-col container mx-auto md:px-0 px-10">
         <div className="md:w-[50%] flex md:flex-row flex-col gap-10 cursor-pointer">
-          <Image
+          <img
             src={
               product?.primary_image
                 ? "https://apivtwo.iymart.jp/" + product.primary_image
@@ -184,8 +184,8 @@ export default function SingleProductPage() {
             width={100}
             height={100}
             className="md:self-start md:order-1 order-2 self-center"
-          ></Image>
-          <Image
+          ></img>
+          <img
             src={
               product?.primary_image
                 ? "https://apivtwo.iymart.jp/" + product.primary_image
@@ -195,7 +195,7 @@ export default function SingleProductPage() {
             width={400}
             height={400}
             className="md:order-2 order-1"
-          ></Image>
+          ></img>
         </div>
         <div className="md:w-[50%]">
           <h1 className="md:text-[40px] text-[34px] font-bold order-1">
@@ -220,14 +220,14 @@ export default function SingleProductPage() {
 
           <div className="flex gap-8 mt-10">
             <div className="flex gap-3">
-              <div className="bg-primary px-2 py-3 rounded-[11px]">
-                <Image
-                  src={TruckImage}
+                <div className="bg-primary px-2 py-3 rounded-[11px]">
+                  <img
+                  src="/Truck.svg"
                   alt="truck"
                   width={20}
                   height={20}
-                ></Image>
-              </div>
+                  />
+                </div>
               <div className="text-[14px] flex flex-col gap-0">
                 <span className="text-[#A4A4A4]">Fast Delivery</span>
                 <span>1-7 Day</span>
@@ -235,13 +235,13 @@ export default function SingleProductPage() {
             </div>
 
             <div className="flex gap-3">
-              <div className="bg-primary px-2 py-3 rounded-[11px]">
-                <Image
-                  src={ShopImage}
+              <div className="bg-primary px-2 py-2 rounded-[11px]">
+                <img
+                  src="/Shop.svg"
                   alt="shop"
                   width={20}
                   height={20}
-                ></Image>
+                ></img>
               </div>
               <div className="text-[14px] flex flex-col gap-0">
                 <span className="text-[#A4A4A4]">Cash on Delivery</span>
@@ -367,12 +367,12 @@ export default function SingleProductPage() {
                   onClick={toggleDescription}
                 >
                   {showFullDescription ? "View Less" : "View More"}
-                  <Image
+                  <img
                     src={DownArrowImage}
                     width={15}
                     height={15}
                     alt="arrow"
-                  ></Image>
+                  ></img>
                 </button>
               </div>
             )}

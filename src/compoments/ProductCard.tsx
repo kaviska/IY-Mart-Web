@@ -34,7 +34,7 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
       className="cursor-pointer"
       onClick={handleCardClick}
     >
-      <div className="flex flex-col w-[230px] min-h-[400px] max-h-[400px] gap-0 py-4 bg-[#F6F6F6] items-center rounded-[10px]">
+      <div className="flex flex-col w-[230px] min-h-[350px] max-h-[400px] gap-0 py-4 bg-[#F6F6F6] items-center rounded-[10px]">
         <div
           className="self-end mx-4 mb-3 cursor-pointer"
           onClick={(event) => {
@@ -49,12 +49,11 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
           )}
         </div>
 
-        <Image
+        <img
           src={'https://apivtwo.iymart.jp/'+product.imageUrl}
           alt="product-image"
-          width={180}
-          height={180}
-          className="mb-3"
+         
+          className="mb-3 w-40 h-40 object-cover"
         />
 
         <h4 className="text-[14px] primary">{product.name}</h4>

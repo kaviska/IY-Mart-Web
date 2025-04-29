@@ -48,7 +48,7 @@ export default function CartCard({
     <div className="border-b py-5 flex flex-wrap justify-between items-center gap-4">
       {/* Product Image */}
       <div className="w-20 h-20 flex-shrink-0">
-        <Image src={CanImage} alt={product.name} width={75} height={75} />
+        <img src={CanImage} alt={product.name} width={75} height={75} />
       </div>
 
       {/* Product Details */}
@@ -87,7 +87,7 @@ export default function CartCard({
       {/* Remove Button */}
       <div className="flex items-center  sm:px-0 px-4">
         <button onClick={() => onRemove(stockId)}>
-          <Image
+          <img
             src={CloseImage}
             width={20}
             height={20}

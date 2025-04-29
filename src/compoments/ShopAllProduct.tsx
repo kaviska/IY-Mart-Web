@@ -59,7 +59,7 @@ export default function ShopAllProduct() {
         
         console.log(`products?${queryParams.toString()}`);
 
-        const result = await fetchDataJson(`products?${queryParams.toString()}`, { method: "GET" }) as { data: any[] };
+        const result = await fetchDataJson(`products?${queryParams.toString()}&limit=10000000`, { method: "GET" }) as { data: any[] };
         setProducts(result.data);
       } catch (error) {
         console.error("Error fetching products:", error);

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,8 +11,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { fetchDataJson } from "@/lib/fetch";
 import { Badge } from "@mui/material";
 import { ProductType } from "@/types/type";
-
-
 
 interface SearchResult {
   status: string;
@@ -37,8 +35,13 @@ export default function Nav() {
 
   useEffect(() => {
     const updateCartCount = () => {
-      const cart = JSON.parse(localStorage.getItem("guest_cart") || '{"guest_cart": []}');
-      const totalItems = cart.guest_cart.reduce((sum: number, item: { quantity: number }) => sum + item.quantity, 0);
+      const cart = JSON.parse(
+        localStorage.getItem("guest_cart") || '{"guest_cart": []}'
+      );
+      const totalItems = cart.guest_cart.reduce(
+        (sum: number, item: { quantity: number }) => sum + item.quantity,
+        0
+      );
       setCartCount(totalItems);
     };
 
@@ -60,7 +63,9 @@ export default function Nav() {
     const fetchSearchResults = async () => {
       setIsSearching(true);
       try {
-        const results: SearchResult = await fetchDataJson(`products?search=${searchQuery}`);
+        const results: SearchResult = await fetchDataJson(
+          `products?search=${searchQuery}`
+        );
         setSearchResults(results.data || []);
       } catch (error) {
         console.error("Error fetching search results:", error);
@@ -101,8 +106,8 @@ export default function Nav() {
     <nav className="container mx-auto max-w-7xl md:max-h-[80px] flex justify-between items-center gap-5 md:py-0 py-5 px-4">
       <Link href="/" passHref>
         <div className="flex-shrink-0">
-          <Image
-            src={Logo}
+          <img
+            src="/logo-1.svg"
             alt="logo"
             width={120}
             height={120}
@@ -134,12 +139,13 @@ export default function Nav() {
                   >
                     <Link href={`/shop/${result.slug}`} passHref>
                       <div className="flex items-center gap-4">
-                        <Image
-                          src={"./sauce.svg"}
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_SERVER_URL}${
+                            result.primary_image || "/default-image.png"
+                          }`}
                           alt={result.name}
-                          width={40}
-                          height={40}
-                          className="rounded-md"
+                         
+                          className="rounded-md w-10 h-10 object-cover"
                         />
                         <span className="text-black">{result.name}</span>
                       </div>
@@ -199,28 +205,78 @@ export default function Nav() {
         />
       </div>
 
-      {/* Mobile Menu */}
       {menuOpen && (
         <div
           ref={menuRef}
           className="absolute z-50 top-16 left-0 w-full bg-white shadow-lg flex flex-col items-center gap-4 py-4 lg:hidden"
         >
+          {/* Mobile Search Bar */}
+          <div className="relative w-full px-4">
+            <div className="flex items-center bg-[#F5F5F5] rounded-[8px] px-4 py-2">
+              <SearchIcon className="text-[#A4A4A4] mr-2" />
+              <input
+                type="text"
+                className="w-full bg-transparent outline-none"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            {searchQuery && (
+              <div className="absolute top-full left-0 w-full bg-white shadow-lg rounded-md mt-2 z-50">
+                {isSearching ? (
+                  <div className="p-4 text-center text-gray-500">
+                    Searching...
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  <ul className="divide-y divide-gray-200">
+                    {searchResults.slice(0, 5).map((result) => (
+                      <li
+                        key={result.id}
+                        className="p-4 hover:bg-gray-100 cursor-pointer"
+                      >
+                        <Link href={`/shop/${result.slug}`} passHref>
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={`${process.env.NEXT_PUBLIC_SERVER_URL}${
+                                result.primary_image || "/default-image.png"
+                              }`}
+                              alt={result.name}
+                              width={40}
+                              height={40}
+                              className="rounded-md w-10 h-10 object-cover"
+
+                            />
+                            <span className="text-black">{result.name}</span>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="p-4 text-center text-gray-500">
+                    No results found
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
           <Link href="/" passHref>
             <span className="text-black cursor-pointer">Home</span>
           </Link>
           <Link href="/login" passHref>
             <span className="text-[#A4A4A4] cursor-pointer">Login</span>
           </Link>
-        {isLoggedIn ? (
-          <button className="cursor-pointer" onClick={logOut}>
-            <span className="text-[#A4A4A4] cursor-pointer">Logout</span>
-          </button>
-        ) : (
-          <Link href="/register" passHref>
-            <span className="text-[#A4A4A4] cursor-pointer">Register</span>
-          </Link>
-        )}
-         
+          {isLoggedIn ? (
+            <button className="cursor-pointer" onClick={logOut}>
+              <span className="text-[#A4A4A4] cursor-pointer">Logout</span>
+            </button>
+          ) : (
+            <Link href="/register" passHref>
+              <span className="text-[#A4A4A4] cursor-pointer">Register</span>
+            </Link>
+          )}
           <Link href="/cart" passHref>
             <span className="text-[#A4A4A4] cursor-pointer">Cart</span>
           </Link>

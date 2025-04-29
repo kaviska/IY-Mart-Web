@@ -59,3 +59,14 @@ body{
 
 
 
+.swiper-button-prev,
+.swiper-button-next {
+ 
+  width: 1px;
+  font-size: 2px;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 1px; /* Adjust the icon size */
+}

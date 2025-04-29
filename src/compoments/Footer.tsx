@@ -1,9 +1,3 @@
-import LogoOne from "@public/logo-1.svg";
-import callImage from "@public/call.svg";
-import Facebook from "@public/Facebook.svg";
-import Instagram from "@public/Instagram.svg";
-import Twitter from "@public/Twitter.svg";
-import Tiktok from "@public/Tiktok.svg";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,7 +7,7 @@ export default function Footer() {
       <div className="flex container mx-auto max-w-6xl flex-col md:flex-row md:justify-between md:items-start items-center md:gap-0 gap-5 ">
        
         <div className=" md:hidden flex flex-col justify-center items-center">
-            <Image src={LogoOne} alt="logo" width={140} height={140}></Image>
+            <img src="/logo-1.svg" alt="logo" width={140} height={140}></img>
             <h3 className="text-white text-[14px] mt-1 ">
               Copyright © 2025 IYMart (Pvt) Ltd. All Rights Reserved.
             </h3>
@@ -22,19 +16,19 @@ export default function Footer() {
         
         <div className="md:order-0 order-1">
           <div className=" md:block hidden">
-            <Image src={LogoOne} alt="logo" width={140} height={140}></Image>
+            <img src="/logo-1.svg" alt="logo" width={140} height={140}></img>
             <h3 className="text-white text-[14px] mt-1 ">
               Copyright © 2025 IYMart (Pvt) Ltd. All Rights Reserved.
             </h3>
           </div>
 
           <div className="flex md:justify-start justify-center  md:gap-3 gap-8 mt-5">
-            <Image
-              src={callImage}
+            <img
+              src="/call.svg"
               alt="call-icon"
               width={20}
               height={20}
-            ></Image>
+            ></img>
             <span className="text-white text-[16px]">+94 112 123 123</span>
           </div>
           <div className="mt-8  ">
@@ -48,32 +42,22 @@ export default function Footer() {
                 Subscribe
               </button>
             </div>
-            {/* <div className="relative">
-              <input
-                type="text"
-                placeholder="Enter your email to subscribe to our newsletter"
-                className="px-4 py-2 md:w-[370px] w-[200px] text-[12px] rounded-[8px] border border-white placeholder-white focus:outline-none"
-              />
-              <button className="absolute right-0 top-0 h-full px-4 bg-secondary text-white rounded-[8px]">
-                Subscribe
-              </button>
-            </div> */}
           </div>
           <div className="flex md:justify-start justify-center gap-5 mt-5">
-            <Image src={Twitter} alt="call-icon" width={15} height={15}></Image>
-            <Image
-              src={Facebook}
-              alt="call-icon"
+            <img src="/Twitter.svg" alt="twitter-icon" width={15} height={15}></img>
+            <img
+              src="/Facebook.svg"
+              alt="facebook-icon"
               width={15}
               height={15}
-            ></Image>
-            <Image
-              src={Instagram}
-              alt="call-icon"
+            ></img>
+            <img
+              src="/Instagram.svg"
+              alt="instagram-icon"
               width={15}
               height={15}
-            ></Image>
-            <Image src={Tiktok} alt="call-icon" width={15} height={15}></Image>
+            ></img>
+            <img src="/Tiktok.svg" alt="tiktok-icon" width={15} height={15}></img>
           </div>
         </div>
         <div className="">
@@ -114,6 +98,14 @@ export default function Footer() {
               className="hover:text-white transition-colors duration-200"
               >
               Return Policy
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/delivery-terms"
+                className="hover:text-white transition-colors duration-200"
+              >
+                Delivery Terms
               </Link>
             </li>
             <li>
