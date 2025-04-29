@@ -26,6 +26,7 @@ export default function Nav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -89,18 +90,17 @@ export default function Nav() {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setSearchQuery("");
+      }
     };
 
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [menuOpen]);
+  }, [menuOpen, searchQuery]);
 
   return (
     <nav className="container mx-auto max-w-7xl md:max-h-[80px] flex justify-between items-center gap-5 md:py-0 py-5 px-4">
@@ -117,7 +117,10 @@ export default function Nav() {
       </Link>
 
       {/* Search Bar */}
-      <div className="relative hidden lg:flex flex-grow items-center bg-[#F5F5F5] rounded-[8px] px-4 py-2">
+      <div
+        ref={searchRef}
+        className="relative hidden lg:flex flex-grow items-center bg-[#F5F5F5] rounded-[8px] px-4 py-2"
+      >
         <SearchIcon className="text-[#A4A4A4] mr-2" />
         <input
           type="text"
@@ -144,7 +147,6 @@ export default function Nav() {
                             result.primary_image || "/default-image.png"
                           }`}
                           alt={result.name}
-                         
                           className="rounded-md w-10 h-10 object-cover"
                         />
                         <span className="text-black">{result.name}</span>
@@ -245,7 +247,6 @@ export default function Nav() {
                               width={40}
                               height={40}
                               className="rounded-md w-10 h-10 object-cover"
-
                             />
                             <span className="text-black">{result.name}</span>
                           </div>

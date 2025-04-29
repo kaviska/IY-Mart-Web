@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import Nav from "@/compoments/Nav";
 import Footer from "@/compoments/Footer";
 import { ThemeProvider } from "@mui/material/styles";
+import WhatsAppButton from "../compoments/WhatsappButton";
 import theme from "../theme/theme"; // Adjust the path to your theme file
 
 import "./globals.css";
@@ -39,12 +40,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content="IYMart" />
       </head>
       <body>
-        {shouldShowLayout && <Nav />}
-        <ThemeProvider theme={theme}>
-          {children}
-        </ThemeProvider>
-        {shouldShowLayout && <Footer />}
-      </body>
+  {shouldShowLayout && <Nav />}
+  <ThemeProvider theme={theme}>
+    {children}
+  </ThemeProvider>
+  {shouldShowLayout && <Footer />}
+  {shouldShowLayout && <WhatsAppButton />}
+</body>
+
     </html>
   );
 }
