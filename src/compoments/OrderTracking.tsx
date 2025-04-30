@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchDataJson } from "@/lib/fetch";
 
 interface Order {
   id: number;
@@ -8,10 +9,17 @@ interface Order {
   currency: string;
   payment_status: string;
   order_items: {
+    product_id: number;
     product_name: string;
+    slug: string;
     unit_quantity: number;
     line_total: number;
   }[];
+}
+
+interface Product {
+  id: number;
+  primary_image: string;
 }
 
 interface OrderTrackingProps {
@@ -19,9 +27,39 @@ interface OrderTrackingProps {
 }
 
 const OrderTracking: React.FC<OrderTrackingProps> = ({ orders }) => {
+  const [productImages, setProductImages] = useState<Record<string, string>>(
+    {}
+  );
+
+  useEffect(() => {
+    const fetchProductImages = async () => {
+      const slugs = Array.from(
+        new Set(
+          orders.flatMap((order) =>
+            order.order_items.map((item) => item.slug)
+          )
+        )
+      );
+
+      const images: Record<string, string> = {};
+      for (const slug of slugs) {
+        try {
+          const product: { data: Product } = await fetchDataJson(
+            `products?slug=${slug}`
+          );
+          images[slug] = product.data.primary_image;
+        } catch (error) {
+          console.error(`Error fetching product with slug ${slug}:`, error);
+        }
+      }
+      setProductImages(images);
+    };
+
+    fetchProductImages();
+  }, [orders]);
+
   return (
-    <div className="min-h-screen p-6 ">
-      
+    <div className="min-h-screen p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {orders.map((order) => (
           <div
@@ -47,8 +85,7 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ orders }) => {
             </div>
             <div className="mb-4">
               <p className="text-gray-600">
-                <strong>Total:</strong> {order.currency}{" "}
-                {order.total.toFixed(2)}
+                <strong>Total:</strong> {order.currency} {order.total.toFixed(2)}
               </p>
               <p className="text-gray-600">
                 <strong>Payment Status:</strong> {order.payment_status}
@@ -63,7 +100,11 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ orders }) => {
                     className="flex items-center gap-4 bg-gray-100 p-4 rounded-lg"
                   >
                     <img
-                      src="/sauce.svg" // Placeholder image
+                      src={
+                        productImages[item.slug]
+                          ? `${process.env.NEXT_PUBLIC_SERVER_URL}${productImages[item.slug]}`
+                          : "/default-image.png"
+                      }
                       alt={item.product_name}
                       className="w-16 h-16 object-cover rounded-lg"
                     />

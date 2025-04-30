@@ -294,7 +294,7 @@ export default function SingleProductPage() {
                   <div className="text-[16px] font-medium mt-2">
                     Total:{" "}
                     <span className="text-[16px] font-bold text-[#27AE60]">
-                      LKR{" "}
+                    ¥{" "}
                       {calculateFinalPrice(
                         selectedVariation,
                         quantity
