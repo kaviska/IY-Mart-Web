@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.iymart.com/</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.iymart.com/privacy-policy</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.iymart.com/return-policy</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.iymart.com/terms-and-conditions</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.iymart.com/shop</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- iymart.jp Product Pages -->
+  <url>
+    <loc>https://www.iymart.jp/shop/wafers-vanilla-cream-225g</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.iymart.jp/shop/sesame-rolls</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.iymart.jp/shop/maggi-sup-keta-box</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.iymart.jp/shop/amritha-gia</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.iymart.jp/shop/gold-marie-330g</loc>
+    <lastmod>2025-04-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+</urlset>
