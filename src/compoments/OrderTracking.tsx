@@ -44,10 +44,12 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ orders }) => {
       const images: Record<string, string> = {};
       for (const slug of slugs) {
         try {
-          const product: { data: Product } = await fetchDataJson(
+          const response: { data: Product[] } = await fetchDataJson(
             `products?slug=${slug}`
           );
-          images[slug] = product.data.primary_image;
+          if (response.data.length > 0) {
+            images[slug] = response.data[0].primary_image;
+          }
         } catch (error) {
           console.error(`Error fetching product with slug ${slug}:`, error);
         }
