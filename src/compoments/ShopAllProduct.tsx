@@ -8,7 +8,6 @@ import calculatePrice from "@/lib/priceCalcuator";
 import discountCalcuator from "@/lib/discountCalcuator";
 import { Suspense } from "react"; // For lazy loading
 
-
 export default function ShopAllProduct() {
   const searchParams = useSearchParams();
 
@@ -40,7 +39,6 @@ export default function ShopAllProduct() {
           web_price_min: priceRange.split("-")[0] || null,
           web_price_max: priceRange.split("-")[1] || null,
         };
-        console.log("Filters:", filters);
 
         const queryParams = new URLSearchParams({
           newly_arrived: "1",
@@ -48,16 +46,14 @@ export default function ShopAllProduct() {
           ...(filters.web_price_min && { web_price_min: filters.web_price_min }),
           ...(filters.web_price_max && { web_price_max: filters.web_price_max }),
         });
-        
+
         // Append category_ids as separate query parameters
-        filters.category_ids.forEach(id => queryParams.append("category_ids[]", id));
-        
+        filters.category_ids.forEach((id) => queryParams.append("category_ids[]", id));
+
         // Append brand_ids as separate query parameters
-        filters.brand_ids.forEach(id => queryParams.append("brand_ids[]", id));
-        
-        console.log(queryParams.toString()); // Debugging the final URL parameters
-        
-        console.log(`products?${queryParams.toString()}`);
+        filters.brand_ids.forEach((id) => queryParams.append("brand_ids[]", id));
+
+        console.log("Query Params:", queryParams.toString()); // Debugging the final URL parameters
 
         const result = await fetchDataJson(`products?${queryParams.toString()}&limit=10000000`, { method: "GET" }) as { data: any[] };
         setProducts(result.data);
@@ -76,37 +72,34 @@ export default function ShopAllProduct() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-    <div>
-      <div className="flex flex-wrap gap-y-3 gap-x-3 justify-center">
-        {currentProducts.map((product, index) => (
-      
+      <div>
+        <div className="flex flex-wrap gap-y-3 gap-x-3 justify-center">
+          {currentProducts.map((product, index) => (
             <ProductCard
               product={{
                 id: product.id,
-                discount: discountCalcuator(product.stocks) || null, 
-                
+                discount: discountCalcuator(product.stocks) || null,
                 name: product.name || `Product ${index + 1}`,
-                price: calculatePrice(product.stocks) || '0',
+                price: calculatePrice(product.stocks) || "0",
                 imageUrl: product.primary_image || "/sauce.svg",
               }}
               slug={product.slug}
               key={product.id} // Use product ID as the key
             />
-         
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Pagination Controls */}
-      <div className="mt-8 flex justify-center">
-        <Pagination
-          count={Math.ceil(products.length / productsPerPage)}
-          page={currentPage}
-          onChange={(_, page) => setCurrentPage(page)}
-          variant="outlined"
-          shape="rounded"
-        />
+        {/* Pagination Controls */}
+        <div className="mt-8 flex justify-center">
+          <Pagination
+            count={Math.ceil(products.length / productsPerPage)}
+            page={currentPage}
+            onChange={(_, page) => setCurrentPage(page)}
+            variant="outlined"
+            shape="rounded"
+          />
+        </div>
       </div>
-    </div>
     </Suspense>
   );
 }

@@ -44,7 +44,7 @@ export default function CheckBoxWithSearchFilter({
   React.useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const result: Response = await fetchDataJson(type, { method: "GET" });
+        const result: Response = await fetchDataJson(`${type}?limit=1000000000`, { method: "GET" });
         if (result.status === "error") {
           throw new Error(result.message || "Error fetching categories");
         }
