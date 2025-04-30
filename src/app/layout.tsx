@@ -24,9 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         "Discover a wide range of fresh groceries, organic produce, and household essentials at IYMart. Shop online and enjoy fast delivery and great prices.",
     },
     default: {
-      title: "IYMart - Your Trusted Online Grocery Store",
+      title: "Sri Lankan Groceries in Japan | iymart Online Store",
       description:
-        "Shop fresh groceries, organic produce, and household essentials at IYMart. Enjoy fast delivery, great prices, and a seamless shopping experience.",
+        "Shop authentic Sri Lankan groceries in Japan at iymart. From spices to snacks, enjoy fast delivery and top quality. Your taste of home is just a click away!",
     },
   };
 
