@@ -226,14 +226,17 @@ export default function CheckoutStep2() {
             </p>
           </div>
           <button
-            onClick={() => (window.location.href = "/checkout/step3")}
+            onClick={() => { 
+              updateOrderStatus();  
+              window.location.href = "/checkout/step3"; 
+            }}
             className="mt-6 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
           >
             Proceed to Step 3
           </button>
         </div>
       );
-      } else if (paymentMethod === "home_delivery") {
+      } else if (paymentMethod === "home_delivery_2") {
         return (
         <div className="mt-5 p-6 bg-gray-100 rounded-lg shadow-md">
           <h2 className="text-xl font-bold text-gray-800">Home Delivery</h2>
@@ -250,7 +253,10 @@ export default function CheckoutStep2() {
           </p>
           </div>
           <button
-          onClick={() => (window.location.href = "/checkout/step3")}
+          onClick={() => { 
+            updateOrderStatus();  
+            window.location.href = "/checkout/step3"; 
+          }}
           className="mt-6 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
           >
           Proceed to Step 3
@@ -315,7 +321,12 @@ export default function CheckoutStep2() {
             </p>
           </div>
           <button
-            onClick={() => (window.location.href = "/checkout/step3")}
+            onClick={() => { 
+              updateOrderStatus(); 
+              window.location.href = "/checkout/step3"; 
+            
+            }}
+            
             className="mt-6 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
           >
             Proceed to Step 3

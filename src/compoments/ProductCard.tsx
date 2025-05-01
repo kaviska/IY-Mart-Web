@@ -12,16 +12,13 @@ interface ProductCardProps {
     price: string;
     discount?: number | string | null | undefined | boolean;
     imageUrl: string;
+    inStock: boolean; // Added inStock property
   };
   slug ?: string;
 }
 
 export default function ProductCard({ product, slug }: ProductCardProps) {
   const [isFavorited, setIsFavorited] = useState(false);
-
-  // const toggleFavorite = () => {
-  //   setIsFavorited(!isFavorited);
-  // };
 
   const router = useRouter();
 
@@ -34,7 +31,7 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
       className="cursor-pointer"
       onClick={handleCardClick}
     >
-      <div className="flex flex-col w-[230px] min-h-[350px] max-h-[400px] gap-0 py-4 bg-[#F6F6F6] items-center rounded-[10px]">
+      <div className="flex flex-col w-[230px] min-h-[350px] max-h-[400px] gap-0 py-4 bg-[#F6F6F6] items-center rounded-[10px] relative">
         <div
           className="self-end mx-4 mb-3 cursor-pointer"
           onClick={(event) => {
@@ -49,10 +46,15 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
           )}
         </div>
 
+      
+          <div className="absolute top-3 left-2 bg-green-500 text-white text-[12px] px-2 py-1 rounded-full">
+            In Stock
+          </div>
+      
+
         <img
           src={'https://apivtwo.iymart.jp/'+product.imageUrl}
           alt="product-image"
-         
           className="mb-3 w-40 h-40 object-cover"
         />
 
@@ -60,15 +62,14 @@ export default function ProductCard({ product, slug }: ProductCardProps) {
 
         {product.discount ? (
           <div className="flex flex-row items-center gap-3">
-            <div  className='flex gap-3'>
-            <p className="text-[16px] line-through text-gray-400 ">
-              ¥ {product.price}
-            </p>
-            <p className="text-red-500">
-              {product.discount}
-            </p>
+            <div className='flex gap-3'>
+              <p className="text-[16px] line-through text-gray-400 ">
+                ¥ {product.price}
+              </p>
+              <p className="text-red-500">
+                {product.discount}
+              </p>
             </div>
-           
           </div>
         ) : (
           <p className="text-[16px] text-black">¥ {product.price}</p>
