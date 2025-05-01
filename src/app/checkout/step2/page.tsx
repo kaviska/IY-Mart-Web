@@ -233,6 +233,30 @@ export default function CheckoutStep2() {
           </button>
         </div>
       );
+      } else if (paymentMethod === "home_delivery") {
+        return (
+        <div className="mt-5 p-6 bg-gray-100 rounded-lg shadow-md">
+          <h2 className="text-xl font-bold text-gray-800">Home Delivery</h2>
+          <p className="mt-4 text-gray-700">
+          Your order will be delivered to your provided address. Please ensure someone is available to receive the delivery.
+          </p>
+          <p className="mt-4 text-gray-700">
+          If you have any special instructions for the delivery, please contact our support team.
+          </p>
+          <div className="mt-6 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded">
+          <p className="font-medium">Note:</p>
+          <p>
+            Ensure your contact details are up-to-date for smooth delivery.
+          </p>
+          </div>
+          <button
+          onClick={() => (window.location.href = "/checkout/step3")}
+          className="mt-6 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
+          >
+          Proceed to Step 3
+          </button>
+        </div>
+        );
     } else if (paymentMethod === "card") {
       return (
         <>
@@ -261,17 +285,16 @@ export default function CheckoutStep2() {
             Please transfer the total amount to the following bank account:
           </p>
           <ul className="mt-4 bg-white p-4 rounded-lg shadow-inner">
-            <li className="text-gray-800">
-              <span className="font-semibold">Bank Name:</span> XYZ Bank
+            
+            <li className="text-gray-800 mt-2">
+              <span className="font-semibold">Account Number:</span> 10680-49703751
+
             </li>
             <li className="text-gray-800 mt-2">
-              <span className="font-semibold">Account Number:</span> 123456789
+              <span className="font-semibold">Account Name:</span> バッデヴィターナ　イーシャン　ヤハジーワ
             </li>
             <li className="text-gray-800 mt-2">
-              <span className="font-semibold">Account Name:</span> IY Mart
-            </li>
-            <li className="text-gray-800 mt-2">
-              <span className="font-semibold">SWIFT Code:</span> XYZ123
+              <span className="font-semibold">Branch Code:</span> 068
             </li>
           </ul>
           <p className="mt-4 text-gray-700">
@@ -280,7 +303,7 @@ export default function CheckoutStep2() {
               href="mailto:support@iymart.jp"
               className="text-blue-600 underline ml-1"
             >
-              support@iymart.jp
+             info.iymart@gmail.com
             </a>
             for verification.
           </p>

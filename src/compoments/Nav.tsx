@@ -6,6 +6,7 @@ import Logo from "@public/logo-1.svg";
 import CartIcon from "@mui/icons-material/ShoppingCartOutlined";
 import ProfileIcon from "@mui/icons-material/PersonOutline";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close"; // Import Close Icon
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { fetchDataJson } from "@/lib/fetch";
@@ -87,10 +88,11 @@ export default function Nav() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setMenuOpen(false);
-      }
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node) &&
+        !(event.target as HTMLElement).closest("a") // Prevent clearing when clicking on a link
+      ) {
         setSearchQuery("");
       }
     };
@@ -130,6 +132,12 @@ export default function Nav() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         {searchQuery && (
+          <CloseIcon
+            className="text-[#A4A4A4] cursor-pointer ml-2"
+            onClick={() => setSearchQuery("")} // Clear search query
+          />
+        )}
+        {searchQuery && (
           <div className="absolute top-full left-0 w-full bg-white shadow-lg rounded-md mt-2 z-50">
             {isSearching ? (
               <div className="p-4 text-center text-gray-500">Searching...</div>
@@ -139,6 +147,7 @@ export default function Nav() {
                   <li
                     key={result.id}
                     className="p-4 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => setSearchQuery("")} // Clear search query after clicking
                   >
                     <Link href={`/shop/${result.slug}`} passHref>
                       <div className="flex items-center gap-4">
@@ -223,6 +232,12 @@ export default function Nav() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              {searchQuery && (
+                <CloseIcon
+                  className="text-[#A4A4A4] cursor-pointer ml-2"
+                  onClick={() => setSearchQuery("")} // Clear search query
+                />
+              )}
             </div>
             {searchQuery && (
               <div className="absolute top-full left-0 w-full bg-white shadow-lg rounded-md mt-2 z-50">
@@ -236,6 +251,7 @@ export default function Nav() {
                       <li
                         key={result.id}
                         className="p-4 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => setSearchQuery("")} // Clear search query after clicking
                       >
                         <Link href={`/shop/${result.slug}`} passHref>
                           <div className="flex items-center gap-4">

@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Hero() {
     return (
         <div className="hero">
-            <div className="flex flex-col justify-end items-center md:items-end h-screen lg:px-20 px-8 py-10">
+            <div className="flex flex-col justify-end items-center md:items-end md:h-screen h-[80vh] lg:px-20 px-8 py-10">
                 <div className="flex flex-col items-center text-center md:items-start md:text-start">
                     <h1 className="text-white font-medium md:text-[64px] text-[60px] md:leading-[1.2] leading-[1]">
                         <span>Your Spice Heaven</span> <br />
