@@ -440,7 +440,7 @@ if (selectedPrefecture) {
         // console.log("User Data:", localStorage.getItem("user"));
 
         // Redirect to the step2
-       // window.location.href = "/checkout/step2";
+        window.location.href = "/checkout/step2";
         return;
       } else if (result.status === "error" && result.errors) {
         const firstErrorKey = Object.keys(result.errors)[0];

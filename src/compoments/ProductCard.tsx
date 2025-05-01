@@ -12,7 +12,7 @@ interface ProductCardProps {
     price: string;
     discount?: number | string | null | undefined | boolean;
     imageUrl: string;
-    inStock: boolean; // Added inStock property
+    
   };
   slug ?: string;
 }
