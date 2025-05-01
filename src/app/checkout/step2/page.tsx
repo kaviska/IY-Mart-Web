@@ -41,6 +41,7 @@ export default function CheckoutStep2() {
   });
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const [payment, setPayment] = useState<PaymentType | null>(null);
+  const [paymentForOtherData,setPaymentForOtherData]= useState<any>(null)
 
   useEffect(() => {
     const initializeStripe = async () => {
@@ -58,6 +59,7 @@ export default function CheckoutStep2() {
       }
 
       setPayment(payment);
+      setPaymentForOtherData(payment)
       console.log("payment", payment);
 
       if (!stripeInstance) {
@@ -81,7 +83,7 @@ export default function CheckoutStep2() {
 
       if (!clientSecret) {
         //redirect to the step1
-        window.location.href = "/checkout/step1"; // Replace with your actual step 1 URL
+        //window.location.href = "/checkout/step1"; // Replace with your actual step 1 URL
         return;
       }
 
@@ -174,7 +176,11 @@ export default function CheckoutStep2() {
     let orderId
     if(typeof window !== 'undefined'){
       token = localStorage.getItem("token"); // Replace with your actual token
-      orderId = localStorage.getItem("orderId"); // Replace with your actual order ID
+      if (paymentMethod !== "card") {
+        orderId = paymentForOtherData?.order?.id; // Get order ID from paymentForOtherData
+      } else {
+        orderId = localStorage.getItem("orderId"); // Replace with your actual order ID
+      }
     }
 
     const response = await fetch("https://apivtwo.iymart.jp/api/update/order-status", {
@@ -194,11 +200,7 @@ export default function CheckoutStep2() {
 
     if (!response.ok) {
       console.error("Failed to update order status:", response.statusText);
-      setToast({
-        open: true,
-        message: "Failed to update order status, Please Contact Our Support",
-        type: "error",
-      });
+     
     } else {
       console.log("Order status updated successfully!");
     }
@@ -348,36 +350,73 @@ export default function CheckoutStep2() {
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             Order Summary
           </h2>
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-gray-700">Subtotal:</span>
-            <span className="font-semibold text-gray-800">
-              ¥{payment?.order_details?.subtotal.toLocaleString()}
-            </span>
-          </div>
-          <div className="flex justify-between items-center border-b py-2">
-            <span className="text-gray-700">Shipping Fee:</span>
-            <span className="font-semibold text-gray-800">
-              ¥{payment?.order_details?.shipping_cost.toLocaleString()}
-            </span>
-          </div>
-          <div className="flex justify-between items-center border-b py-2">
-            <span className="text-gray-700">Tax:</span>
-            <span className="font-semibold text-gray-800">
-              ¥{payment?.order_details?.tax.toLocaleString()}
-            </span>
-          </div>
-          <div className="flex justify-between items-center border-b py-2">
-            <span className="text-gray-700">Discount:</span>
-            <span className="font-semibold text-gray-800">
-              ¥{payment?.order_details?.total_discount.toLocaleString()}
-            </span>
-          </div>
-          <div className="flex justify-between items-center mt-4">
-            <span className="text-lg font-bold text-gray-800">Total:</span>
-            <span className="text-lg font-bold text-green-600">
-              ¥{payment?.order_details?.total.toLocaleString()}
-            </span>
-          </div>
+            {paymentMethod === "card" ? (
+            <>
+              <div className="flex justify-between items-center border-b pb-2">
+              <span className="text-gray-700">Subtotal:</span>
+              <span className="font-semibold text-gray-800">
+                ¥{payment?.order_details?.subtotal.toLocaleString()}
+              </span>
+              </div>
+              <div className="flex justify-between items-center border-b py-2">
+              <span className="text-gray-700">Shipping Fee:</span>
+              <span className="font-semibold text-gray-800">
+                ¥{payment?.order_details?.shipping_cost.toLocaleString()}
+              </span>
+              </div>
+              <div className="flex justify-between items-center border-b py-2">
+              <span className="text-gray-700">Tax:</span>
+              <span className="font-semibold text-gray-800">
+                ¥{payment?.order_details?.tax.toLocaleString()}
+              </span>
+              </div>
+              <div className="flex justify-between items-center border-b py-2">
+              <span className="text-gray-700">Discount:</span>
+              <span className="font-semibold text-gray-800">
+                ¥{payment?.order_details?.total_discount.toLocaleString()}
+              </span>
+              </div>
+              <div className="flex justify-between items-center mt-4">
+              <span className="text-lg font-bold text-gray-800">Total:</span>
+              <span className="text-lg font-bold text-green-600">
+                ¥{payment?.order_details?.total.toLocaleString()}
+              </span>
+              </div>
+            </>
+            ) : (
+            <>
+              <div className="flex justify-between items-center border-b pb-2">
+              <span className="text-gray-700">Subtotal:</span>
+              <span className="font-semibold text-gray-800">
+                ¥{paymentForOtherData?.order?.subtotal.toLocaleString()}
+              </span>
+              </div>
+              <div className="flex justify-between items-center border-b py-2">
+              <span className="text-gray-700">Shipping Fee:</span>
+              <span className="font-semibold text-gray-800">
+                ¥{paymentForOtherData?.order?.shipping_cost.toLocaleString()}
+              </span>
+              </div>
+              <div className="flex justify-between items-center border-b py-2">
+              <span className="text-gray-700">Tax:</span>
+              <span className="font-semibold text-gray-800">
+                ¥{paymentForOtherData?.order?.tax.toLocaleString()}
+              </span>
+              </div>
+              <div className="flex justify-between items-center border-b py-2">
+              <span className="text-gray-700">Discount:</span>
+              <span className="font-semibold text-gray-800">
+                ¥{paymentForOtherData?.order?.total_discount.toLocaleString()}
+              </span>
+              </div>
+              <div className="flex justify-between items-center mt-4">
+              <span className="text-lg font-bold text-gray-800">Total:</span>
+              <span className="text-lg font-bold text-green-600">
+                ¥{paymentForOtherData?.order?.total.toLocaleString()}
+              </span>
+              </div>
+              </>
+            )}
           {/* <div className="mt-4 text-gray-700">
             <p><span className="font-semibold">Order Number:</span> {payment?.order_details?.order_number}</p>
             <p><span className="font-semibold">Payment Method:</span> {payment?.order_details?.payment_method}</p>

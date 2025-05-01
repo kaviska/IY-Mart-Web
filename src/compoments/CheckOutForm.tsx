@@ -333,8 +333,9 @@ if (selectedPrefecture) {
         ...formData,
       },
       paymentData: {
-        due_date: "2027-03-31 15:49:06",
-        payment_method: paymentMethod,
+        payment_gateway: "stripe",
+        due_date:null,
+        method: paymentMethod,
       },
       cart_items: cartItems,
     };
@@ -391,6 +392,8 @@ if (selectedPrefecture) {
             "orderId",
             result.data?.payment.order_details?.id ?? ""
           );
+
+          
           localStorage.setItem(
             "payment",
             JSON.stringify(result.data?.payment) || ""
@@ -437,7 +440,7 @@ if (selectedPrefecture) {
         // console.log("User Data:", localStorage.getItem("user"));
 
         // Redirect to the step2
-        window.location.href = "/checkout/step2";
+       // window.location.href = "/checkout/step2";
         return;
       } else if (result.status === "error" && result.errors) {
         const firstErrorKey = Object.keys(result.errors)[0];
