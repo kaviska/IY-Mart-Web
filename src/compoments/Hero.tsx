@@ -3,11 +3,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const images = [
-    {uri :"/hero-banner.svg"},
-    {uri :"/hero-2.jpg"},
-
- 
-//   { uri: "https://apivtwo.iymart.jp/storage/images/assets/app_img/branding/carousel_image_2.png" },
+  { uri: "/hero-banner.svg" },
+  { uri: "/hero-2.jpg" },
   { uri: "https://apivtwo.iymart.jp/storage/images/assets/app_img/branding/carousel_image_3.png" },
   { uri: "https://apivtwo.iymart.jp/storage/images/assets/app_img/branding/carousel_image_4.png" },
 ];
@@ -16,9 +13,15 @@ export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    // Preload all images
+    images.forEach((image) => {
+      const img = new Image();
+      img.src = image.uri;
+    });
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 8000); // 5 seconds interval
+    }, 5000); // 8 seconds interval
 
     return () => clearInterval(interval); // Clean up
   }, []);
@@ -31,8 +34,6 @@ export default function Hero() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-       
-     
       }}
     >
       <div className="flex flex-col justify-end items-center md:items-end md:h-screen h-[80vh] lg:px-20 px-8 py-10 bg-black/40">
