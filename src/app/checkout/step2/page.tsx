@@ -4,8 +4,12 @@ import { loadStripe, Stripe, StripeElements } from "@stripe/stripe-js";
 import StepperNav from "@/compoments/StepperNav";
 import Toast from "@/compoments/Toast";
 
+// const stripePromise = loadStripe(
+//   "pk_test_51R5LWNQwRy5Q2zLn7NTHVCJMc9McLjzpuAIn5mfLuyueQHPNq62lszwRED0yXhEmUILcgxxg3voCO0fgSs8Zvrh600ylwumbte"
+// );
+
 const stripePromise = loadStripe(
-  "pk_test_51R5LWNQwRy5Q2zLn7NTHVCJMc9McLjzpuAIn5mfLuyueQHPNq62lszwRED0yXhEmUILcgxxg3voCO0fgSs8Zvrh600ylwumbte"
+  "pk_live_51RJYLPGKBOYpXwGmHLYtKVgK5GKqVIcJj3jNszBVEJhpc6IRGDMUD38CFUKU0fDtxPq3b61Xy1Tu6OVhkT2BUJYx00NEIoBQA9"
 );
 
 interface PaymentType {
