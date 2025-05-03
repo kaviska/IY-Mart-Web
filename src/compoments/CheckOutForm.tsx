@@ -205,7 +205,7 @@ if (selectedPrefecture) {
   try {
     const postalData = await fetchDataJson<{
       status: string;
-      data: { data: { postal_code: string; city_name_en: string }[] };
+      data: { postal_code: string; city_name_en: string }[] ;
     }>(
       `postal-data-by?prefecture_name=${selectedPrefecture.prefecture_name}`,
       {
@@ -218,7 +218,7 @@ if (selectedPrefecture) {
 
     if (postalData.status === "success") {
       // Extract postal codes and cities from the response
-      const postalCodesList = postalData.data.data.map((item) => ({
+      const postalCodesList = postalData.data.map((item) => ({
         postal_code: item.postal_code,
         city_name: item.city_name_en,
       }));
