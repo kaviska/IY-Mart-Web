@@ -27,8 +27,8 @@ export default function ReturnPolicy() {
             To start a return, please contact our customer support through:
           </p>
           <ul className="list-disc pl-6 text-gray-700 space-y-1">
-            <li>Email: <a href="mailto:support@iymart.jp" className="text-green-700 underline">support@iymart.jp</a></li>
-            <li>Phone: <a href="tel:+81-123-456-789" className="text-green-700 underline">+81-123-456-789</a></li>
+            <li>Email: <a href="mailto:support@iymart.jp" className="text-green-700 underline">info@iymart@gmail.com</a></li>
+            <li>Phone: <a href="tel:+817042239811" className="text-green-700 underline">+817042239811</a></li>
           </ul>
         </section>
   
