@@ -207,7 +207,7 @@ if (selectedPrefecture) {
       status: string;
       data: { data: { postal_code: string; city_name_en: string }[] };
     }>(
-      `postal-data?prefecture_name=${selectedPrefecture.prefecture_name}`,
+      `postal-data-by?prefecture_name=${selectedPrefecture.prefecture_name}`,
       {
         method: "GET",
         headers: {
