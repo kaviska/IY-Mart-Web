@@ -29,7 +29,7 @@ export default function Footer() {
               width={20}
               height={20}
             ></img>
-            <span className="text-white text-[16px]">+94 112 123 123</span>
+            <span className="text-white text-[16px]">+817042239811</span>
           </div>
           <div className="mt-8  ">
             <div className="md:w-[370px]  w-full text-[12px]   h-10 rounded-[8px] border  border-white flex gap-3">

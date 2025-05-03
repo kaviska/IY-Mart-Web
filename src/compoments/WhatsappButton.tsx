@@ -5,7 +5,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { IconButton, Box, Tooltip } from "@mui/material";
 
 const WhatsAppButton = () => {
-  const phoneNumber = "94771234567"; // Replace with your number
+  const phoneNumber = "+817042239811"; // Replace with your number
   const message = "Hi! I'm interested in your products.";
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 

@@ -1,7 +1,7 @@
 export default function PrivacyPolicy() {
     return (
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-green-800 mb-6">Privacy Policy - IYMART</h1>
+        <h1 className="text-3xl font-bold text-green-800 mb-6">Delivery Terms - IYMART</h1>
  <section className='flex md:flex-row flex-col gap-20'>
  <div className="space-y-8">
   <div>
@@ -40,9 +40,7 @@ export default function PrivacyPolicy() {
   </div>
 </div>
 
-    <div className="md:mx-10">
-        <img src="/deliver=terms.jpg"></img>
-    </div>
+    
     </section> 
     <div className="mt-10">
           <h2 className="text-lg font-semibold text-black mb-4">Our Location</h2>
