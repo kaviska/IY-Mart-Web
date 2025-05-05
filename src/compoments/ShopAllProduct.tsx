@@ -41,7 +41,7 @@ export default function ShopAllProduct() {
         };
 
         const queryParams = new URLSearchParams({
-          newly_arrived: "1",
+        
           with: "all",
           ...(filters.web_price_min && { web_price_min: filters.web_price_min }),
           ...(filters.web_price_max && { web_price_max: filters.web_price_max }),
