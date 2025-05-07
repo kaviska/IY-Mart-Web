@@ -249,36 +249,40 @@ export default function SingleProductPage() {
             </div>
           </div>
 
-                   <div className="mt-5">
-            <label
-              htmlFor="variation"
-              className="block text-[16px] font-medium mb-3"
-            >
-              Select Variation:
-            </label>
-            <div className="flex flex-wrap gap-3">
-              {[
-                ...new Map(
-                  product?.stocks.map((stock) => [
-                    stock.variation_stocks[0]?.variation_option.id,
-                    stock,
-                  ])
-                ).values(),
-              ].map((stock) => (
-                <button
-                  key={stock.id}
-                  className={`px-4 py-2 border cursor-pointer border-gray-300 rounded-full text-[14px] transition duration-200 ${
-                    selectedVariation?.id === stock.id
-                      ? "bg-primary text-white"
-                      : "hover:bg-primary hover:text-blue-500"
-                  }`}
-                  onClick={() => handleVariationChange(stock)}
-                >
-                  {stock.variation_stocks[0]?.variation_option.name || "Default"}
-                </button>
-              ))}
-            </div>
-          </div>
+                                   <div className="mt-5">
+                    <label
+                      htmlFor="variation"
+                      className="block text-[16px] font-medium mb-3"
+                    >
+                      Select Variation:
+                    </label>
+                    <div className="flex flex-wrap gap-3">
+                      {[
+                        ...new Map(
+                          // Reverse the stocks array to prioritize the last occurrence
+                          product?.stocks
+                            .slice()
+                            .reverse()
+                            .map((stock) => [
+                              stock.variation_stocks[0]?.variation_option.id,
+                              stock,
+                            ])
+                        ).values(),
+                      ].map((stock) => (
+                        <button
+                          key={stock.id}
+                          className={`px-4 py-2 border cursor-pointer border-gray-300 rounded-full text-[14px] transition duration-200 ${
+                            selectedVariation?.id === stock.id
+                              ? "bg-primary text-white"
+                              : "hover:bg-primary hover:text-blue-500"
+                          }`}
+                          onClick={() => handleVariationChange(stock)}
+                        >
+                          {stock.variation_stocks[0]?.variation_option.name || "Default"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
           <div className="flex flex-col md:flex-row gap-5 mt-7 items-stretch">
             {/* Price Section */}
