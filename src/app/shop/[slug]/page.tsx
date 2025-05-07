@@ -249,7 +249,7 @@ export default function SingleProductPage() {
             </div>
           </div>
 
-          <div className="mt-5">
+                   <div className="mt-5">
             <label
               htmlFor="variation"
               className="block text-[16px] font-medium mb-3"
@@ -257,7 +257,14 @@ export default function SingleProductPage() {
               Select Variation:
             </label>
             <div className="flex flex-wrap gap-3">
-              {product?.stocks.map((stock) => (
+              {[
+                ...new Map(
+                  product?.stocks.map((stock) => [
+                    stock.variation_stocks[0]?.variation_option.id,
+                    stock,
+                  ])
+                ).values(),
+              ].map((stock) => (
                 <button
                   key={stock.id}
                   className={`px-4 py-2 border cursor-pointer border-gray-300 rounded-full text-[14px] transition duration-200 ${
@@ -267,8 +274,7 @@ export default function SingleProductPage() {
                   }`}
                   onClick={() => handleVariationChange(stock)}
                 >
-                  {stock.variation_stocks[0]?.variation_option.name ||
-                    "Default"}
+                  {stock.variation_stocks[0]?.variation_option.name || "Default"}
                 </button>
               ))}
             </div>
