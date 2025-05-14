@@ -4,7 +4,7 @@ export default function PrivacyPolicy() {
             <h1 className="text-3xl font-bold text-green-800 mb-6">Privacy Policy</h1>
             <p className="text-gray-700 mb-6">Effective Date: May 13, 2025</p>
             <p className="text-gray-700 mb-6">
-                I•Y• LANKA INTERNATIONAL ("we", "us", or "our") operates the IY Mart mobile application and its associated web services (collectively, the “Services”). This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our Services. By using the Services, you agree to the terms described in this policy.<br />
+                I•Y• LANKA INTERNATIONAL (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates the IY Mart mobile application and its associated web services (collectively, the &quot;Services&quot;). This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our Services. By using the Services, you agree to the terms described in this policy.<br />
                 This policy applies to users in Japan, including Japanese nationals and Sri Lankan residents living in Japan.
             </p>
 
