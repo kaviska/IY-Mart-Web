@@ -11,7 +11,6 @@ export default function PrivacyPolicy() {
                 Download Privacy Policy (PDF)
             </a>
          
-            <h1 className="text-3xl font-bold text-green-800 mb-6">Privacy Policy for IY Mart</h1>
             <h2 className="text-xl font-semibold mb-2">Privacy Policy</h2>
             <p className="text-gray-700 mb-6">Last updated: May 15, 2025</p>
             <p className="text-gray-700 mb-6">
