@@ -1,193 +1,205 @@
 export default function PrivacyPolicy() {
     return (
         <div className="max-w-4xl mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold text-green-800 mb-6">Privacy Policy</h1>
-            <p className="text-gray-700 mb-6">Effective Date: May 13, 2025</p>
+                      
+            <h1 className="text-3xl font-bold text-green-800 mb-6">Privacy Policy for IY Mart</h1>
+            <a
+                href="/IY Mart Privacy Policy.pdf"
+                download
+                className="inline-block mb-6 px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 transition"
+            >
+                Download Privacy Policy (PDF)
+            </a>
+         
+            <h1 className="text-3xl font-bold text-green-800 mb-6">Privacy Policy for IY Mart</h1>
+            <h2 className="text-xl font-semibold mb-2">Privacy Policy</h2>
+            <p className="text-gray-700 mb-6">Last updated: May 15, 2025</p>
             <p className="text-gray-700 mb-6">
-                I•Y• LANKA INTERNATIONAL (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates the IY Mart mobile application and its associated web services (collectively, the &quot;Services&quot;). This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our Services. By using the Services, you agree to the terms described in this policy.<br />
-                This policy applies to users in Japan, including Japanese nationals and Sri Lankan residents living in Japan.
+                This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.
+                <br /><br />
+                We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the help of the Privacy Policy Generator.
             </p>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">1. Information We Collect</h2>
-                <h3 className="font-semibold">Account and Identity Information</h3>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Name</li>
-                    <li>Email address</li>
-                    <li>Mobile phone number</li>
-                    <li>Device name</li>
-                    <li>Password</li>
-                </ul>
-                <p className="text-gray-700 mt-2">
-                    This information is required to create and manage your account, and to ensure the accurate processing, delivery, and support of your grocery orders.
-                </p>
-                <h3 className="font-semibold mt-4">Guest Checkout Information</h3>
-                <p className="text-gray-700">
-                    If you use the App as a guest (without registering), we collect only the essential information needed to process your order and manage delivery:
-                </p>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Name</li>
-                    <li>Email address</li>
-                    <li>Mobile phone number</li>
-                    <li>Device name</li>
-                </ul>
-                <h3 className="font-semibold mt-4">Order and Transaction Data</h3>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Order details (items purchased, quantities, pricing)</li>
-                    <li>
-                        Delivery address:
-                        <ul className="list-disc pl-6">
-                            <li>Region</li>
-                            <li>Prefecture</li>
-                            <li>Postal code</li>
-                            <li>State or City</li>
-                            <li>Address line 1 (required)</li>
-                            <li>Address line 2 (optional)</li>
-                        </ul>
-                    </li>
-                    <li>Order history</li>
-                    <li>Payment method (note: payment is processed through third-party providers; we do not store credit or debit card information)</li>
-                </ul>
-                <h3 className="font-semibold mt-4">Device and Usage Data</h3>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Device type and name</li>
-                    <li>Operating system and App version</li>
-                    <li>Language settings</li>
-                    <li>Access times and logs</li>
-                </ul>
-                <h3 className="font-semibold mt-4">Cookies and Tracking Technologies</h3>
-                <p className="text-gray-700">
-                    We may use cookies or similar technologies for analytics, performance monitoring, and service improvement.
-                </p>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Interpretation and Definitions</h2>
+            <h3 className="font-semibold">Interpretation</h3>
+            <p className="text-gray-700 mb-6">
+                The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
+            </p>
+            <h3 className="font-semibold">Definitions</h3>
+            <p className="text-gray-700 mb-6">
+                For the purposes of this Privacy Policy:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 mb-6">
+                <li><b>Account</b> means a unique account created for You to access our Service or parts of our Service.</li>
+                <li><b>Affiliate</b> means an entity that controls, is controlled by or is under common control with a party, where &quot;control&quot; means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</li>
+                <li><b>Application</b> refers to IY Mart, the software program provided by the Company.</li>
+                <li><b>Company</b> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to I•Y• LANKA INTERNATIONAL, 383-24 Oyaguchi, Matsudo, Chiba 270-0005, Japan.</li>
+                <li><b>Country</b> refers to: Japan</li>
+                <li><b>Device</b> means any device tha
+                t can access the Service such as a computer, a cellphone or a digital tablet.</li>
+                <li><b>Personal Data</b> is any information that relates to an identified or identifiable individual.</li>
+                <li><b>Service</b> refers to the Application.</li>
+                <li><b>Service Provider</b> means any natural or legal person who processes the data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used.</li>
+                <li><b>Usage Data</b> refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself (for example, the duration of a page visit).</li>
+                <li><b>You</b> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</li>
+            </ul>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">2. How We Use Your Information</h2>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>To process and fulfill your grocery orders, including delivering your order to the specified address.</li>
-                    <li>To contact you regarding your order status, delivery updates, or any changes to your order.</li>
-                    <li>To create and manage your account, ensure security, and provide customer support.</li>
-                    <li>To improve the user experience and enhance our services through behavior analysis.</li>
-                    <li>To comply with legal obligations.</li>
-                </ul>
-                <p className="text-gray-700 mt-2">
-                    We do not use your personal information for any marketing or advertising purposes, including your mobile number, unless you explicitly opt-in for promotional communications.
-                </p>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Collecting and Using Your Personal Data</h2>
+            <h3 className="font-semibold">Types of Data Collected</h3>
+            <h4 className="font-semibold">Personal Data</h4>
+            <p className="text-gray-700 mb-6">
+                While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 mb-6">
+                <li>Email address</li>
+                <li>Name</li>
+                <li>Phone number</li>
+                <li>Region, Prefecture, Postal code, State or City, Address line 1 (required), Address line 2 (optional)</li>
+                <li>Usage Data</li>
+            </ul>
+            <h4 className="font-semibold">Usage Data</h4>
+            <p className="text-gray-700 mb-6">
+                Usage Data is collected automatically when using the Service.<br /><br />
+                Usage Data may include information such as Your Device&#39;s Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.<br /><br />
+                When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.<br /><br />
+                We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.
+            </p>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">3. Why Certain Information Is Required</h2>
-                <p className="text-gray-700">
-                    Your name, email address, and mobile number are required because they are essential to the core functionality of the app, which includes:
-                </p>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Delivering grocery orders accurately.</li>
-                    <li>Contacting customers for order confirmation, delivery updates, and addressing delivery issues or concerns.</li>
-                    <li>Managing and tracking orders, including confirming order status or contacting you for any changes or issues with the order.</li>
-                    <li>
-                        Address information: We require the following details to accurately fulfill and deliver your order:
-                        <ul className="list-disc pl-6">
-                            <li>Region, Prefecture, Postal code, State or City, Address line 1 (required), and Address line 2 (optional) are needed to ensure we can process and deliver your groceries to the correct location.</li>
-                        </ul>
-                    </li>
-                </ul>
-                <p className="text-gray-700 mt-2">
-                    Without this information, we are unable to complete your order or provide delivery services.<br />
-                    Without this information, we cannot fulfill the services provided by IY Mart, including timely delivery and customer support.
-                </p>
-            </section>
+            <h4 className="font-semibold">Phone Number Collection</h4>
+            <p className="text-gray-700 mb-6">
+                We collect your phone number because it is essential to the core functionality of our grocery delivery app.<br /><br />
+                Your phone number is used for:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 mb-6">
+                <li>Creating and verifying your account</li>
+                <li>Contacting you for order confirmations and updates</li>
+                <li>Facilitating delivery coordination with our drivers</li>
+            </ul>
+            <p className="text-gray-700 mb-6">
+                We do not use your phone number for marketing purposes without your explicit consent. Your personal data is stored securely and only used to provide the services you request.
+            </p>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">4. Sharing of Information</h2>
-                <p className="text-gray-700">
-                    We do not sell your personal information. We may share it only in the following cases:
-                </p>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Delivery partners: To complete the delivery of your order.</li>
-                    <li>Payment processors: For payment processing (we do not store your credit card details).</li>
-                    <li>Service providers: For hosting, analytics, and technical support.</li>
-                    <li>Authorities: If required under Japanese law or legal processes.</li>
-                </ul>
-                <p className="text-gray-700">
-                    All third-party service providers are contractually obligated to handle your data securely and in accordance with this policy.
-                </p>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Use of Your Personal Data</h2>
+            <p className="text-gray-700 mb-6">
+                The Company may use Personal Data for the following purposes:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 mb-6">
+                <li>To provide and maintain our Service, including to monitor the usage of our Service.</li>
+                <li>To manage Your Account: to manage Your registration as a user of the Service. The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user.</li>
+                <li>For the performance of a contract: the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased or of any other contract with Us through the Service.</li>
+                <li>To contact You: To contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application&#39;s push notifications regarding updates or informative communications related to the functionalities, products or contracted services, including the security updates, when necessary or reasonable for their implementation.</li>
+                <li>To provide You with news, special offers and general information about other goods, services and events which we offer that are similar to those that you have already purchased or enquired about unless You have opted not to receive such information.</li>
+                <li>To manage Your requests: To attend and manage Your requests to Us.</li>
+                <li>For business transfers: We may use Your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred.</li>
+                <li>For other purposes: We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.</li>
+            </ul>
+            <p className="text-gray-700 mb-6">
+                We may share Your personal information in the following situations:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 mb-6">
+                <li>With Service Providers: We may share Your personal information with Service Providers to monitor and analyze the use of our Service, to contact You.</li>
+                <li>For business transfers: We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.</li>
+                <li>With Affiliates: We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.</li>
+                <li>With business partners: We may share Your information with Our business partners to offer You certain products, services or promotions.</li>
+                <li>With other users: when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside.</li>
+                <li>With Your consent: We may disclose Your personal information for any other purpose with Your consent.</li>
+            </ul>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">5. Data Storage and Security</h2>
-                <p className="text-gray-700">
-                    We store your data securely on our servers. We use industry-standard encryption and access controls to protect your data from unauthorized access, alteration, or disclosure.<br />
-                    While we follow best practices, no method of transmission over the internet is 100% secure. We are committed to continuously improving our security measures.
-                </p>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Retention of Your Personal Data</h2>
+            <p className="text-gray-700 mb-6">
+                The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.<br /><br />
+                The Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.
+            </p>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">6. User Rights (Japan)</h2>
-                <p className="text-gray-700">
-                    If you are located in Japan, you have rights under the Act on the Protection of Personal Information (APPI), including:
-                </p>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>The right to access your personal data</li>
-                    <li>The right to correct or delete inaccurate data</li>
-                    <li>The right to withdraw consent and request account deletion</li>
-                </ul>
-                <p className="text-gray-700">
-                    To exercise these rights, contact us at: <a href="mailto:info.iymart@gmail.com" className="text-green-700 underline">info.iymart@gmail.com</a>
-                </p>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Transfer of Your Personal Data</h2>
+            <p className="text-gray-700 mb-6">
+                Your information, including Personal Data, is processed at the Company&#39;s operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from Your jurisdiction.<br /><br />
+                Your consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that transfer.<br /><br />
+                The Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.
+            </p>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">7. Legal Basis for Data Processing</h2>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Your consent when creating an account or placing an order</li>
-                    <li>The contractual necessity of fulfilling your grocery order and delivery</li>
-                    <li>Legal compliance under Japanese law</li>
-                </ul>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Delete Your Personal Data</h2>
+            <p className="text-gray-700 mb-6">
+                You have the right to delete or request that We assist in deleting the Personal Data that We have collected about You.<br /><br />
+                Our Service may give You the ability to delete certain information about You from within the Service.<br /><br />
+                You may update, amend, or delete Your information at any time by signing in to Your Account, if you have one, and visiting the account settings section that allows you to manage Your personal information. You may also contact Us to request access to, correct, or delete any personal information that You have provided to Us.<br /><br />
+                Please note, however, that We may need to retain certain information when we have a legal obligation or lawful basis to do so.
+            </p>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">8. Data Retention</h2>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>We retain your data as long as your account is active or as needed for service delivery and legal obligations.</li>
-                    <li>Unverified accounts will be deleted within 15 minutes of creation.</li>
-                    <li>Order-related data (e.g. delivery address, mobile number) may be retained for record-keeping, even if your account is deleted.</li>
-                    <li>Guest user data may be deleted periodically unless required for operational or legal reasons.</li>
-                </ul>
-            </section>
+            <h3 className="font-semibold">Data Deletion and Account Removal</h3>
+            <p className="text-gray-700 mb-6">
+                Our app provides users with two options to manage their personal data:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 mb-6">
+                <li>
+                    <b>Permanent Account Deletion</b><br />
+                    If you choose to delete your account via the app, all your personal data associated with that account will be permanently deleted from our servers. This action is irreversible and can&apos;t be undone.
+                </li>
+                <li>
+                    <b>Requesting Data Deletion via Email</b><br />
+                    If you prefer not to delete your account but want your personal data removed, you can send a data deletion request to <a href="mailto:info.iymart@gmail.com" className="text-green-700 underline">info.iymart@gmail.com</a>. Please include the following in your email:
+                    <ul className="list-disc pl-6">
+                        <li>Subject: &quot;Data Deletion Request&quot;</li>
+                        <li>Your registered email address or username</li>
+                        <li>A brief statement requesting the deletion of your personal data</li>
+                    </ul>
+                    We will process your request and confirm the deletion via email within 7 business days.
+                </li>
+            </ul>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">9. Children’s Privacy</h2>
-                <p className="text-gray-700">
-                    Our app is not intended for children under the age of 16. We do not knowingly collect personal information from children. If we discover such information, we will delete it promptly.
-                </p>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Disclosure of Your Personal Data</h2>
+            <h3 className="font-semibold">Business Transactions</h3>
+            <p className="text-gray-700 mb-6">
+                If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.
+            </p>
+            <h3 className="font-semibold">Law enforcement</h3>
+            <p className="text-gray-700 mb-6">
+                Under certain circumstances, the Company may be required to disclose Your Personal Data if required to do so by law or in response to valid requests by public authorities (e.g. a court or a government agency).
+            </p>
+            <h3 className="font-semibold">Other legal requirements</h3>
+            <p className="text-gray-700 mb-6">
+                The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 mb-6">
+                <li>Comply with a legal obligation</li>
+                <li>Protect and defend the rights or property of the Company</li>
+                <li>Prevent or investigate possible wrongdoing in connection with the Service</li>
+                <li>Protect the personal safety of Users of the Service or the public</li>
+                <li>Protect against legal liability</li>
+            </ul>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">10. International Data Transfers</h2>
-                <p className="text-gray-700">
-                    Your data may be processed or stored on servers located outside of Japan. We take appropriate steps to ensure secure and lawful data transfers.
-                </p>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Security of Your Personal Data</h2>
+            <p className="text-gray-700 mb-6">
+                The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.
+            </p>
 
-            <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">11. Changes to This Policy</h2>
-                <p className="text-gray-700">
-                    We may update this Privacy Policy from time to time. Any updates will be posted within the app or on our website. Your continued use of the app indicates your acceptance of any changes.
-                </p>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Children&#39;s Privacy</h2>
+            <p className="text-gray-700 mb-6">
+                Our Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 13 without verification of parental consent, We take steps to remove that information from Our servers.<br /><br />
+                If We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent&#39;s consent before We collect and use that information.
+            </p>
 
-            <section>
-                <h2 className="text-xl font-semibold mb-2">12. Contact Us</h2>
-                <p className="text-gray-700">
-                    If you have questions or concerns about this Privacy Policy or how your personal data is handled, please contact:
-                </p>
-                <ul className="list-disc pl-6 text-gray-700">
-                    <li>Company: I•Y• LANKA INTERNATIONAL</li>
-                    <li>Address: 383-24 Oyaguchi, Matsudo, Chiba 270-0005, Japan</li>
-                    <li>Email: <a href="mailto:info.iymart@gmail.com" className="text-green-700 underline">info.iymart@gmail.com</a></li>
-                    <li>Phone: <a href="tel:+817042239811" className="text-green-700 underline">+81-704-223-9811</a></li>
-                </ul>
-            </section>
+            <h2 className="text-xl font-semibold mb-2">Links to Other Websites</h2>
+            <p className="text-gray-700 mb-6">
+                Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party&#39;s site. We strongly advise You to review the Privacy Policy of every site You visit.<br /><br />
+                We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
+            </p>
+
+            <h2 className="text-xl font-semibold mb-2">Changes to this Privacy Policy</h2>
+            <p className="text-gray-700 mb-6">
+                We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.<br /><br />
+                We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the &apos;Last updated&apos; date at the top of this Privacy Policy.<br /><br />
+                You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
+            </p>
+
+            <h2 className="text-xl font-semibold mb-2">Contact Us</h2>
+            <p className="text-gray-700 mb-6">
+                If you have any questions about this Privacy Policy, You can contact us:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 mb-6">
+                <li>By email: <a href="mailto:info.iymart@gmail.com" className="text-green-700 underline">info.iymart@gmail.com</a></li>
+                <li>By phone number: <a href="tel:+817042239811" className="text-green-700 underline">+81-704-223-9811</a></li>
+            </ul>
         </div>
     );
 }
