@@ -46,7 +46,7 @@ export default function Home() {
 
     getProductsNewlyArrived();
     getDiscountedProducts();
-    fetchCategoryProducts("juice", setMeatProducts);
+    fetchCategoryProducts("home care items", setMeatProducts);
     fetchCategoryProducts("spices", setSpicesProducts);
     fetchCategoryProducts("rice", setRiceProducts);
   }, []);
@@ -197,7 +197,7 @@ export default function Home() {
 
        {/* Meat Products Slider */}
        <div className="mt-20 md:px-20 px-6">
-        <h2 className="text-[27px] font-medium mb-6">Juice</h2>
+        <h2 className="text-[27px] font-medium mb-6">Home Care Items</h2>
         <SliderProduct ProductArray={meatProducts} sliderPerView={4} />
       </div>
 
