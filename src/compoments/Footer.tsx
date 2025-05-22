@@ -59,6 +59,34 @@ export default function Footer() {
             ></img>
             <img src="/Tiktok.svg" alt="tiktok-icon" width={15} height={15}></img>
           </div>
+
+           <div className="flex md:justify-start justify-center gap-4 mt-6 w-full">
+            <a
+              href="https://apps.apple.com/app/iy-mart/id6745152812" // Replace with your App Store link
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <img
+                src="/Download_on_the_App_Store_Badge.svg.png" // Place your App Store badge image in public folder
+                alt="Download on the App Store"
+                className="h-10 w-auto md:h-12 transition-transform hover:scale-105"
+              />
+            </a>
+            <a
+              href="https://play.google.com/store/apps/details?id=XXXXXXXXX" // Replace with your Play Store link
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <img
+                src="/Google_Play_Store_badge_EN.svg.webp" // Place your Play Store badge image in public folder
+                alt="Get it on Google Play"
+                className="h-10 w-auto md:h-12 transition-transform hover:scale-105"
+              />
+            </a>
+          </div>
+
         </div>
         <div className="">
           <h3 className="text-[16px] font-bold text-white">Main Links</h3>
